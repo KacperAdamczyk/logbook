@@ -2,25 +2,37 @@
 	"name": "logbook",
 	"version": "0.1.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"check:write": "pnpm biome check --write"
+		"check:write": "pnpm biome check --write",
+		"db:push": "bun run --env-file=.env.local drizzle-kit push"
 	},
 	"dependencies": {
+		"@auth/drizzle-adapter": "^1.4.1",
+		"@neondatabase/serverless": "^0.9.4",
+		"@t3-oss/env-nextjs": "^0.10.1",
+		"drizzle-orm": "^0.32.0",
 		"next": "14.2.5",
+		"next-auth": "5.0.0-beta.19",
 		"react": "^18",
-		"react-dom": "^18"
+		"react-dom": "^18",
+		"uuid": "^10.0.0",
+		"zod": "^3.23.8"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
+		"@types/uuid": "^10.0.0",
+		"drizzle-kit": "^0.23.0",
 		"eslint": "^8",
 		"eslint-config-next": "14.2.5",
+		"jiti": "^1.21.6",
 		"postcss": "^8",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
