@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { allowedUsers } from "@/db/schema";
+import { allowedUsers } from "@/db/schema/auth";
 import { eq } from "drizzle-orm";
 
 export const isUserAllowed = async (email: string) => {

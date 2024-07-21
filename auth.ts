@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { isUserAllowed } from "@/db/queries/isUserAllowed";
-import { accounts, sessions, users } from "@/db/schema";
+import { accounts, sessions, users } from "@/db/schema/auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
