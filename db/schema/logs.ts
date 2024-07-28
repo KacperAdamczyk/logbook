@@ -24,6 +24,8 @@ export const logs = pgTable("log", {
 	singlePilotTimeMultiEngine: integer("single_pilot_time_multi_engine"),
 	multiPilotTime: integer("multi_pilot_time"),
 	totalFlightTime: integer("total_flight_time"),
+	takeoffsDay: integer("takeoffs_day"),
+	takeoffsNight: integer("takeoffs_night"),
 	landingsDay: integer("landings_day"),
 	landingsNight: integer("landings_night"),
 	operationalConditionTimeNight: integer("operational_condition_time_night"),
