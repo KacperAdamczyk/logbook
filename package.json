@@ -14,8 +14,10 @@
 	"dependencies": {
 		"@auth/drizzle-adapter": "^1.4.1",
 		"@neondatabase/serverless": "^0.9.4",
+		"@nextui-org/react": "^2.4.6",
 		"@t3-oss/env-nextjs": "^0.10.1",
 		"drizzle-orm": "^0.32.0",
+		"framer-motion": "^11.3.28",
 		"next": "14.2.5",
 		"next-auth": "5.0.0-beta.19",
 		"react": "^18",
