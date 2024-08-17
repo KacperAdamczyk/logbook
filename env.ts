@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
 	server: {
-		DATABASE_URL: z.string().url(),
+		DATABASE_URL: z.union([z.string().url(), z.literal(":memory:")]),
 		AUTH_SECRET: z.string(),
 	},
 	experimental__runtimeEnv: {},
