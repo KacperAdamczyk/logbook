@@ -1,23 +1,28 @@
+import { aircraft } from "@/db/schema/aircraft";
+import { logs } from "@/db/schema/logs";
+import { pilots } from "@/db/schema/pilots";
+import { places } from "@/db/schema/places";
+import { simulators } from "@/db/schema/simulators";
+import { relations } from "drizzle-orm";
 import {
 	integer,
-	pgTable,
+	sqliteTable,
 	primaryKey,
 	text,
-	timestamp,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/sqlite-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { v7 } from "uuid";
 
-export const users = pgTable("user", {
+export const users = sqliteTable("users", {
 	id: text("id").primaryKey().$defaultFn(v7),
 	name: text("name"),
 	email: text("email").notNull(),
-	emailVerified: timestamp("emailVerified", { mode: "date" }),
+	emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
 	image: text("image"),
 });
 
-export const accounts = pgTable(
-	"account",
+export const accounts = sqliteTable(
+	"accounts",
 	{
 		userId: text("userId")
 			.notNull()
@@ -40,14 +45,22 @@ export const accounts = pgTable(
 	}),
 );
 
-export const sessions = pgTable("session", {
+export const sessions = sqliteTable("sessions", {
 	sessionToken: text("sessionToken").primaryKey(),
 	userId: text("userId")
 		.notNull()
 		.references(() => users.id, { onDelete: "cascade" }),
-	expires: timestamp("expires", { mode: "date" }).notNull(),
+	expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
 
-export const allowedUsers = pgTable("allowed_user", {
+export const allowedUsers = sqliteTable("allowed_users", {
 	email: text("email").primaryKey(),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+	aircraft: many(aircraft),
+	logs: many(logs),
+	pilots: many(pilots),
+	places: many(places),
+	simulators: many(simulators),
+}));
