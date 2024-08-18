@@ -1,13 +1,13 @@
 import { aircraft } from "@/db/schema/aircraft";
 import { pilots } from "@/db/schema/pilots";
 import { places } from "@/db/schema/places";
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
-export const logs = pgTable("log", {
+export const logs = sqliteTable("log", {
 	id: text("id").primaryKey().$defaultFn(v7),
-	departureAt: timestamp("departure_at").notNull(),
-	arrivalAt: timestamp("arrival_at").notNull(),
+	departureAt: integer("departure_at", { mode: "timestamp_ms" }).notNull(),
+	arrivalAt: integer("arrival_at", { mode: "timestamp_ms" }).notNull(),
 	departurePlace: text("departure_place")
 		.notNull()
 		.references(() => places.id),

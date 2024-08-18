@@ -1,15 +1,18 @@
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import { migrate } from "drizzle-orm/better-sqlite3/migrator";
-import Database from "better-sqlite3";
-import { env } from "@/env";
 import { beforeAll, beforeEach, vi } from "vitest";
-import * as schema from "@/db/schema";
+import { migrate } from "drizzle-orm/libsql/migrator";
+import { db } from "@/db";
+import { aircraft, logs, pilots, places, simulators, users } from "@/db/schema";
 
-const sqlite = new Database(env.DATABASE_URL);
-const testDb = drizzle(sqlite, { schema });
+beforeAll(() => {
+	console.log("Preparing test database...");
 
-vi.mock("@/db", () => ({ db: testDb }));
+	migrate(db, { migrationsFolder: "./drizzle" });
+});
 
-beforeEach(() => {
-	migrate(testDb, { migrationsFolder: "./drizzle" });
+beforeEach(async () => {
+	console.log("Clearing test database...");
+
+	const tables = [users, aircraft, logs, pilots, places, simulators] as const;
+
+	await Promise.all(tables.map((table) => db.delete(table)));
 });
