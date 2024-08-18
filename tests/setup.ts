@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, vi } from "vitest";
+import { beforeAll, beforeEach } from "vitest";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { db } from "@/db";
 import { aircraft, logs, pilots, places, simulators, users } from "@/db/schema";

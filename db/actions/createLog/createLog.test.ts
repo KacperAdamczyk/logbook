@@ -1,12 +1,17 @@
+import { db } from "@/db";
 import { createLog } from "@/db/actions";
-import { describe, expect, test } from "vitest";
+import { users } from "@/db/schema";
+import { user1 } from "@/tests/test-data";
+import { beforeEach, describe, expect, test } from "vitest";
 
 describe("createLog", () => {
+	beforeEach(async () => {
+		await db.batch([db.insert(users).values([user1])]);
+	});
+
 	test("should create a log", async () => {
 		const log = await createLog({}, {});
 
-		console.log(log);
-
-		expect(log).toBeDefined();
+		expect(log).toHaveLength(1);
 	});
 });

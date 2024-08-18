@@ -57,7 +57,7 @@ export const allowedUsers = sqliteTable("allowed_users", {
 	email: text("email").primaryKey(),
 });
 
-const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many }) => ({
 	aircraft: many(aircraft),
 	logs: many(logs),
 	pilots: many(pilots),

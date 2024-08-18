@@ -4,5 +4,9 @@ import { createDbAction } from "@/db/utils";
 export const createLog = createDbAction(async (user, {}) => {
 	const users = await db.query.users.findMany();
 
-	console.log(users);
+	// check overlapping
+
+	// recalculate values
+
+	return users;
 });

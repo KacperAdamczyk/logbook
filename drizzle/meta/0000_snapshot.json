@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "41e78f17-1381-4499-82cc-f01dcd9bf987",
+  "id": "254447b8-c258-4429-b12b-e6b4d61bc48e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "aircraft": {
@@ -11,6 +11,13 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -30,12 +37,26 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "aircraft_user_id_users_id_fk": {
+          "name": "aircraft_user_id_users_id_fk",
+          "tableFrom": "aircraft",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "account": {
-      "name": "account",
+    "accounts": {
+      "name": "accounts",
       "columns": {
         "userId": {
           "name": "userId",
@@ -117,10 +138,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "account_userId_user_id_fk": {
-          "name": "account_userId_user_id_fk",
-          "tableFrom": "account",
-          "tableTo": "user",
+        "accounts_userId_users_id_fk": {
+          "name": "accounts_userId_users_id_fk",
+          "tableFrom": "accounts",
+          "tableTo": "users",
           "columnsFrom": [
             "userId"
           ],
@@ -132,18 +153,18 @@
         }
       },
       "compositePrimaryKeys": {
-        "account_provider_providerAccountId_pk": {
+        "accounts_provider_providerAccountId_pk": {
           "columns": [
             "provider",
             "providerAccountId"
           ],
-          "name": "account_provider_providerAccountId_pk"
+          "name": "accounts_provider_providerAccountId_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "allowed_user": {
-      "name": "allowed_user",
+    "allowed_users": {
+      "name": "allowed_users",
       "columns": {
         "email": {
           "name": "email",
@@ -158,8 +179,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "session": {
-      "name": "session",
+    "sessions": {
+      "name": "sessions",
       "columns": {
         "sessionToken": {
           "name": "sessionToken",
@@ -185,10 +206,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "session_userId_user_id_fk": {
-          "name": "session_userId_user_id_fk",
-          "tableFrom": "session",
-          "tableTo": "user",
+        "sessions_userId_users_id_fk": {
+          "name": "sessions_userId_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
           "columnsFrom": [
             "userId"
           ],
@@ -202,8 +223,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
-      "name": "user",
+    "users": {
+      "name": "users",
       "columns": {
         "id": {
           "name": "id",
@@ -223,7 +244,7 @@
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "emailVerified": {
@@ -241,26 +262,25 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "user_email_unique": {
-          "name": "user_email_unique",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "log": {
-      "name": "log",
+    "logs": {
+      "name": "logs",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -278,29 +298,29 @@
           "notNull": true,
           "autoincrement": false
         },
-        "departure_place": {
-          "name": "departure_place",
+        "departure_place_id": {
+          "name": "departure_place_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "arrival_place": {
-          "name": "arrival_place",
+        "arrival_place_id": {
+          "name": "arrival_place_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "aircraft": {
-          "name": "aircraft",
+        "aircraft_id": {
+          "name": "aircraft_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "pilot_in_command": {
-          "name": "pilot_in_command",
+        "pilot_in_command_id": {
+          "name": "pilot_in_command_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -407,12 +427,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "log_departure_place_place_id_fk": {
-          "name": "log_departure_place_place_id_fk",
-          "tableFrom": "log",
-          "tableTo": "place",
+        "logs_user_id_users_id_fk": {
+          "name": "logs_user_id_users_id_fk",
+          "tableFrom": "logs",
+          "tableTo": "users",
           "columnsFrom": [
-            "departure_place"
+            "user_id"
           ],
           "columnsTo": [
             "id"
@@ -420,12 +440,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "log_arrival_place_place_id_fk": {
-          "name": "log_arrival_place_place_id_fk",
-          "tableFrom": "log",
-          "tableTo": "place",
+        "logs_departure_place_id_places_id_fk": {
+          "name": "logs_departure_place_id_places_id_fk",
+          "tableFrom": "logs",
+          "tableTo": "places",
           "columnsFrom": [
-            "arrival_place"
+            "departure_place_id"
           ],
           "columnsTo": [
             "id"
@@ -433,12 +453,25 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "log_aircraft_aircraft_id_fk": {
-          "name": "log_aircraft_aircraft_id_fk",
-          "tableFrom": "log",
+        "logs_arrival_place_id_places_id_fk": {
+          "name": "logs_arrival_place_id_places_id_fk",
+          "tableFrom": "logs",
+          "tableTo": "places",
+          "columnsFrom": [
+            "arrival_place_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "logs_aircraft_id_aircraft_id_fk": {
+          "name": "logs_aircraft_id_aircraft_id_fk",
+          "tableFrom": "logs",
           "tableTo": "aircraft",
           "columnsFrom": [
-            "aircraft"
+            "aircraft_id"
           ],
           "columnsTo": [
             "id"
@@ -446,12 +479,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "log_pilot_in_command_pilot_id_fk": {
-          "name": "log_pilot_in_command_pilot_id_fk",
-          "tableFrom": "log",
-          "tableTo": "pilot",
+        "logs_pilot_in_command_id_pilots_id_fk": {
+          "name": "logs_pilot_in_command_id_pilots_id_fk",
+          "tableFrom": "logs",
+          "tableTo": "pilots",
           "columnsFrom": [
-            "pilot_in_command"
+            "pilot_in_command_id"
           ],
           "columnsTo": [
             "id"
@@ -463,13 +496,20 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "place": {
-      "name": "place",
+    "places": {
+      "name": "places",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -482,17 +522,38 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "places_user_id_users_id_fk": {
+          "name": "places_user_id_users_id_fk",
+          "tableFrom": "places",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "pilot": {
-      "name": "pilot",
+    "pilots": {
+      "name": "pilots",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -505,12 +566,26 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "pilots_user_id_users_id_fk": {
+          "name": "pilots_user_id_users_id_fk",
+          "tableFrom": "pilots",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "simulator": {
-      "name": "simulator",
+    "simulators": {
+      "name": "simulators",
       "columns": {
         "id": {
           "name": "id",
@@ -518,10 +593,31 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "simulators_user_id_users_id_fk": {
+          "name": "simulators_user_id_users_id_fk",
+          "tableFrom": "simulators",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }
