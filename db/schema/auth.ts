@@ -1,3 +1,9 @@
+import { aircraft } from "@/db/schema/aircraft";
+import { logs } from "@/db/schema/logs";
+import { pilots } from "@/db/schema/pilots";
+import { places } from "@/db/schema/places";
+import { simulators } from "@/db/schema/simulators";
+import { relations } from "drizzle-orm";
 import {
 	integer,
 	sqliteTable,
@@ -7,16 +13,16 @@ import {
 import type { AdapterAccountType } from "next-auth/adapters";
 import { v7 } from "uuid";
 
-export const users = sqliteTable("user", {
+export const users = sqliteTable("users", {
 	id: text("id").primaryKey().$defaultFn(v7),
 	name: text("name"),
-	email: text("email").unique(),
+	email: text("email").notNull(),
 	emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
 	image: text("image"),
 });
 
 export const accounts = sqliteTable(
-	"account",
+	"accounts",
 	{
 		userId: text("userId")
 			.notNull()
@@ -39,7 +45,7 @@ export const accounts = sqliteTable(
 	}),
 );
 
-export const sessions = sqliteTable("session", {
+export const sessions = sqliteTable("sessions", {
 	sessionToken: text("sessionToken").primaryKey(),
 	userId: text("userId")
 		.notNull()
@@ -47,6 +53,14 @@ export const sessions = sqliteTable("session", {
 	expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
 
-export const allowedUsers = sqliteTable("allowed_user", {
+export const allowedUsers = sqliteTable("allowed_users", {
 	email: text("email").primaryKey(),
 });
+
+const usersRelations = relations(users, ({ many }) => ({
+	aircraft: many(aircraft),
+	logs: many(logs),
+	pilots: many(pilots),
+	places: many(places),
+	simulators: many(simulators),
+}));

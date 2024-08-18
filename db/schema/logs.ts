@@ -1,23 +1,28 @@
 import { aircraft } from "@/db/schema/aircraft";
+import { users } from "@/db/schema/auth";
 import { pilots } from "@/db/schema/pilots";
 import { places } from "@/db/schema/places";
+import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
-export const logs = sqliteTable("log", {
+export const logs = sqliteTable("logs", {
 	id: text("id").primaryKey().$defaultFn(v7),
+	userId: text("user_id")
+		.notNull()
+		.references(() => users.id),
 	departureAt: integer("departure_at", { mode: "timestamp_ms" }).notNull(),
 	arrivalAt: integer("arrival_at", { mode: "timestamp_ms" }).notNull(),
-	departurePlace: text("departure_place")
+	departurePlaceId: text("departure_place_id")
 		.notNull()
 		.references(() => places.id),
-	arrivalPlace: text("arrival_place")
+	arrivalPlaceId: text("arrival_place_id")
 		.notNull()
 		.references(() => places.id),
-	aircraft: text("aircraft")
+	aircraftId: text("aircraft_id")
 		.notNull()
 		.references(() => aircraft.id),
-	pilotInCommand: text("pilot_in_command")
+	pilotInCommandId: text("pilot_in_command_id")
 		.notNull()
 		.references(() => pilots.id),
 	singlePilotTimeSingleEngine: integer("single_pilot_time_single_engine"),
@@ -35,3 +40,29 @@ export const logs = sqliteTable("log", {
 	functionTimeDual: integer("function_time_dual"),
 	functionTimeInstructor: integer("function_time_instructor"),
 });
+
+export const logsRelations = relations(logs, ({ one }) => ({
+	user: one(users, {
+		fields: [logs.userId],
+		references: [users.id],
+	}),
+	departurePlace: one(places, {
+		fields: [logs.departurePlaceId],
+		references: [places.id],
+		relationName: "departure_place",
+	}),
+	arrivalPlace: one(places, {
+		fields: [logs.arrivalPlaceId],
+		references: [places.id],
+		relationName: "arrival_place",
+	}),
+	aircraft: one(aircraft, {
+		fields: [logs.aircraftId],
+		references: [aircraft.id],
+	}),
+	pilotInCommand: one(pilots, {
+		fields: [logs.pilotInCommandId],
+		references: [pilots.id],
+		relationName: "pilot_in_command",
+	}),
+}));
