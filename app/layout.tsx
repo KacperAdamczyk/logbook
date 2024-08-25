@@ -1,9 +1,11 @@
+import { Navigation } from "@/components/Navigation";
 import { Providers } from "@/components/Providers";
+import { clsx } from "@nextui-org/shared-utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ReactNode } from "react";
 
 import "./globals.css";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -14,12 +16,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
 	children,
 }: Readonly<{
-	children: React.ReactNode;
+	children: ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={inter.className}>
-				<Providers>{children}</Providers>
+		<html lang="en" className="dark">
+			<body className={clsx("min-h-screen bg-background", inter.className)}>
+				<Providers>
+					<Navigation />
+					<main className="max-w-7xl mx-auto">{children}</main>
+				</Providers>
 			</body>
 		</html>
 	);

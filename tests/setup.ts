@@ -1,7 +1,7 @@
-import { beforeAll, beforeEach } from "vitest";
-import { migrate } from "drizzle-orm/libsql/migrator";
 import { db } from "@/db";
 import { aircraft, logs, pilots, places, simulators, users } from "@/db/schema";
+import { migrate } from "drizzle-orm/libsql/migrator";
+import { beforeAll, beforeEach } from "vitest";
 
 beforeAll(() => {
 	console.log("Preparing test database...");

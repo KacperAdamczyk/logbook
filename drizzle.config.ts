@@ -1,5 +1,4 @@
 import { env } from "@/env";
-import { log } from "console";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
