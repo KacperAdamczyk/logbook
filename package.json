@@ -9,6 +9,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"test": "vitest",
+		"check": "pnpm biome check",
 		"check:write": "pnpm biome check --write",
 		"ts-check": "tsc --noEmit",
 		"db:": "bun run --env-file=.env.local drizzle-kit"

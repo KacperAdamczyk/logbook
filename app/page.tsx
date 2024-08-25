@@ -1,12 +1,11 @@
-import { auth } from "@/auth";
+import { Button, Link } from "@nextui-org/react";
 
-export default async function Home() {
-	const session = await auth();
-
+export default function Home() {
 	return (
-		<main>
-			<h1>hello</h1>
-			{session?.user?.email}
-		</main>
+		<section>
+			<Button as={Link} href="/new">
+				New +
+			</Button>
+		</section>
 	);
 }
