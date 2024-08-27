@@ -1,32 +1,32 @@
 import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { parseDate } from "@internationalized/date";
-import { DatePicker, DatePickerProps } from "@nextui-org/react";
+import { parseTime } from "@internationalized/date";
+import { TimeInput, TimeInputProps } from "@nextui-org/react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
-interface DateFieldProps<FieldValues extends BaseFieldValues>
+interface TimeField<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string>,
-		Pick<DatePickerProps, "label" | "isRequired"> {}
+		Pick<TimeInputProps, "label"> {}
 
-export function DateField<FieldValues extends BaseFieldValues>({
+export function TimeField<FieldValues extends BaseFieldValues>({
 	name,
-	...datePickerProps
-}: DateFieldProps<FieldValues>) {
+	...timeInputProps
+}: TimeField<FieldValues>) {
 	const {
 		field,
 		fieldState: { invalid, error },
 	} = useController<FieldValues>({ name });
 
-	const onChange = useCallback<NonNullable<DatePickerProps["onChange"]>>(
+	const onChange = useCallback<NonNullable<TimeInputProps["onChange"]>>(
 		(value) => {
 			field.onChange(value ? value.toString() : undefined);
 		},
 		[field],
 	);
-	const value = field.value ? parseDate(field.value) : null;
+	const value = field.value ? parseTime(field.value) : null;
 
 	return (
-		<DatePicker
+		<TimeInput
 			name={field.name}
 			inputRef={field.ref}
 			value={value}
@@ -34,8 +34,8 @@ export function DateField<FieldValues extends BaseFieldValues>({
 			onBlur={field.onBlur}
 			isInvalid={invalid}
 			errorMessage={error?.message}
-			showMonthAndYearPickers
-			{...datePickerProps}
+			hourCycle={24}
+			{...timeInputProps}
 		/>
 	);
 }
