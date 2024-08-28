@@ -4,14 +4,14 @@ import { TimeInput, TimeInputProps } from "@nextui-org/react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
-interface TimeField<FieldValues extends BaseFieldValues>
+interface TimeFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string | undefined>,
-		Pick<TimeInputProps, "label" | "isRequired"> {}
+		Pick<TimeInputProps, "className" | "label" | "isRequired"> {}
 
 export function TimeField<FieldValues extends BaseFieldValues>({
 	name,
 	...timeInputProps
-}: TimeField<FieldValues>) {
+}: TimeFieldProps<FieldValues>) {
 	const {
 		field,
 		fieldState: { invalid, error },

@@ -1,15 +1,18 @@
 import { formatMinutes } from "@/helpers/formatMinutes";
-import { useFlightDuration } from "@/hooks/useFlightDuration";
 import { Input } from "@nextui-org/react";
 import { FC } from "react";
 
-export const FlightDuration: FC = () => {
-	const duration = useFlightDuration();
+interface Props {
+	duration: number | null;
+	className?: string;
+}
 
-	const displayValue = duration ? formatMinutes(duration) : "-";
+export const FlightDuration: FC<Props> = ({ className, duration }) => {
+	const displayValue = duration ? formatMinutes(duration) : "∞";
 
 	return (
 		<Input
+			className={className}
 			label="Flight Duration"
 			value={displayValue}
 			isReadOnly

@@ -4,8 +4,15 @@ import { FC } from "react";
 
 const defaultValues = {
 	date: today("utc").toString(),
+	engineType: "single",
 } satisfies LogFormProps["defaultValues"];
 
 export const CreateLog: FC = () => {
-	return <LogForm defaultValues={defaultValues} />;
+	return (
+		<LogForm
+			defaultValues={defaultValues}
+			header="Create new log"
+			submitLabel="Create log"
+		/>
+	);
 };

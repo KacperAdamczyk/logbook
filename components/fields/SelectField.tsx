@@ -14,7 +14,10 @@ interface SelectFieldItem {
 
 interface SelectFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string | undefined>,
-		Pick<AutocompleteProps, "label" | "isRequired"> {
+		Pick<
+			AutocompleteProps,
+			"className" | "label" | "isRequired" | "isDisabled"
+		> {
 	items: SelectFieldItem[];
 }
 

@@ -6,7 +6,7 @@ import { useController } from "react-hook-form";
 
 interface DateFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string>,
-		Pick<DatePickerProps, "label" | "isRequired"> {}
+		Pick<DatePickerProps, "className" | "label" | "isRequired"> {}
 
 export function DateField<FieldValues extends BaseFieldValues>({
 	name,

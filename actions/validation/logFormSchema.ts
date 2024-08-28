@@ -23,4 +23,8 @@ export const logFormSchema = z.object({
 	departureTime: z.string().trim().min(1).time(),
 	arrivalPlace: z.string().trim().min(1),
 	arrivalTime: z.string().trim().min(1).time(),
+	planeModel: z.string().trim().min(1),
+	planeRegistration: z.string().trim().min(1),
 });
+
+type LogFormValues = z.infer<typeof logFormSchema>;
