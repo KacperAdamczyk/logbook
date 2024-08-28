@@ -5,8 +5,8 @@ import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 interface TimeField<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string>,
-		Pick<TimeInputProps, "label"> {}
+	extends FieldBaseProps<FieldValues, string | undefined>,
+		Pick<TimeInputProps, "label" | "isRequired"> {}
 
 export function TimeField<FieldValues extends BaseFieldValues>({
 	name,

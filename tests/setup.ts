@@ -3,10 +3,10 @@ import { aircraft, logs, pilots, places, simulators, users } from "@/db/schema";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { beforeAll, beforeEach } from "vitest";
 
-beforeAll(() => {
+beforeAll(async () => {
 	console.log("Preparing test database...");
 
-	migrate(db, { migrationsFolder: "./drizzle" });
+	await migrate(db, { migrationsFolder: "./drizzle" });
 });
 
 beforeEach(async () => {

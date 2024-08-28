@@ -1,5 +1,6 @@
 "use client";
 import { logFormSchema } from "@/actions/validation/logFormSchema";
+import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { SelectField } from "@/components/fields/SelectField";
 import { TimeField } from "@/components/fields/TimeField";
@@ -8,16 +9,16 @@ import { Button } from "@nextui-org/react";
 import { FC } from "react";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
 
-interface FieldValues {
+export interface LogFormFieldValues {
 	date: string;
-	departurePlace: string;
-	departureTime: string;
-	arrivalPlace: string;
-	arrivalTime: string;
+	departurePlace: string | undefined;
+	departureTime: string | undefined;
+	arrivalPlace: string | undefined;
+	arrivalTime: string | undefined;
 }
 
 export interface LogFormProps {
-	defaultValues?: DefaultValues<FieldValues>;
+	defaultValues?: DefaultValues<LogFormFieldValues>;
 }
 const o = [
 	{ label: "EPRZ", value: "EPRZ" },
@@ -25,29 +26,40 @@ const o = [
 ];
 
 export const LogForm: FC<LogFormProps> = ({ defaultValues }) => {
-	const methods = useForm<FieldValues>({
+	const methods = useForm<LogFormFieldValues>({
 		defaultValues,
 		resolver: zodResolver(logFormSchema),
 	});
 
-	const onSubmit = (data: FieldValues) => console.log(data);
+	const onSubmit = (data: LogFormFieldValues) => console.log(data);
 
 	return (
 		<FormProvider {...methods}>
 			<form onSubmit={methods.handleSubmit(onSubmit)}>
-				<DateField<FieldValues> name="date" label="Date" isRequired />
-				<SelectField<FieldValues>
+				<DateField<LogFormFieldValues> name="date" label="Date" isRequired />
+				<SelectField<LogFormFieldValues>
 					name="departurePlace"
 					label="Departure Place"
 					items={o}
+					isRequired
 				/>
-				<TimeField<FieldValues> name="departureTime" label="Departure Time" />
-				<SelectField<FieldValues>
+				<TimeField<LogFormFieldValues>
+					name="departureTime"
+					label="Departure Time"
+					isRequired
+				/>
+				<SelectField<LogFormFieldValues>
 					name="arrivalPlace"
 					label="Arrival Place"
 					items={o}
+					isRequired
 				/>
-				<TimeField<FieldValues> name="arrivalTime" label="Arrival Time" />
+				<TimeField<LogFormFieldValues>
+					name="arrivalTime"
+					label="Arrival Time"
+					isRequired
+				/>
+				<FlightDuration />
 				<Button type="submit">Save</Button>
 			</form>
 		</FormProvider>
