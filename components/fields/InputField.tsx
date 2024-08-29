@@ -15,11 +15,13 @@ export function InputField<FieldValues extends BaseFieldValues>({
 		fieldState: { invalid, error },
 	} = useController<FieldValues>({ name });
 
+    const value = field.value ?? "";
+
 	return (
 		<Input
 			name={field.name}
 			ref={field.ref}
-			value={field.value ?? ""}
+			value={value}
 			onValueChange={field.onChange}
 			onBlur={field.onBlur}
 			isInvalid={invalid}

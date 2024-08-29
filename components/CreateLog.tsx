@@ -1,3 +1,4 @@
+import { createLogAction } from "@/actions/createLog";
 import { LogForm, LogFormProps } from "@/components/forms/LogForm";
 import { today } from "@internationalized/date";
 import { FC } from "react";
@@ -13,6 +14,7 @@ export const CreateLog: FC = () => {
 			defaultValues={defaultValues}
 			header="Create new log"
 			submitLabel="Create log"
+			action={createLogAction}
 		/>
 	);
 };

@@ -1,5 +1,4 @@
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
-import { formatMinutes } from "@/helpers/formatMinutes";
 import { formatToMinutes } from "@/helpers/formatToMinutes";
 import { CalendarDate, parseTime } from "@internationalized/date";
 import { z } from "zod";
@@ -35,10 +34,10 @@ export const logFormSchema = z
 		multiPilotTime: z.string().trim().time().optional(),
 		totalFlightTime: z.string().trim().time().min(1),
 		pilotInCommand: z.string().trim().min(1),
-		takeoffsDay: z.coerce.number().int().min(0).optional(),
-		takeoffsNight: z.coerce.number().int().min(0).optional(),
-		landingsDay: z.coerce.number().int().min(0).optional(),
-		landingsNight: z.coerce.number().int().min(0).optional(),
+		takeoffsDay: z.number().int().min(0).optional(),
+		takeoffsNight: z.number().int().min(0).optional(),
+		landingsDay: z.number().int().min(0).optional(),
+		landingsNight: z.number().int().min(0).optional(),
 		operationalConditionTimeNight: z.string().trim().min(1).optional(),
 		operationalConditionTimeIfr: z.string().trim().min(1).optional(),
 		functionTimePilotInCommand: z.string().trim().min(1).optional(),

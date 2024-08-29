@@ -1,8 +1,9 @@
 "use client";
+import type { createLogAction } from "@/actions/createLog";
 import { logFormSchema } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
-import { InputField } from "@/components/fields/InputField";
+import { NumberField } from "@/components/fields/NumberField";
 import { RadioField, RadioFieldOption } from "@/components/fields/RadioField";
 import { SelectField } from "@/components/fields/SelectField";
 import { TextAreaField } from "@/components/fields/TextAreaField";
@@ -11,6 +12,7 @@ import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { parseTime } from "@internationalized/date";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Button, Divider } from "@nextui-org/react";
 import { FC, useMemo } from "react";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
@@ -30,10 +32,10 @@ export interface LogFormFieldValues {
 	multiPilotTime: string | undefined;
 	totalFlightTime: string | undefined;
 	pilotInCommand: string | undefined;
-	takeoffsDay: string | undefined;
-	takeoffsNight: string | undefined;
-	landingsDay: string | undefined;
-	landingsNight: string | undefined;
+	takeoffsDay: number | undefined;
+	takeoffsNight: number | undefined;
+	landingsDay: number | undefined;
+	landingsNight: number | undefined;
 	operationalConditionTimeNight: string | undefined;
 	operationalConditionTimeIfr: string | undefined;
 	functionTimePilotInCommand: string | undefined;
@@ -47,6 +49,7 @@ export interface LogFormProps {
 	defaultValues?: DefaultValues<LogFormFieldValues>;
 	header: string;
 	submitLabel: string;
+	action: typeof createLogAction;
 }
 const o = [
 	{ label: "EPRZ", value: "EPRZ" },
@@ -62,11 +65,12 @@ export const LogForm: FC<LogFormProps> = ({
 	defaultValues,
 	header,
 	submitLabel,
+	action,
 }) => {
-	const methods = useForm<LogFormFieldValues>({
-		defaultValues,
-		resolver: zodResolver(logFormSchema),
-	});
+	const { handleSubmitWithAction, form: methods } = useHookFormAction(action, zodResolver(logFormSchema), {
+formProps: {
+	defaultValues
+	}});
 
 	const [planeModel, engineType, departureTime, arrivalTime] = methods.watch([
 		"planeModel",
@@ -82,8 +86,6 @@ export const LogForm: FC<LogFormProps> = ({
 
 		return calculateFlightTime(departureTime, arrivalTime);
 	}, [departureTime, arrivalTime]);
-
-	const onSubmit = (data: LogFormFieldValues) => console.log(data);
 
 	const fillProps = useMemo(
 		() =>
@@ -103,7 +105,7 @@ export const LogForm: FC<LogFormProps> = ({
 		<FormProvider {...methods}>
 			<form
 				className="grid grid-cols-4 gap-2 p-2 max-w-5xl mx-auto"
-				onSubmit={methods.handleSubmit(onSubmit)}
+				onSubmit={handleSubmitWithAction}
 			>
 				<h1 className="text-xl text-center col-span-4">{header}</h1>
 				<DateField<LogFormFieldValues>
@@ -186,12 +188,14 @@ export const LogForm: FC<LogFormProps> = ({
 							className="col-span-2 md:col-span-1"
 							name="singlePilotTimeSingleEngine"
 							label="Single Engine Time"
+							isRequired
 							{...fillProps}
 						/>
 						<TimeField<LogFormFieldValues>
 							className="col-span-2 md:col-span-1"
 							name="singlePilotTimeMultiEngine"
 							label="Multi Engine Time"
+							isRequired
 							{...fillProps}
 						/>
 					</>
@@ -207,25 +211,21 @@ export const LogForm: FC<LogFormProps> = ({
 				)}
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Takeoffs & Landings</h2>
-				<InputField<LogFormFieldValues>
+				<NumberField<LogFormFieldValues>
 					name="takeoffsDay"
 					label="Takeoffs Day"
-					type="number"
 				/>
-				<InputField<LogFormFieldValues>
+				<NumberField<LogFormFieldValues>
 					name="takeoffsNight"
 					label="Takeoffs Night"
-					type="number"
 				/>
-				<InputField<LogFormFieldValues>
+				<NumberField<LogFormFieldValues>
 					name="landingsDay"
 					label="Landings Day"
-					type="number"
 				/>
-				<InputField<LogFormFieldValues>
+				<NumberField<LogFormFieldValues>
 					name="landingsNight"
 					label="Landings Night"
-					type="number"
 				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">
