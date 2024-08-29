@@ -1,15 +1,22 @@
 import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
 import { parseTime } from "@internationalized/date";
-import { TimeInput, TimeInputProps } from "@nextui-org/react";
+import { Button, TimeInput, TimeInputProps, cn } from "@nextui-org/react";
+import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
-interface TimeFieldProps<FieldValues extends BaseFieldValues>
+export interface TimeFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string | undefined>,
-		Pick<TimeInputProps, "className" | "label" | "isRequired"> {}
+		Pick<TimeInputProps, "className" | "label" | "isRequired"> {
+	fillable?: boolean;
+	fillValue?: string;
+}
 
 export function TimeField<FieldValues extends BaseFieldValues>({
 	name,
+	className,
+	fillable,
+	fillValue,
 	...timeInputProps
 }: TimeFieldProps<FieldValues>) {
 	const {
@@ -23,19 +30,40 @@ export function TimeField<FieldValues extends BaseFieldValues>({
 		},
 		[field],
 	);
+
+	const onFill = useCallback(() => {
+		if (!fillValue) return;
+
+		field.onChange(fillValue);
+	}, [field, fillValue]);
+
 	const value = field.value ? parseTime(field.value) : null;
 
 	return (
-		<TimeInput
-			name={field.name}
-			inputRef={field.ref}
-			value={value}
-			onChange={onChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
-			hourCycle={24}
-			{...timeInputProps}
-		/>
+		<div className={cn("flex gap-1", className)}>
+			<TimeInput
+				name={field.name}
+				inputRef={field.ref}
+				value={value}
+				onChange={onChange}
+				onBlur={field.onBlur}
+				isInvalid={invalid}
+				errorMessage={error?.message}
+				hourCycle={24}
+				{...timeInputProps}
+			/>
+			{fillable && (
+				<Button
+					className="h-full"
+					isIconOnly
+					size="sm"
+					variant="bordered"
+					onClick={onFill}
+					isDisabled={!fillValue}
+				>
+					<IconClockHour1 size={20} />
+				</Button>
+			)}
+		</div>
 	);
 }

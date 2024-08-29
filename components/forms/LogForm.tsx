@@ -4,9 +4,11 @@ import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { RadioField, RadioFieldOption } from "@/components/fields/RadioField";
 import { SelectField } from "@/components/fields/SelectField";
-import { TimeField } from "@/components/fields/TimeField";
+import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
+import { formatMinutes } from "@/helpers/formatMinutes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { parseTime } from "@internationalized/date";
 import { Button, Divider } from "@nextui-org/react";
 import { FC, useMemo } from "react";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
@@ -76,6 +78,20 @@ export const LogForm: FC<LogFormProps> = ({
 	}, [departureTime, arrivalTime]);
 
 	const onSubmit = (data: LogFormFieldValues) => console.log(data);
+
+	const fillProps = useMemo(
+		() =>
+			({
+				fillable: true,
+				fillValue: flightDuration
+					? parseTime(formatMinutes(flightDuration)).toString()
+					: undefined,
+			}) satisfies Pick<
+				TimeFieldProps<LogFormFieldValues>,
+				"fillable" | "fillValue"
+			>,
+		[flightDuration],
+	);
 
 	return (
 		<FormProvider {...methods}>
@@ -149,11 +165,13 @@ export const LogForm: FC<LogFormProps> = ({
 							className="col-span-2 md:col-span-1"
 							name="singlePilotTimeSingleEngine"
 							label="Single Engine Time"
+							{...fillProps}
 						/>
 						<TimeField<LogFormFieldValues>
 							className="col-span-2 md:col-span-1"
 							name="singlePilotTimeMultiEngine"
 							label="Multi Engine Time"
+							{...fillProps}
 						/>
 					</>
 				)}
@@ -163,6 +181,7 @@ export const LogForm: FC<LogFormProps> = ({
 						name="multiPilotTime"
 						label="Multi Pilot Time"
 						isRequired
+						{...fillProps}
 					/>
 				)}
 				<TimeField<LogFormFieldValues>
@@ -170,6 +189,7 @@ export const LogForm: FC<LogFormProps> = ({
 					name="totalFlightTime"
 					label="Total Time Of Flight"
 					isRequired
+					{...fillProps}
 				/>
 				<SelectField<LogFormFieldValues>
 					className="col-span-2"
@@ -177,6 +197,7 @@ export const LogForm: FC<LogFormProps> = ({
 					label="Pilot In Command"
 					items={[]}
 					isRequired
+					{...fillProps}
 				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Takeoffs & Landings</h2>
@@ -188,11 +209,13 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-2"
 					name="operationalConditionTimeNight"
 					label="Night"
+					{...fillProps}
 				/>
 				<TimeField<LogFormFieldValues>
 					className="col-span-2"
 					name="operationalConditionTimeIfr"
 					label="IFR"
+					{...fillProps}
 				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Function time</h2>
@@ -200,21 +223,25 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-2 md:col-span-1"
 					name="functionTimePilotInCommand"
 					label="Pilot In Command"
+					{...fillProps}
 				/>
 				<TimeField<LogFormFieldValues>
 					className="col-span-2 md:col-span-1"
 					name="functionTimeCoPilot"
 					label="Co-Pilot"
+					{...fillProps}
 				/>
 				<TimeField<LogFormFieldValues>
 					className="col-span-2 md:col-span-1"
 					name="functionTimeDual"
 					label="Dual"
+					{...fillProps}
 				/>
 				<TimeField<LogFormFieldValues>
 					className="col-span-2 md:col-span-1"
 					name="functionTimeInstructor"
 					label="Instructor"
+					{...fillProps}
 				/>
 				<Button className="col-span-4" type="submit" color="primary">
 					{submitLabel}
