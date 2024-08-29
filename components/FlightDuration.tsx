@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const FlightDuration: FC<Props> = ({ className, duration }) => {
-	const displayValue = duration ? formatMinutes(duration) : "∞";
+	const displayValue = duration !== null ? formatMinutes(duration) : "∞";
 
 	return (
 		<Input
