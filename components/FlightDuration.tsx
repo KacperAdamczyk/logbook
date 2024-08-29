@@ -1,5 +1,7 @@
 import { formatMinutes } from "@/helpers/formatMinutes";
-import { Input } from "@nextui-org/react";
+import { parseTime } from "@internationalized/date";
+import { Input, TimeInput } from "@nextui-org/react";
+import { IconClockHour1 } from "@tabler/icons-react";
 import { FC } from "react";
 
 interface Props {
@@ -8,15 +10,17 @@ interface Props {
 }
 
 export const FlightDuration: FC<Props> = ({ className, duration }) => {
-	const displayValue = duration !== null ? formatMinutes(duration) : "∞";
+	const displayValue = duration ? parseTime(formatMinutes(duration)) : null;
 
 	return (
-		<Input
+		<TimeInput
 			className={className}
 			label="Flight Duration"
 			value={displayValue}
 			isReadOnly
 			variant="bordered"
+			hourCycle={24}
+			startContent={<IconClockHour1 size={20} />}
 		/>
 	);
 };
