@@ -2,8 +2,10 @@
 import { logFormSchema } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
+import { InputField } from "@/components/fields/InputField";
 import { RadioField, RadioFieldOption } from "@/components/fields/RadioField";
 import { SelectField } from "@/components/fields/SelectField";
+import { TextAreaField } from "@/components/fields/TextAreaField";
 import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatMinutes } from "@/helpers/formatMinutes";
@@ -28,6 +30,10 @@ export interface LogFormFieldValues {
 	multiPilotTime: string | undefined;
 	totalFlightTime: string | undefined;
 	pilotInCommand: string | undefined;
+	takeoffsDay: string | undefined;
+	takeoffsNight: string | undefined;
+	landingsDay: string | undefined;
+	landingsNight: string | undefined;
 	operationalConditionTimeNight: string | undefined;
 	operationalConditionTimeIfr: string | undefined;
 	functionTimePilotInCommand: string | undefined;
@@ -201,6 +207,26 @@ export const LogForm: FC<LogFormProps> = ({
 				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Takeoffs & Landings</h2>
+				<InputField<LogFormFieldValues>
+					name="takeoffsDay"
+					label="Takeoffs Day"
+					type="number"
+				/>
+				<InputField<LogFormFieldValues>
+					name="takeoffsNight"
+					label="Takeoffs Night"
+					type="number"
+				/>
+				<InputField<LogFormFieldValues>
+					name="landingsDay"
+					label="Landings Day"
+					type="number"
+				/>
+				<InputField<LogFormFieldValues>
+					name="landingsNight"
+					label="Landings Night"
+					type="number"
+				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">
 					Operational condition time
@@ -243,7 +269,13 @@ export const LogForm: FC<LogFormProps> = ({
 					label="Instructor"
 					{...fillProps}
 				/>
-				<Button className="col-span-4" type="submit" color="primary">
+				<TextAreaField<LogFormFieldValues>
+					className="col-span-4"
+					name="remarks"
+					label="Remarks"
+					minRows={1}
+				/>
+				<Button className="col-span-4 mt-2" type="submit" color="primary">
 					{submitLabel}
 				</Button>
 			</form>
