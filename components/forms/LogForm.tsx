@@ -158,6 +158,21 @@ export const LogForm: FC<LogFormProps> = ({
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Pilot time</h2>
 				<FlightDuration className="col-span-4" duration={flightDuration} />
+				<TimeField<LogFormFieldValues>
+					className="col-span-2"
+					name="totalFlightTime"
+					label="Total Time Of Flight"
+					isRequired
+					{...fillProps}
+				/>
+				<SelectField<LogFormFieldValues>
+					className="col-span-2"
+					name="pilotInCommand"
+					label="Pilot In Command"
+					items={[]}
+					isRequired
+					{...fillProps}
+				/>
 				<RadioField<LogFormFieldValues>
 					className="col-span-4 md:col-span-2"
 					label="Engine type"
@@ -190,21 +205,6 @@ export const LogForm: FC<LogFormProps> = ({
 						{...fillProps}
 					/>
 				)}
-				<TimeField<LogFormFieldValues>
-					className="col-span-2"
-					name="totalFlightTime"
-					label="Total Time Of Flight"
-					isRequired
-					{...fillProps}
-				/>
-				<SelectField<LogFormFieldValues>
-					className="col-span-2"
-					name="pilotInCommand"
-					label="Pilot In Command"
-					items={[]}
-					isRequired
-					{...fillProps}
-				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Takeoffs & Landings</h2>
 				<InputField<LogFormFieldValues>

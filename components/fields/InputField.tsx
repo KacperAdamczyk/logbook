@@ -19,7 +19,7 @@ export function InputField<FieldValues extends BaseFieldValues>({
 		<Input
 			name={field.name}
 			ref={field.ref}
-			value={field.value}
+			value={field.value ?? ""}
 			onValueChange={field.onChange}
 			onBlur={field.onBlur}
 			isInvalid={invalid}

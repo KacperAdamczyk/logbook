@@ -1,4 +1,7 @@
-import { CalendarDate } from "@internationalized/date";
+import { calculateFlightTime } from "@/helpers/calculateFlightTime";
+import { formatMinutes } from "@/helpers/formatMinutes";
+import { formatToMinutes } from "@/helpers/formatToMinutes";
+import { CalendarDate, parseTime } from "@internationalized/date";
 import { z } from "zod";
 
 export const logFormSchema = z
@@ -51,21 +54,24 @@ export const logFormSchema = z
 				singlePilotTimeSingleEngine,
 				singlePilotTimeMultiEngine,
 				multiPilotTime,
+				totalFlightTime,
 			},
 			ctx,
 		) => {
+			const totalFlightTimeMinutes = formatToMinutes(totalFlightTime);
+
 			if (engineType === "single") {
 				if (!singlePilotTimeSingleEngine && !singlePilotTimeMultiEngine) {
 					const message = "Single engine or multi engine is required";
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
 						message,
-						path: ["singleSingleEngine"],
+						path: ["singlePilotTimeSingleEngine"],
 					});
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
 						message,
-						path: ["singleMultiEngine"],
+						path: ["singlePilotTimeMultiEngine"],
 					});
 				}
 
@@ -75,8 +81,31 @@ export const logFormSchema = z
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
 						message,
-						path: ["singleSingleEngine"],
+						path: ["singlePilotTimeSingleEngine"],
 					});
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message,
+						path: ["singlePilotTimeMultiEngine"],
+					});
+				}
+
+				const message = "Must be less or equal to Total Flight Time";
+				if (
+					singlePilotTimeSingleEngine &&
+					totalFlightTimeMinutes < formatToMinutes(singlePilotTimeSingleEngine)
+				) {
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message,
+						path: ["singlePilotTimeSingleEngine"],
+					});
+				}
+
+				if (
+					singlePilotTimeMultiEngine &&
+					totalFlightTimeMinutes < formatToMinutes(singlePilotTimeMultiEngine)
+				) {
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
 						message,
@@ -91,9 +120,116 @@ export const logFormSchema = z
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
 						message,
-						path: ["multi"],
+						path: ["multiPilotTime"],
 					});
 				}
+
+				const message = "Must be less or equal to Total Flight Time";
+				if (
+					multiPilotTime &&
+					totalFlightTimeMinutes < formatToMinutes(multiPilotTime)
+				) {
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message,
+						path: ["multiPilotTime"],
+					});
+				}
+			}
+		},
+	)
+	.superRefine(
+		(
+			{
+				departureTime,
+				arrivalTime,
+				totalFlightTime,
+				operationalConditionTimeNight,
+				operationalConditionTimeIfr,
+				functionTimePilotInCommand,
+				functionTimeCoPilot,
+				functionTimeDual,
+				functionTimeInstructor,
+			},
+			ctx,
+		) => {
+			const totalFlightTimeMinutes = formatToMinutes(totalFlightTime);
+			const flightDuration = calculateFlightTime(departureTime, arrivalTime);
+			if (totalFlightTimeMinutes > flightDuration) {
+				const message =
+					"Total flight time must less or equal to Flight Duration";
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["totalFlightTime"],
+				});
+			}
+
+			const message = "Must be less or equal to Total Flight Time";
+			if (
+				operationalConditionTimeNight &&
+				totalFlightTimeMinutes < formatToMinutes(operationalConditionTimeNight)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["operationalConditionTimeNight"],
+				});
+			}
+
+			if (
+				operationalConditionTimeIfr &&
+				totalFlightTimeMinutes < formatToMinutes(operationalConditionTimeIfr)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["operationalConditionTimeIfr"],
+				});
+			}
+
+			if (
+				functionTimePilotInCommand &&
+				totalFlightTimeMinutes < formatToMinutes(functionTimePilotInCommand)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["functionTimePilotInCommand"],
+				});
+			}
+
+			if (
+				functionTimeCoPilot &&
+				totalFlightTimeMinutes < formatToMinutes(functionTimeCoPilot)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["functionTimeCoPilot"],
+				});
+			}
+
+			if (
+				functionTimeDual &&
+				totalFlightTimeMinutes < formatToMinutes(functionTimeDual)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["functionTimeDual"],
+				});
+			}
+
+			if (
+				functionTimeInstructor &&
+				totalFlightTimeMinutes < formatToMinutes(functionTimeInstructor)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message,
+					path: ["functionTimeInstructor"],
+				});
 			}
 		},
 	);
