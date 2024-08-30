@@ -10,7 +10,7 @@ describe("createLog", () => {
 	});
 
 	test("should create a log", async () => {
-		const log = await createLog({}, {});
+		const log = await createLog({});
 
 		expect(log).toHaveLength(1);
 	});
