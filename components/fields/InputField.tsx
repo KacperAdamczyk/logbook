@@ -15,7 +15,7 @@ export function InputField<FieldValues extends BaseFieldValues>({
 		fieldState: { invalid, error },
 	} = useController<FieldValues>({ name });
 
-    const value = field.value ?? "";
+	const value = field.value ?? "";
 
 	return (
 		<Input

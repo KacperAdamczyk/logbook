@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { logs, aircraft, pilots, places, users, times } from "@/db/schema";
+import { aircraft, logs, pilots, places, times, users } from "@/db/schema";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { beforeEach } from "vitest";
 

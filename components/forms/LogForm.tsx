@@ -74,9 +74,13 @@ export const LogForm: FC<LogFormProps> = ({
 	onSuccessRedirect,
 }) => {
 	const router = useRouter();
-	const { handleSubmitWithAction, form, action: { isPending } } = useHookFormAction(action, zodResolver(logFormSchema), {
+	const {
+		handleSubmitWithAction,
+		form,
+		action: { isPending },
+	} = useHookFormAction(action, zodResolver(logFormSchema), {
 		formProps: {
-			defaultValues
+			defaultValues,
 		},
 		actionProps: {
 			onSuccess: () => {
@@ -86,8 +90,8 @@ export const LogForm: FC<LogFormProps> = ({
 				if (onSuccessRedirect) {
 					router.push(onSuccessRedirect);
 				}
-			}
-		}
+			},
+		},
 	});
 
 	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
@@ -293,7 +297,12 @@ export const LogForm: FC<LogFormProps> = ({
 					label="Remarks"
 					minRows={1}
 				/>
-				<Button className="col-span-4 mt-2" type="submit" color="primary" isLoading={isPending}>
+				<Button
+					className="col-span-4 mt-2"
+					type="submit"
+					color="primary"
+					isLoading={isPending}
+				>
 					{submitLabel}
 				</Button>
 			</form>

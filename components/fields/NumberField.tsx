@@ -20,7 +20,7 @@ export function NumberField<FieldValues extends BaseFieldValues>({
 		field.onChange(numberValue);
 	};
 
-    const value = field.value?.toString() ?? "";
+	const value = field.value?.toString() ?? "";
 
 	return (
 		<Input

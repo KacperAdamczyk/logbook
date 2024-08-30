@@ -1,1 +1,1 @@
-export * from './getUserPlaces';
+export * from "./getUserPlaces";
