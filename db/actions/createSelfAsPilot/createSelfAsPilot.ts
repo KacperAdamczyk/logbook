@@ -1,22 +1,34 @@
-import { db } from "@/db";
-import { pilots, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { type Pilot, pilots } from "@/db/schema";
+import { createDbAction } from "@/db/utils";
 
-export const createSelfAsPilot = async (id: string) => {
-	const user = await db.query.users.findFirst({ where: eq(users.id, id) });
+export interface CreateSelfAsPilotArgs {
+	id: string;
+}
 
-	if (!user) {
-		throw new Error("User not found");
-	}
+export const createSelfAsPilot = createDbAction<CreateSelfAsPilotArgs, Pilot>(
+	async (tx, { id }) => {
+		const user = await tx.query.users.findFirst({
+			where: (users, { eq }) => eq(users.id, id),
+		});
 
-	const { name } = user;
+		if (!user) {
+			throw new Error("User not found");
+		}
 
-	if (!name) {
-		throw new Error("User does not have a name");
-	}
+		const { name } = user;
 
-	return db.insert(pilots).values({
-		userId: id,
-		name,
-	});
-};
+		if (!name) {
+			throw new Error("User does not have a name");
+		}
+
+		const [newPilot] = await tx
+			.insert(pilots)
+			.values({
+				userId: id,
+				name,
+			})
+			.returning();
+
+		return newPilot;
+	},
+);

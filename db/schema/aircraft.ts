@@ -20,3 +20,6 @@ export const aircraftRelations = relations(aircraft, ({ one, many }) => ({
 	}),
 	logs: many(logs),
 }));
+
+export type Aircraft = typeof aircraft.$inferSelect;
+export type CreateAircraft = typeof aircraft.$inferInsert;

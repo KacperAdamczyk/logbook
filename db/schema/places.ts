@@ -19,3 +19,6 @@ export const placesRelations = relations(places, ({ one, many }) => ({
 	}),
 	logs: many(logs),
 }));
+
+export type Place = typeof places.$inferSelect;
+export type CreatePlace = typeof places.$inferInsert;

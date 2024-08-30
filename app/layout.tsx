@@ -1,10 +1,12 @@
 import { Navigation } from "@/components/Navigation";
 import { Providers } from "@/components/Providers";
-import { clsx } from "@nextui-org/shared-utils";
+import { cn } from "@nextui-org/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +22,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className="dark">
-			<body className={clsx("min-h-screen bg-background", inter.className)}>
+			<body className={cn("min-h-screen bg-background", inter.className)}>
 				<Providers>
 					<Navigation />
 					<main className="max-w-7xl mx-auto">{children}</main>
+					<ToastContainer position="top-center" theme="dark" />
 				</Providers>
 			</body>
 		</html>

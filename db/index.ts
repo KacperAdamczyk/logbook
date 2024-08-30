@@ -8,6 +8,6 @@ const sql = createClient({
 	url: env.DATABASE_URL,
 	authToken: env.DATABASE_TOKEN,
 });
-const db = drizzle(sql, { schema });
 
-export { db };
+export const db = drizzle(sql, { schema });
+export type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];

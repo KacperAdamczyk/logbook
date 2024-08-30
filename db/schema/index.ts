@@ -4,3 +4,4 @@ export * from "./logs";
 export * from "./places";
 export * from "./pilots";
 export * from "./simulators";
+export * from "./times";
