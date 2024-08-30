@@ -14,8 +14,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { parseTime } from "@internationalized/date";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Button, Divider } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { FC, useMemo } from "react";
 import { DefaultValues, FormProvider, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
@@ -50,6 +52,8 @@ export interface LogFormProps {
 	header: string;
 	submitLabel: string;
 	action: typeof createLogAction;
+	onSuccessToast?: string;
+	onSuccessRedirect?: string;
 }
 const o = [
 	{ label: "EPRZ", value: "EPRZ" },
@@ -66,10 +70,23 @@ export const LogForm: FC<LogFormProps> = ({
 	header,
 	submitLabel,
 	action,
+	onSuccessToast,
+	onSuccessRedirect,
 }) => {
+	const router = useRouter();
 	const { handleSubmitWithAction, form, action: { isPending } } = useHookFormAction(action, zodResolver(logFormSchema), {
 		formProps: {
 			defaultValues
+		},
+		actionProps: {
+			onSuccess: () => {
+				if (onSuccessToast) {
+					toast.success(onSuccessToast);
+				}
+				if (onSuccessRedirect) {
+					router.push(onSuccessRedirect);
+				}
+			}
 		}
 	});
 
@@ -159,7 +176,7 @@ export const LogForm: FC<LogFormProps> = ({
 					isRequired
 				/>
 				<Divider className="col-span-4" />
-				<h2 className="col-span-4 text-sm text-center">Pilot time</h2>
+				<h2 className="col-span-4 text-sm text-center">Pilot Time</h2>
 				<FlightDuration className="col-span-4" duration={flightDuration} />
 				<TimeField<LogFormFieldValues>
 					className="col-span-2"
@@ -178,7 +195,7 @@ export const LogForm: FC<LogFormProps> = ({
 				/>
 				<RadioField<LogFormFieldValues>
 					className="col-span-4 md:col-span-2"
-					label="Engine type"
+					label="Engine Type"
 					name="engineType"
 					orientation="horizontal"
 					options={engineOptions}
@@ -230,7 +247,7 @@ export const LogForm: FC<LogFormProps> = ({
 				/>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">
-					Operational condition time
+					Operational Condition Time
 				</h2>
 				<TimeField<LogFormFieldValues>
 					className="col-span-2"
@@ -245,7 +262,7 @@ export const LogForm: FC<LogFormProps> = ({
 					{...fillProps}
 				/>
 				<Divider className="col-span-4" />
-				<h2 className="col-span-4 text-sm text-center">Function time</h2>
+				<h2 className="col-span-4 text-sm text-center">Function Time</h2>
 				<TimeField<LogFormFieldValues>
 					className="col-span-2 md:col-span-1"
 					name="functionTimePilotInCommand"

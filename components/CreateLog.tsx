@@ -12,9 +12,11 @@ export const CreateLog: FC = () => {
 	return (
 		<LogForm
 			defaultValues={defaultValues}
-			header="Create new log"
-			submitLabel="Create log"
+			header="Create New Log"
+			submitLabel="Create Log"
 			action={createLogAction}
+			onSuccessToast="Log created successfully"
+			onSuccessRedirect="/"
 		/>
 	);
 };
