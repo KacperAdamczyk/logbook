@@ -7,17 +7,18 @@ import {
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
-interface SelectFieldItem {
+export interface SelectFieldItem {
 	label: string;
 	value: string;
+	key?: string;
 }
 
 interface SelectFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string | undefined>,
-		Pick<
-			AutocompleteProps,
-			"className" | "label" | "isRequired" | "isDisabled"
-		> {
+	Pick<
+		AutocompleteProps,
+		"className" | "label" | "isRequired" | "isDisabled"
+	> {
 	items: SelectFieldItem[];
 }
 
@@ -52,7 +53,7 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 			{...autocompleteProps}
 		>
 			{(item) => (
-				<AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
+				<AutocompleteItem key={item.key ?? item.value}>{item.label}</AutocompleteItem>
 			)}
 		</Autocomplete>
 	);

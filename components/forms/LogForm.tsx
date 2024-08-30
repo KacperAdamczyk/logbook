@@ -5,9 +5,10 @@ import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { NumberField } from "@/components/fields/NumberField";
 import { RadioField, RadioFieldOption } from "@/components/fields/RadioField";
-import { SelectField } from "@/components/fields/SelectField";
+import { SelectField, type SelectFieldItem } from "@/components/fields/SelectField";
 import { TextAreaField } from "@/components/fields/TextAreaField";
 import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
+import type { Aircraft, Pilot, Place } from "@/db/schema";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,13 +53,12 @@ export interface LogFormProps {
 	header: string;
 	submitLabel: string;
 	action: typeof createLogAction;
+	aircraft: Aircraft[];
+	pilots: Pilot[];
+	places: Place[];
 	onSuccessToast?: string;
 	onSuccessRedirect?: string;
 }
-const o = [
-	{ label: "EPRZ", value: "EPRZ" },
-	{ label: "WAW", value: "WAW" },
-];
 
 const engineOptions = [
 	{ label: "Single", value: "single" },
@@ -70,6 +70,9 @@ export const LogForm: FC<LogFormProps> = ({
 	header,
 	submitLabel,
 	action,
+	aircraft,
+	pilots,
+	places,
 	onSuccessToast,
 	onSuccessRedirect,
 }) => {
@@ -123,6 +126,41 @@ export const LogForm: FC<LogFormProps> = ({
 		[flightDuration],
 	);
 
+	const aircraftModelItems = useMemo(() => aircraft.map(({ id, model }) => ({
+		label: model,
+		value: model,
+		key: id,
+	} satisfies SelectFieldItem)),
+		[aircraft],
+	);
+
+	const aircraftRegistrationItems = useMemo(() => aircraft.filter(aircraft => aircraft.model === planeModel).map(({ id, registration }) => ({
+		label: registration,
+		value: registration,
+		key: id,
+	} satisfies SelectFieldItem)),
+		[aircraft, planeModel],
+	);
+
+
+	const placesItems = useMemo(() => places.map(({ id, name }) => ({
+		label: name,
+		value: name,
+		key: id,
+	} satisfies SelectFieldItem)),
+		[places],
+	);
+
+	const pilotsItems = useMemo(
+		() =>
+			pilots.map(({ id, name }) => ({
+				label: name,
+				value: name,
+				key: id,
+			} satisfies SelectFieldItem)),
+		[pilots],
+	);
+
 	return (
 		<FormProvider {...form}>
 			<form
@@ -140,7 +178,7 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-2 md:col-span-1"
 					name="departurePlace"
 					label="Departure Place"
-					items={o}
+					items={placesItems}
 					isRequired
 				/>
 				<TimeField<LogFormFieldValues>
@@ -153,7 +191,7 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-2 md:col-span-1"
 					name="arrivalPlace"
 					label="Arrival Place"
-					items={o}
+					items={placesItems}
 					isRequired
 				/>
 				<TimeField<LogFormFieldValues>
@@ -168,14 +206,14 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-2"
 					name="planeModel"
 					label="Model"
-					items={[]}
+					items={aircraftModelItems}
 					isRequired
 				/>
 				<SelectField<LogFormFieldValues>
 					className="col-span-2"
 					name="planeRegistration"
 					label="Registration"
-					items={[]}
+					items={aircraftRegistrationItems}
 					isDisabled={!planeModel}
 					isRequired
 				/>
@@ -193,7 +231,7 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-2"
 					name="pilotInCommand"
 					label="Pilot In Command"
-					items={[]}
+					items={pilotsItems}
 					isRequired
 					{...fillProps}
 				/>
@@ -295,7 +333,7 @@ export const LogForm: FC<LogFormProps> = ({
 					className="col-span-4"
 					name="remarks"
 					label="Remarks"
-					minRows={1}
+					minRows={2}
 				/>
 				<Button
 					className="col-span-4 mt-2"
