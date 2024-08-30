@@ -1,6 +1,6 @@
 import { logs, type Log } from "@/db/schema/logs";
 import { createDbAction } from "@/db/utils";
-import { and, eq, gte, lte, between } from "drizzle-orm";
+import { and, lt, gt } from "drizzle-orm";
 
 export interface GetOverlappingLogsParams {
     departure: Date;
@@ -10,7 +10,7 @@ export interface GetOverlappingLogsParams {
 
 export const getOverlappingLogs = createDbAction<GetOverlappingLogsParams, Log[]>(async (tx, {departure, arrival}) => tx.query.logs.findMany({
     where: and(
-        lte(logs.departureAt, arrival),
-        gte(logs.arrivalAt, departure)
+        lt(logs.departureAt, arrival),
+        gt(logs.arrivalAt, departure)
     ),
 }));

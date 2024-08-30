@@ -56,13 +56,13 @@ describe("getOverlappingLogs", () => {
             name: "range touching start of log",
             departure: new Date("2024-05-03T10:15:00Z"),
             arrival: new Date("2024-05-03T11:15:00Z"),
-            overlaps: true,
+            overlaps: false,
         },
         {
             name: "range touching end of log",
             departure: new Date("2024-05-03T12:15:00Z"),
             arrival: new Date("2024-05-03T13:15:00Z"),
-            overlaps: true,
+            overlaps: false,
         },
         {
             name: "range within log",
