@@ -27,7 +27,6 @@ export const CreateLog: FC = async () => {
 		getUserPlaces({ userId }),
 	]);
 
-
 	return (
 		<LogForm
 			defaultValues={defaultValues}

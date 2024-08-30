@@ -5,7 +5,10 @@ import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { NumberField } from "@/components/fields/NumberField";
 import { RadioField, RadioFieldOption } from "@/components/fields/RadioField";
-import { SelectField, type SelectFieldItem } from "@/components/fields/SelectField";
+import {
+	SelectField,
+	type SelectFieldItem,
+} from "@/components/fields/SelectField";
 import { TextAreaField } from "@/components/fields/TextAreaField";
 import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
@@ -126,38 +129,57 @@ export const LogForm: FC<LogFormProps> = ({
 		[flightDuration],
 	);
 
-	const aircraftModelItems = useMemo(() => aircraft.map(({ id, model }) => ({
-		label: model,
-		value: model,
-		key: id,
-	} satisfies SelectFieldItem)),
+	const aircraftModelItems = useMemo(
+		() =>
+			aircraft.map(
+				({ id, model }) =>
+					({
+						label: model,
+						value: model,
+						key: id,
+					}) satisfies SelectFieldItem,
+			),
 		[aircraft],
 	);
 
-	const aircraftRegistrationItems = useMemo(() => aircraft.filter(aircraft => aircraft.model === planeModel).map(({ id, registration }) => ({
-		label: registration,
-		value: registration,
-		key: id,
-	} satisfies SelectFieldItem)),
+	const aircraftRegistrationItems = useMemo(
+		() =>
+			aircraft
+				.filter((aircraft) => aircraft.model === planeModel)
+				.map(
+					({ id, registration }) =>
+						({
+							label: registration,
+							value: registration,
+							key: id,
+						}) satisfies SelectFieldItem,
+				),
 		[aircraft, planeModel],
 	);
 
-
-	const placesItems = useMemo(() => places.map(({ id, name }) => ({
-		label: name,
-		value: name,
-		key: id,
-	} satisfies SelectFieldItem)),
+	const placesItems = useMemo(
+		() =>
+			places.map(
+				({ id, name }) =>
+					({
+						label: name,
+						value: name,
+						key: id,
+					}) satisfies SelectFieldItem,
+			),
 		[places],
 	);
 
 	const pilotsItems = useMemo(
 		() =>
-			pilots.map(({ id, name }) => ({
-				label: name,
-				value: name,
-				key: id,
-			} satisfies SelectFieldItem)),
+			pilots.map(
+				({ id, name }) =>
+					({
+						label: name,
+						value: name,
+						key: id,
+					}) satisfies SelectFieldItem,
+			),
 		[pilots],
 	);
 
