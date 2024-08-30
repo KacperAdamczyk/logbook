@@ -70,10 +70,10 @@ importers:
         specifier: 1.8.3
         version: 1.8.3
       '@types/bun':
-        specifier: ^1.1.6
+        specifier: 1.1.6
         version: 1.1.6
       '@types/node':
-        specifier: ^20
+        specifier: 20.14.11
         version: 20.14.11
       '@types/react':
         specifier: 18.3.3
@@ -82,40 +82,40 @@ importers:
         specifier: 18.3.0
         version: 18.3.0
       '@types/uuid':
-        specifier: ^10.0.0
+        specifier: 10.0.0
         version: 10.0.0
       '@vitest/ui':
-        specifier: ^2.0.5
+        specifier: 2.0.5
         version: 2.0.5(vitest@2.0.5)
       drizzle-kit:
-        specifier: ^0.23.0
+        specifier: 0.23.0
         version: 0.23.0
       eslint:
-        specifier: ^8
+        specifier: 8.57.0
         version: 8.57.0
       eslint-config-next:
         specifier: 14.2.5
         version: 14.2.5(eslint@8.57.0)(typescript@5.5.3)
       jiti:
-        specifier: ^1.21.6
+        specifier: 1.21.6
         version: 1.21.6
       postcss:
-        specifier: ^8
+        specifier: 8.4.41
         version: 8.4.41
       tailwindcss:
-        specifier: ^3.4.1
+        specifier: 3.4.6
         version: 3.4.6
       typescript:
-        specifier: ^5
+        specifier: 5.5.3
         version: 5.5.3
       vite:
-        specifier: ^5.4.1
+        specifier: 5.4.1
         version: 5.4.1(@types/node@20.14.11)
       vite-tsconfig-paths:
-        specifier: ^5.0.1
+        specifier: 5.0.1
         version: 5.0.1(typescript@5.5.3)(vite@5.4.1(@types/node@20.14.11))
       vitest:
-        specifier: ^2.0.5
+        specifier: 2.0.5
         version: 2.0.5(@types/node@20.14.11)(@vitest/ui@2.0.5)
 
 packages:
@@ -3182,10 +3182,12 @@ packages:
 
   libsql@0.3.19:
     resolution: {integrity: sha512-Aj5cQ5uk/6fHdmeW0TiXK42FqUlwx7ytmMLPSaUQPin5HKKKuUPD62MAbN4OEweGBBI7q1BekoEN4gPUEL6MZA==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   libsql@0.4.1:
     resolution: {integrity: sha512-qZlR9Yu1zMBeLChzkE/cKfoKV3Esp9cn9Vx5Zirn4AVhDWPcjYhKwbtJcMuHehgk3mH+fJr9qW+3vesBWbQpBg==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:
