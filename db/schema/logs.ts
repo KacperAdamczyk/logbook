@@ -74,3 +74,6 @@ export const logsRelations = relations(logs, ({ one }) => ({
 		relationName: "cumulated_times",
 	}),
 }));
+
+export type CreateLog = typeof logs.$inferInsert;
+export type Log = typeof logs.$inferSelect;

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "254447b8-c258-4429-b12b-e6b4d61bc48e",
+  "id": "476297cc-e7aa-4588-88d4-2a4ca774f439",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "aircraft": {
@@ -326,34 +326,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "single_pilot_time_single_engine": {
-          "name": "single_pilot_time_single_engine",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "single_pilot_time_multi_engine": {
-          "name": "single_pilot_time_multi_engine",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "multi_pilot_time": {
-          "name": "multi_pilot_time",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "total_flight_time": {
-          "name": "total_flight_time",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "takeoffs_day": {
           "name": "takeoffs_day",
           "type": "integer",
@@ -382,44 +354,23 @@
           "notNull": false,
           "autoincrement": false
         },
-        "operational_condition_time_night": {
-          "name": "operational_condition_time_night",
-          "type": "integer",
+        "singular_times_id": {
+          "name": "singular_times_id",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "operational_condition_time_ifr": {
-          "name": "operational_condition_time_ifr",
-          "type": "integer",
+        "cumulated_times_id": {
+          "name": "cumulated_times_id",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "function_time_pilot_in_command": {
-          "name": "function_time_pilot_in_command",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "function_time_co_pilot": {
-          "name": "function_time_co_pilot",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "function_time_dual": {
-          "name": "function_time_dual",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "function_time_instructor": {
-          "name": "function_time_instructor",
-          "type": "integer",
+        "remarks": {
+          "name": "remarks",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -485,6 +436,32 @@
           "tableTo": "pilots",
           "columnsFrom": [
             "pilot_in_command_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "logs_singular_times_id_times_id_fk": {
+          "name": "logs_singular_times_id_times_id_fk",
+          "tableFrom": "logs",
+          "tableTo": "times",
+          "columnsFrom": [
+            "singular_times_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "logs_cumulated_times_id_times_id_fk": {
+          "name": "logs_cumulated_times_id_times_id_fk",
+          "tableFrom": "logs",
+          "tableTo": "times",
+          "columnsFrom": [
+            "cumulated_times_id"
           ],
           "columnsTo": [
             "id"
@@ -618,6 +595,101 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "times": {
+      "name": "times",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "total_flight": {
+          "name": "total_flight",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "single_pilot_single_engine": {
+          "name": "single_pilot_single_engine",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "single_pilot_multi_engine": {
+          "name": "single_pilot_multi_engine",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "multi_pilot": {
+          "name": "multi_pilot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "operational_condition_night": {
+          "name": "operational_condition_night",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "operational_condition_ifr": {
+          "name": "operational_condition_ifr",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "function_pilot_in_command": {
+          "name": "function_pilot_in_command",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "function_co_pilot": {
+          "name": "function_co_pilot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "function_dual": {
+          "name": "function_dual",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "function_instructor": {
+          "name": "function_instructor",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }

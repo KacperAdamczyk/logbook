@@ -67,12 +67,13 @@ export const LogForm: FC<LogFormProps> = ({
 	submitLabel,
 	action,
 }) => {
-	const { handleSubmitWithAction, form: methods } = useHookFormAction(action, zodResolver(logFormSchema), {
-formProps: {
-	defaultValues
-	}});
+	const { handleSubmitWithAction, form, action: { isPending } } = useHookFormAction(action, zodResolver(logFormSchema), {
+		formProps: {
+			defaultValues
+		}
+	});
 
-	const [planeModel, engineType, departureTime, arrivalTime] = methods.watch([
+	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
 		"planeModel",
 		"engineType",
 		"departureTime",
@@ -102,7 +103,7 @@ formProps: {
 	);
 
 	return (
-		<FormProvider {...methods}>
+		<FormProvider {...form}>
 			<form
 				className="grid grid-cols-4 gap-2 p-2 max-w-5xl mx-auto"
 				onSubmit={handleSubmitWithAction}
@@ -275,7 +276,7 @@ formProps: {
 					label="Remarks"
 					minRows={1}
 				/>
-				<Button className="col-span-4 mt-2" type="submit" color="primary">
+				<Button className="col-span-4 mt-2" type="submit" color="primary" isLoading={isPending}>
 					{submitLabel}
 				</Button>
 			</form>

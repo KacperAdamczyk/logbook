@@ -1,18 +1,18 @@
 import { db } from "@/db";
-import { aircraft, logs, pilots, places, simulators, users } from "@/db/schema";
+import { logs, aircraft, pilots, places, users, times } from "@/db/schema";
 import { migrate } from "drizzle-orm/libsql/migrator";
-import { beforeAll, beforeEach } from "vitest";
-
-beforeAll(async () => {
-	console.log("Preparing test database...");
-
-	await migrate(db, { migrationsFolder: "./drizzle" });
-});
+import { beforeEach } from "vitest";
 
 beforeEach(async () => {
-	console.log("Clearing test database...");
+	console.log("Preparing test database🛢️", process.env.DATABASE_URL);
 
-	const tables = [users, aircraft, logs, pilots, places, simulators] as const;
-
-	await Promise.all(tables.map((table) => db.delete(table)));
+	await migrate(db, { migrationsFolder: "./drizzle" });
+	await db.batch([
+		db.delete(logs),
+		db.delete(aircraft),
+		db.delete(pilots),
+		db.delete(places),
+		db.delete(users),
+		db.delete(times),
+	]);
 });

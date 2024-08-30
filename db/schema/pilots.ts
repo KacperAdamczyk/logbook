@@ -19,3 +19,6 @@ export const pilotsRelations = relations(pilots, ({ one, many }) => ({
 	}),
 	logs: many(logs),
 }));
+
+export type Pilot = typeof pilots.$inferSelect;
+export type CreatePilot = typeof pilots.$inferInsert;

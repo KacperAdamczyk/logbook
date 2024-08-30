@@ -50,25 +50,20 @@ CREATE TABLE `logs` (
 	`arrival_place_id` text NOT NULL,
 	`aircraft_id` text NOT NULL,
 	`pilot_in_command_id` text NOT NULL,
-	`single_pilot_time_single_engine` integer,
-	`single_pilot_time_multi_engine` integer,
-	`multi_pilot_time` integer,
-	`total_flight_time` integer,
 	`takeoffs_day` integer,
 	`takeoffs_night` integer,
 	`landings_day` integer,
 	`landings_night` integer,
-	`operational_condition_time_night` integer,
-	`operational_condition_time_ifr` integer,
-	`function_time_pilot_in_command` integer,
-	`function_time_co_pilot` integer,
-	`function_time_dual` integer,
-	`function_time_instructor` integer,
+	`singular_times_id` text NOT NULL,
+	`cumulated_times_id` text NOT NULL,
+	`remarks` text,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`departure_place_id`) REFERENCES `places`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`arrival_place_id`) REFERENCES `places`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`aircraft_id`) REFERENCES `aircraft`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`pilot_in_command_id`) REFERENCES `pilots`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`pilot_in_command_id`) REFERENCES `pilots`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`singular_times_id`) REFERENCES `times`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`cumulated_times_id`) REFERENCES `times`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `places` (
@@ -89,4 +84,18 @@ CREATE TABLE `simulators` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `times` (
+	`id` text PRIMARY KEY NOT NULL,
+	`total_flight` integer NOT NULL,
+	`single_pilot_single_engine` integer DEFAULT 0 NOT NULL,
+	`single_pilot_multi_engine` integer DEFAULT 0 NOT NULL,
+	`multi_pilot` integer DEFAULT 0 NOT NULL,
+	`operational_condition_night` integer DEFAULT 0 NOT NULL,
+	`operational_condition_ifr` integer DEFAULT 0 NOT NULL,
+	`function_pilot_in_command` integer DEFAULT 0 NOT NULL,
+	`function_co_pilot` integer DEFAULT 0 NOT NULL,
+	`function_dual` integer DEFAULT 0 NOT NULL,
+	`function_instructor` integer DEFAULT 0 NOT NULL
 );

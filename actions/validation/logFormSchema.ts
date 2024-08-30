@@ -34,17 +34,17 @@ export const logFormSchema = z
 		multiPilotTime: z.string().trim().time().optional(),
 		totalFlightTime: z.string().trim().time().min(1),
 		pilotInCommand: z.string().trim().min(1),
-		takeoffsDay: z.number().int().min(0).optional(),
-		takeoffsNight: z.number().int().min(0).optional(),
-		landingsDay: z.number().int().min(0).optional(),
-		landingsNight: z.number().int().min(0).optional(),
+		takeoffsDay: z.number().int().nonnegative().optional(),
+		takeoffsNight: z.number().int().nonnegative().optional(),
+		landingsDay: z.number().int().nonnegative().optional(),
+		landingsNight: z.number().int().nonnegative().optional(),
 		operationalConditionTimeNight: z.string().trim().min(1).optional(),
 		operationalConditionTimeIfr: z.string().trim().min(1).optional(),
 		functionTimePilotInCommand: z.string().trim().min(1).optional(),
 		functionTimeCoPilot: z.string().trim().min(1).optional(),
 		functionTimeDual: z.string().trim().min(1).optional(),
 		functionTimeInstructor: z.string().trim().min(1).optional(),
-		remarks: z.string().trim().min(1).optional(),
+		remarks: z.string().max(255).optional(),
 	})
 	.superRefine(
 		(
@@ -233,4 +233,4 @@ export const logFormSchema = z
 		},
 	);
 
-type LogFormValues = z.infer<typeof logFormSchema>;
+export type LogFormValues = z.infer<typeof logFormSchema>;
