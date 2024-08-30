@@ -1,6 +1,5 @@
 import { pilots, type Pilot } from "@/db/schema";
 import { createDbAction } from "@/db/utils";
-import { and, eq } from "drizzle-orm";
 
 export interface GetOrCreatePilotArgs {
     userId: string;
@@ -9,7 +8,7 @@ export interface GetOrCreatePilotArgs {
 
 export const getOrCreatePilot = createDbAction<GetOrCreatePilotArgs, Pilot>(async (tx, {userId, name}) => {
     const pilot = await tx.query.pilots.findFirst({
-        where: and(
+        where: (pilots, { and, eq }) => and(
             eq(pilots.userId, userId),
             eq(pilots.name, name),
         )   

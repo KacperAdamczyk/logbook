@@ -1,6 +1,5 @@
 import { places, type Place } from "@/db/schema";
 import { createDbAction } from "@/db/utils";
-import { and, eq } from "drizzle-orm";
 
 export interface GetOrCreatePlaceArgs {
     userId: string;
@@ -9,7 +8,7 @@ export interface GetOrCreatePlaceArgs {
 
 export const getOrCreatePlace = createDbAction<GetOrCreatePlaceArgs, Place>(async (tx, {userId, name}) => {
     const place = await tx.query.places.findFirst({
-        where: and(
+        where: (places, { and, eq }) => and(
             eq(places.userId, userId),
             eq(places.name, name),
         )   

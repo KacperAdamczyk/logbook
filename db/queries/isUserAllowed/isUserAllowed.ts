@@ -1,11 +1,15 @@
-import { db } from "@/db";
-import { allowedUsers } from "@/db/schema/auth";
-import { eq } from "drizzle-orm";
+import { createDbAction } from "@/db/utils";
 
-export const isUserAllowed = async (email: string) => {
-	const allowedUser = await db.query.allowedUsers.findFirst({
-		where: eq(allowedUsers.email, email),
-	});
+export interface IsUserAllowedArgs {
+  email: string;
+}
 
-	return !!allowedUser;
-};
+export const isUserAllowed = createDbAction<IsUserAllowedArgs, boolean>(
+  async (tx, { email }) => {
+    const allowedUser = await tx.query.allowedUsers.findFirst({
+      where: (allowedUsers, { eq }) => eq(allowedUsers.email, email),
+    });
+
+    return !!allowedUser;
+  }
+);
