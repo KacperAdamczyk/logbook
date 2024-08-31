@@ -30,3 +30,7 @@ jobs:
         run: pnpm check
       - name: Build
         run: pnpm build
+        env:
+          DATABASE_URL: ":memory:"
+          DATABASE_TOKEN: ""
+          AUTH_SECRET: "secret"
