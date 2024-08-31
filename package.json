@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev --turbo",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -54,5 +54,10 @@
 		"vite": "5.4.2",
 		"vite-tsconfig-paths": "5.0.1",
 		"vitest": "2.0.5"
-	}
+	},
+	"engines": {
+		"node": ">=20",
+		"pnpm": ">=9"
+	},
+	"packageManager": "pnpm@9.9.0"
 }
