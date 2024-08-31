@@ -61,9 +61,9 @@ export const createLogAction = actionClient
 				tx,
 			);
 
-			const [singularTimes] = await tx
+			const [singularTimes, cumulatedTimes] = await tx
 				.insert(times)
-				.values(getParsedTimes(parsedInput))
+				.values([getParsedTimes(parsedInput), {}])
 				.returning();
 
 			const [log] = await tx
@@ -82,7 +82,7 @@ export const createLogAction = actionClient
 					landingsNight: parsedInput.landingsNight,
 					remarks: parsedInput.remarks,
 					singularTimesId: singularTimes.id,
-					cumulatedTimesId: singularTimes.id,
+					cumulatedTimesId: cumulatedTimes.id,
 				})
 				.returning();
 
