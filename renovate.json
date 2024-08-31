@@ -1,12 +1,12 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices"],
-  "automerge": true,
-  "packageRules": [
-    {
-      "matchDepTypes": ["action"],
-      "pinDigests": false,
-      "rangeStrategy": "auto"
-    }
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:best-practices"],
+	"automerge": true,
+	"packageRules": [
+		{
+			"matchDepTypes": ["action"],
+			"pinDigests": false,
+			"rangeStrategy": "auto"
+		}
+	]
 }
