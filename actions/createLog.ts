@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { getOrCreateAircraft } from "@/db/actions/getOrCreateAircraft";
 import { getOrCreatePilot } from "@/db/actions/getOrCreatePilot";
 import { getOrCreatePlace } from "@/db/actions/getOrCreatePlace";
+import { recalculateLogs } from "@/db/actions/recalculateLogs";
 import { getOverlappingLogs } from "@/db/queries/getOverlappingLogs";
 import { logs, times } from "@/db/schema";
 import { formatToMinutes } from "@/helpers/formatToMinutes";
@@ -86,6 +87,11 @@ export const createLogAction = actionClient
 				})
 				.returning();
 
-			return log;
+			const updatedTimes = await recalculateLogs(
+				{ userId, since: log.departureAt },
+				tx,
+			);
+
+			return { log, updatedTimes };
 		}),
 	);

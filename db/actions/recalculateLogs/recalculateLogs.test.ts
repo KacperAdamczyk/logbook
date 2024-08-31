@@ -239,31 +239,40 @@ describe("recalculateLogs", () => {
 			db.insert(logs).values([newLog]),
 		]);
 
-		const result = await recalculateLogs({ userId: user1.id, since: new Date("2024-05-01T00:00:00Z") });
+		const result = await recalculateLogs({
+			userId: user1.id,
+			since: new Date("2024-05-01T00:00:00Z"),
+		});
 
 		expect(result).toHaveLength(6);
-		expect(result[0]).toEqual(expect.objectContaining({
-			totalFlight: 45,
-			singlePilotSingleEngine: 45,
-			operationalConditionNight: 45,
-			functionPilotInCommand: 45,
-		}));
-		expect(result[1]).toEqual(expect.objectContaining({
-			totalFlight: 105,
-			singlePilotSingleEngine: 105,
-			operationalConditionNight: 45,
-			functionPilotInCommand: 105,
-		}));
-		expect(result[5]).toEqual(expect.objectContaining({
-			totalFlight: 447,
-			singlePilotSingleEngine: 225,
-			singlePilotMultiEngine: 60,
-			multiPilot: 162,
-			operationalConditionNight: 165,
-			operationalConditionIfr: 162,
-			functionPilotInCommand: 357,
-			functionDual: 90,
-		}));
+		expect(result[0]).toEqual(
+			expect.objectContaining({
+				totalFlight: 45,
+				singlePilotSingleEngine: 45,
+				operationalConditionNight: 45,
+				functionPilotInCommand: 45,
+			}),
+		);
+		expect(result[1]).toEqual(
+			expect.objectContaining({
+				totalFlight: 105,
+				singlePilotSingleEngine: 105,
+				operationalConditionNight: 45,
+				functionPilotInCommand: 105,
+			}),
+		);
+		expect(result[5]).toEqual(
+			expect.objectContaining({
+				totalFlight: 447,
+				singlePilotSingleEngine: 225,
+				singlePilotMultiEngine: 60,
+				multiPilot: 162,
+				operationalConditionNight: 165,
+				operationalConditionIfr: 162,
+				functionPilotInCommand: 357,
+				functionDual: 90,
+			}),
+		);
 	});
 
 	test("should handle user with no logs", async () => {
