@@ -129,18 +129,16 @@ export const LogForm: FC<LogFormProps> = ({
 		[flightDuration],
 	);
 
-	const aircraftModelItems = useMemo(
-		() =>
-			aircraft.map(
-				({ id, model }) =>
-					({
-						label: model,
-						value: model,
-						key: id,
-					}) satisfies SelectFieldItem,
-			),
-		[aircraft],
-	);
+	const aircraftModelItems = useMemo(() => {
+		const aircraftMap = new Map(
+			aircraft.map(({ id, model }) => [
+				model,
+				{ label: model, value: model, key: id } satisfies SelectFieldItem,
+			]),
+		);
+
+		return Array.from(aircraftMap.values());
+	}, [aircraft]);
 
 	const aircraftRegistrationItems = useMemo(
 		() =>
