@@ -3,7 +3,7 @@ import { v7 } from "uuid";
 
 export const times = sqliteTable("times", {
 	id: text("id").primaryKey().$defaultFn(v7),
-	totalFlight: integer("total_flight").notNull(),
+	totalFlight: integer("total_flight").notNull().default(0),
 	singlePilotSingleEngine: integer("single_pilot_single_engine")
 		.notNull()
 		.default(0),

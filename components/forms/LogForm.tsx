@@ -89,10 +89,17 @@ export const LogForm: FC<LogFormProps> = ({
 			defaultValues,
 		},
 		actionProps: {
-			onSuccess: () => {
+			onSuccess: ({ data }) => {
 				if (onSuccessToast) {
 					toast.success(onSuccessToast);
 				}
+
+				const updatedTimesCount = data?.updatedTimes?.length ?? 0;
+
+				if (updatedTimesCount > 1) {
+					toast.info(`Recalculated ${updatedTimesCount - 1} additional logs`);
+				}
+
 				if (onSuccessRedirect) {
 					router.push(onSuccessRedirect);
 				}
