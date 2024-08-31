@@ -1,10 +1,10 @@
-import { v7 } from "uuid";
 import type { CreateAircraft } from "@/db/schema/aircraft";
 import type { CreateLog } from "@/db/schema/logs";
 import type { CreatePilot } from "@/db/schema/pilots";
 import type { CreatePlace } from "@/db/schema/places";
 import type { CreateTime } from "@/db/schema/times";
 import type { User } from "next-auth";
+import { v7 } from "uuid";
 
 export const user1 = {
 	id: v7(),

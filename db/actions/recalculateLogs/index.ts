@@ -1,1 +1,1 @@
-export * from './recalculateLogs';
+export * from "./recalculateLogs";
