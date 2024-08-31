@@ -22,7 +22,7 @@ interface RecalculateLogsArgs {
 
 export const recalculateLogs = createDbAction<RecalculateLogsArgs, Time[]>(async (tx, {userId, since}) => {
     const logsToUpdate = await tx.query.logs.findMany({
-        where: (logs, { eq, gte }) => eq(logs.userId, userId) && gte(logs.departureAt, since),
+        where: (logs, { eq, gte, and }) => and(eq(logs.userId, userId), gte(logs.departureAt, since)),
         with: {
             singularTimes: true,
             cumulatedTimes: true,
@@ -30,7 +30,7 @@ export const recalculateLogs = createDbAction<RecalculateLogsArgs, Time[]>(async
     });
 
     const startLog = await tx.query.logs.findFirst({
-        where: (logs, { eq, lt }) => eq(logs.userId, userId) && lt(logs.departureAt, since),
+        where: (logs, { eq, lt, and }) => and(eq(logs.userId, userId), lt(logs.departureAt, since)),
         orderBy: (logs, { desc }) => [desc(logs.departureAt)],
         with: {
             cumulatedTimes: true,
@@ -42,7 +42,7 @@ export const recalculateLogs = createDbAction<RecalculateLogsArgs, Time[]>(async
 
     for (const {singularTimes, cumulatedTimes} of logsToUpdate) {
        const updatedTimeValues = {
-        totalFlight: lastTimes.totalFlight + cumulatedTimes.totalFlight,
+        totalFlight: lastTimes.totalFlight + singularTimes.totalFlight,
         singlePilotSingleEngine: lastTimes.singlePilotSingleEngine + singularTimes.singlePilotSingleEngine,
         singlePilotMultiEngine: lastTimes.singlePilotMultiEngine + singularTimes.singlePilotMultiEngine,
         multiPilot: lastTimes.multiPilot + singularTimes.multiPilot,
