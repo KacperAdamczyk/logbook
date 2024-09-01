@@ -17,8 +17,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
+	modal,
 }: Readonly<{
 	children: ReactNode;
+	modal: ReactNode;
 }>) {
 	return (
 		<html lang="en" className="dark">
@@ -27,6 +29,7 @@ export default function RootLayout({
 					<Navigation />
 					<main className="max-w-7xl mx-auto p-2">{children}</main>
 					<ToastContainer position="top-center" theme="dark" />
+					{modal}
 				</Providers>
 			</body>
 		</html>

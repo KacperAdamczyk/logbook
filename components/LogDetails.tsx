@@ -1,21 +1,15 @@
+import { auth } from "@/auth";
+import { db } from "@/db";
 import type { Aircraft, Log, Pilot, Place, Time } from "@/db/schema";
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { fromDate, toCalendarDate, toTime } from "@internationalized/date";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { cn } from "@nextui-org/react";
+import { notFound } from "next/navigation";
 import type { FC } from "react";
 
-interface LogDisplay extends Log {
-	singularTimes: Time;
-	cumulatedTimes: Time;
-	aircraft: Aircraft;
-	pilotInCommand: Pilot;
-	departurePlace: Place;
-	arrivalPlace: Place;
-}
-
 interface Props {
-	log: LogDisplay;
+	logId: string;
 }
 
 const DetailRow: FC<{
@@ -86,8 +80,32 @@ const TimeDetails: FC<{ title: string; times: Time }> = ({
 	);
 };
 
-export const LogDetails: FC<Props> = ({
-	log: {
+export const LogDetails: FC<Props> = async ({ logId }) => {
+	const session = await auth();
+	const userId = session?.user?.id;
+
+	if (!userId) {
+		notFound();
+	}
+
+	const log = await db.query.logs.findFirst({
+		where: (logs, { eq, and }) =>
+			and(eq(logs.userId, userId), eq(logs.id, logId)),
+		with: {
+			singularTimes: true,
+			cumulatedTimes: true,
+			aircraft: true,
+			pilotInCommand: true,
+			departurePlace: true,
+			arrivalPlace: true,
+		},
+	});
+
+	if (!log) {
+		notFound();
+	}
+
+	const {
 		departureAt,
 		arrivalAt,
 		departurePlace,
@@ -101,8 +119,8 @@ export const LogDetails: FC<Props> = ({
 		landingsDay,
 		landingsNight,
 		remarks,
-	},
-}) => {
+	} = log;
+
 	const departureDate = fromDate(departureAt, "utc");
 	const arrivalDate = fromDate(arrivalAt, "utc");
 	const date = toCalendarDate(departureDate);
