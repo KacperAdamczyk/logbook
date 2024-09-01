@@ -25,7 +25,7 @@ export const createLogAction = actionClient
 			);
 
 			const overlappingLogs = await getOverlappingLogs(
-				{ departure, arrival },
+				{ userId, departure, arrival },
 				tx,
 			);
 
