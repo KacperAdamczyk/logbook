@@ -11,7 +11,7 @@ const links: DropdownLink[] = [
 export default function Home() {
 	return (
 		<section>
-			<h1 className="text-xl text-center col-span-4">Logs List</h1>
+			<h1 className="text-xl text-center mb-2">Logs List</h1>
 			<div className="flex justify-end mb-4">
 				<LinkDropdown
 					mainButtonText="New Log"

@@ -21,6 +21,7 @@ export const FlightDuration: FC<Props> = ({ className, duration }) => {
 			variant="bordered"
 			hourCycle={24}
 			startContent={<IconClockHour1 size={20} />}
+			tabIndex={-1}
 		/>
 	);
 };

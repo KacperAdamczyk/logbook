@@ -7,8 +7,8 @@ import {
 	DropdownMenu,
 	DropdownTrigger,
 } from "@nextui-org/dropdown";
-import { Link } from "@nextui-org/link";
 import { IconChevronDown } from "@tabler/icons-react";
+import Link from "next/link";
 import type { FC } from "react";
 
 export interface DropdownLink {

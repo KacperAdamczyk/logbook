@@ -29,7 +29,7 @@ export const CreateLog: FC = async () => {
 
 	return (
 		<section>
-			<h1 className="text-xl text-center col-span-4">Create New Log</h1>
+			<h1 className="text-xl text-center mb-2">Create New Log</h1>
 			<LogForm
 				defaultValues={defaultValues}
 				submitLabel="Create Log"
