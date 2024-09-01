@@ -53,7 +53,6 @@ export interface LogFormFieldValues {
 
 export interface LogFormProps {
 	defaultValues?: DefaultValues<LogFormFieldValues>;
-	header: string;
 	submitLabel: string;
 	action: typeof createLogAction;
 	aircraft: Aircraft[];
@@ -70,7 +69,6 @@ const engineOptions = [
 
 export const LogForm: FC<LogFormProps> = ({
 	defaultValues,
-	header,
 	submitLabel,
 	action,
 	aircraft,
@@ -191,10 +189,9 @@ export const LogForm: FC<LogFormProps> = ({
 	return (
 		<FormProvider {...form}>
 			<form
-				className="grid grid-cols-4 gap-2 p-2 max-w-5xl mx-auto"
+				className="grid grid-cols-4 gap-2 max-w-5xl mx-auto"
 				onSubmit={handleSubmitWithAction}
 			>
-				<h1 className="text-xl text-center col-span-4">{header}</h1>
 				<DateField<LogFormFieldValues>
 					className="col-span-4"
 					name="date"
