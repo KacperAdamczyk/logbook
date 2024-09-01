@@ -28,18 +28,15 @@ export const CreateLog: FC = async () => {
 	]);
 
 	return (
-		<section>
-			<h1 className="text-xl text-center mb-2">Create New Log</h1>
-			<LogForm
-				defaultValues={defaultValues}
-				submitLabel="Create Log"
-				action={createLogAction}
-				aircraft={aircraft}
-				pilots={pilots}
-				places={places}
-				onSuccessToast="Log created successfully"
-				onSuccessRedirect="/"
-			/>
-		</section>
+		<LogForm
+			defaultValues={defaultValues}
+			submitLabel="Create Log"
+			action={createLogAction}
+			aircraft={aircraft}
+			pilots={pilots}
+			places={places}
+			onSuccessToast="Log created successfully"
+			onSuccessRedirect="/"
+		/>
 	);
 };

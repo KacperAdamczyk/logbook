@@ -1,5 +1,7 @@
 import { InterceptModal } from "@/components/InterceptModal";
 import { LogDetails } from "@/components/LogDetails";
+import { Spinner } from "@nextui-org/spinner";
+import { Suspense } from "react";
 
 interface Props {
 	params: {
@@ -12,7 +14,15 @@ export default function LogPage({ params: { logId } }: Props) {
 		<InterceptModal size="5xl">
 			<section>
 				<h1 className="text-xl text-center mb-2">Log</h1>
-				<LogDetails logId={logId} />
+				<Suspense
+					fallback={
+						<div className="flex justify-center py-4">
+							<Spinner />
+						</div>
+					}
+				>
+					<LogDetails logId={logId} />
+				</Suspense>
 			</section>
 		</InterceptModal>
 	);

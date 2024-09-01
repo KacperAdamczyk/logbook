@@ -41,12 +41,8 @@ export const LinkDropdown: FC<LinkDropdownProps> = ({
 				</DropdownTrigger>
 				<DropdownMenu disallowEmptySelection selectionMode="single">
 					{dropdownLinks.map((link) => (
-						<DropdownItem
-							key={link.text}
-							href={link.href}
-							color={buttonGroupProps.color}
-						>
-							{link.text}
+						<DropdownItem key={link.text} color={buttonGroupProps.color}>
+							<Link href={link.href}>{link.text}</Link>
 						</DropdownItem>
 					))}
 				</DropdownMenu>

@@ -6,7 +6,9 @@ import {
 	ModalContent,
 	type ModalProps,
 } from "@nextui-org/modal";
+
 import { useRouter } from "next/navigation";
+
 import { type FC, type PropsWithChildren, useCallback } from "react";
 
 interface Props extends Omit<ModalProps, "onOpenChange" | "isOpen"> {}
