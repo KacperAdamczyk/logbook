@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import {
 	Table,
 	TableBody,
@@ -10,6 +10,7 @@ import {
 	TableRow,
 } from "@nextui-org/table";
 import { IconEye } from "@tabler/icons-react";
+import Link from "next/link";
 import type { FC } from "react";
 
 export interface TableLog {

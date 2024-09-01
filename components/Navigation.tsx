@@ -1,7 +1,6 @@
 import { auth, signOut } from "@/auth";
 import {
 	Button,
-	Link,
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
@@ -11,12 +10,13 @@ import {
 	NavbarMenuToggle,
 	User,
 } from "@nextui-org/react";
+import Link from "next/link";
 
 const links = [
-	{ name: "Logs", href: "#" },
-	{ name: "Search", href: "#" },
-	{ name: "Aircraft", href: "#" },
-	{ name: "Places", href: "#" },
+	{ name: "Logs", href: "/" },
+	{ name: "Search", href: "/" },
+	{ name: "Aircraft", href: "/" },
+	{ name: "Places", href: "/" },
 ] as const;
 
 export async function Navigation() {
@@ -64,13 +64,8 @@ export async function Navigation() {
 			<NavbarMenu>
 				{links.map((item) => (
 					<NavbarMenuItem key={item.name}>
-						<Link
-							className="w-full"
-							href={item.href}
-							size="lg"
-							color="foreground"
-						>
-							{item.name}
+						<Link className="w-full" href={item.href} color="foreground">
+							NavbarMenuItem							{item.name}
 						</Link>
 					</NavbarMenuItem>
 				))}
