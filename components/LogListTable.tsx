@@ -1,5 +1,6 @@
 "use client";
 
+import { Button, Link } from "@nextui-org/react";
 import {
 	Table,
 	TableBody,
@@ -8,6 +9,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/table";
+import { IconEye } from "@tabler/icons-react";
 import type { FC } from "react";
 
 export interface TableLog {
@@ -26,14 +28,20 @@ interface LogListTableProps {
 
 export const LogListTable: FC<LogListTableProps> = ({ logs }) => {
 	return (
-		<Table aria-label="Logs List" isStriped>
+		<Table
+			aria-label="Logs List"
+			isStriped
+			selectionMode="single"
+			color="success"
+		>
 			<TableHeader>
 				<TableColumn>Date</TableColumn>
 				<TableColumn>Departure</TableColumn>
 				<TableColumn>Arrival</TableColumn>
 				<TableColumn>Total Time</TableColumn>
-				<TableColumn>PIC</TableColumn>
+				<TableColumn className="hidden md:table-cell">PIC</TableColumn>
 				<TableColumn className="hidden md:table-cell">Aircraft</TableColumn>
+				<TableColumn>Actions</TableColumn>
 			</TableHeader>
 			<TableBody emptyContent="No logs yet.">
 				{logs.map((log) => (
@@ -42,9 +50,20 @@ export const LogListTable: FC<LogListTableProps> = ({ logs }) => {
 						<TableCell>{log.departure}</TableCell>
 						<TableCell>{log.arrival}</TableCell>
 						<TableCell>{log.totalTime}</TableCell>
-						<TableCell>{log.pic}</TableCell>
+						<TableCell className="hidden md:table-cell">{log.pic}</TableCell>
 						<TableCell className="hidden md:table-cell">
 							{log.aircraft}
+						</TableCell>
+						<TableCell>
+							<Button
+								as={Link}
+								href={`/logs/${log.id}`}
+								isIconOnly
+								variant="flat"
+								color="success"
+							>
+								<IconEye />
+							</Button>
 						</TableCell>
 					</TableRow>
 				))}

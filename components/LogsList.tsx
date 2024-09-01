@@ -15,6 +15,7 @@ export const LogsList = async () => {
 
 	const logs = await db.query.logs.findMany({
 		where: (logs, { eq }) => eq(logs.userId, userId),
+		orderBy: (logs, { asc }) => [asc(logs.departureAt)],
 		with: {
 			aircraft: true,
 			pilotInCommand: true,
