@@ -99,7 +99,11 @@ describe("getOverlappingLogs", () => {
 			overlaps: true,
 		},
 	])("should handle $name", async ({ departure, arrival, overlaps }) => {
-		const result = await getOverlappingLogs({ departure, arrival });
+		const result = await getOverlappingLogs({
+			userId: user1.id,
+			departure,
+			arrival,
+		});
 
 		expect(result).toHaveLength(+overlaps);
 	});
