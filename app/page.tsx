@@ -1,4 +1,4 @@
-import { LinkDropdown, type DropdownLink } from "@/components/LinkDropdown";
+import { type DropdownLink, LinkDropdown } from "@/components/LinkDropdown";
 import { LogsList } from "@/components/LogsList";
 
 const links: DropdownLink[] = [
@@ -13,7 +13,12 @@ export default function Home() {
 		<section>
 			<h1 className="text-xl text-center col-span-4">Logs List</h1>
 			<div className="flex justify-end mb-4">
-				<LinkDropdown mainButtonText="New Log" mainButtonHref="/create" dropdownLinks={links} color="success" />
+				<LinkDropdown
+					mainButtonText="New Log"
+					mainButtonHref="/create"
+					dropdownLinks={links}
+					color="success"
+				/>
 			</div>
 			<LogsList />
 		</section>
