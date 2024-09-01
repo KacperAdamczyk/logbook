@@ -25,7 +25,7 @@ export default function RootLayout({
 			<body className={cn("min-h-screen bg-background", inter.className)}>
 				<Providers>
 					<Navigation />
-					<main className="max-w-7xl mx-auto">{children}</main>
+					<main className="max-w-7xl mx-auto p-2">{children}</main>
 					<ToastContainer position="top-center" theme="dark" />
 				</Providers>
 			</body>
