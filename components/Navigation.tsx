@@ -65,7 +65,7 @@ export async function Navigation() {
 				{links.map((item) => (
 					<NavbarMenuItem key={item.name}>
 						<Link className="w-full" href={item.href} color="foreground">
-							NavbarMenuItem							{item.name}
+							NavbarMenuItem {item.name}
 						</Link>
 					</NavbarMenuItem>
 				))}
