@@ -33,9 +33,9 @@ export const recalculateLogs = createDbAction<RecalculateLogsArgs, Time[]>(
 		});
 
 		const startLog = await tx.query.logs.findFirst({
-			where: (logs, { eq, lt, and }) =>
-				and(eq(logs.userId, userId), lt(logs.departureAt, since)),
-			orderBy: (logs, { desc }) => [desc(logs.departureAt)],
+			where: (logs, { eq, lte, and }) =>
+				and(eq(logs.userId, userId), lte(logs.arrivalAt, since)),
+			orderBy: (logs, { desc }) => [desc(logs.arrivalAt)],
 			with: {
 				cumulatedTimes: true,
 			},

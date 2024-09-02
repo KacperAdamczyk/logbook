@@ -84,7 +84,7 @@ describe("recalculateLogs", () => {
 		},
 		{
 			name: "since date is 1 second after first log",
-			since: new Date("2024-05-03T11:15:01Z"),
+			since: new Date("2024-05-03T12:15:01Z"),
 			expectedLength: 4,
 			expectedLastLog: cumulatedTimes5,
 		},
@@ -120,7 +120,10 @@ describe("recalculateLogs", () => {
 			expect(result).toHaveLength(expectedLength);
 			if (expectedLastLog) {
 				expect(result.at(-1)).toEqual(expect.objectContaining(expectedLastLog));
+			} else {
+				expect(result).toHaveLength(0);
 			}
+			expect.assertions(2);
 		},
 	);
 
