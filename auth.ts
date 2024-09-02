@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	events: {
 		createUser: async ({ user: { id } }) => {
 			if (id) {
-				await createSelfAsPilot({ id });
+				await createSelfAsPilot({ userId: id });
 			}
 		},
 	},
