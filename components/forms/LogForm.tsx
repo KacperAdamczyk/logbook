@@ -99,7 +99,11 @@ export const LogForm: FC<LogFormProps> = ({
 				}
 
 				if (onSuccessRedirect) {
-					router.push(onSuccessRedirect);
+					if (onSuccessRedirect === "..") {
+						router.back();
+					} else {
+						router.push(onSuccessRedirect);
+					}
 				}
 			},
 		},

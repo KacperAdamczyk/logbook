@@ -14,7 +14,7 @@ export default function CreatePage() {
 					</div>
 				}
 			>
-				<CreateLog />
+				<CreateLog onSuccessRedirect=".." />
 			</Suspense>
 		</InterceptModal>
 	);
