@@ -106,6 +106,13 @@ export const LogForm: FC<LogFormProps> = ({
 					}
 				}
 			},
+			onError: ({ error: { serverError, fetchError } }) => {
+				if (fetchError) {
+					toast.error(fetchError);
+				} else {
+					toast.error(serverError);
+				}
+			},
 		},
 	});
 
