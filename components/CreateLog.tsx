@@ -13,7 +13,10 @@ const defaultValues = {
 	engineType: "single",
 } satisfies LogFormProps["defaultValues"];
 
-export const CreateLog: FC = async () => {
+interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {
+}
+
+export const CreateLog: FC<Props> = async ({ onSuccessRedirect }) => {
 	const session = await auth();
 
 	if (!session?.user?.id) {
@@ -36,7 +39,7 @@ export const CreateLog: FC = async () => {
 			pilots={pilots}
 			places={places}
 			onSuccessToast="Log created successfully"
-			onSuccessRedirect="/"
+			onSuccessRedirect={onSuccessRedirect}
 		/>
 	);
 };

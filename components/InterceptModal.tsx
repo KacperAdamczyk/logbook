@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 import { type FC, type PropsWithChildren, useCallback } from "react";
 
-interface Props extends Omit<ModalProps, "onOpenChange" | "isOpen"> {}
+interface Props extends Omit<ModalProps, "onOpenChange" | "isOpen"> { }
 
 export const InterceptModal: FC<PropsWithChildren<Props>> = ({
 	children,
