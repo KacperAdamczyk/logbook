@@ -13,8 +13,7 @@ const defaultValues = {
 	engineType: "single",
 } satisfies LogFormProps["defaultValues"];
 
-interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {
-}
+interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {}
 
 export const CreateLog: FC<Props> = async ({ onSuccessRedirect }) => {
 	const session = await auth();
