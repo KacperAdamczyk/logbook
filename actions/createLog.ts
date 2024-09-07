@@ -13,6 +13,7 @@ import { formatToMinutes } from "@/helpers/formatToMinutes";
 import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";
+import { revalidatePath } from "next/cache";
 
 export const createLogAction = actionClient
 	.schema(logFormSchema)
@@ -91,6 +92,8 @@ export const createLogAction = actionClient
 				{ userId, since: log.departureAt },
 				tx,
 			);
+
+			revalidatePath("/");
 
 			return { log, updatedTimes };
 		}),
