@@ -1,27 +1,12 @@
-import { auth } from "@/auth";
 import { LogListTable } from "@/components/LogListTable";
-import { db } from "@/db";
 import { formatMinutes } from "@/helpers/formatMinutes";
+import { getUserId } from "@/helpers/getUserId";
+import { getUserLogs } from "@/queries/getUserLogs";
 import { fromDate, toCalendarDate, toTime } from "@internationalized/date";
-import { notFound } from "next/navigation";
 
 export const LogsList = async () => {
-	const session = await auth();
-	const userId = session?.user?.id;
-
-	if (!userId) {
-		notFound();
-	}
-
-	const logs = await db.query.logs.findMany({
-		where: (logs, { eq }) => eq(logs.userId, userId),
-		orderBy: (logs, { asc }) => [asc(logs.departureAt)],
-		with: {
-			aircraft: true,
-			pilotInCommand: true,
-			singularTimes: true,
-		},
-	});
+	const userId = await getUserId();
+	const logs = await getUserLogs(userId);
 
 	const tableData = logs.map(
 		({
