@@ -31,7 +31,7 @@ importers:
         version: 0.11.1(typescript@5.6.2)(zod@3.23.8)
       '@tabler/icons-react':
         specifier: ^3.14.0
-        version: 3.15.0(react@18.3.1)
+        version: 3.16.0(react@18.3.1)
       drizzle-orm:
         specifier: ^0.33.0
         version: 0.33.0(@libsql/client@0.10.0)(@neondatabase/serverless@0.9.4)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.6)(@types/react@18.3.5)(better-sqlite3@11.1.2)(bun-types@1.1.27)(react@18.3.1)
@@ -2034,13 +2034,13 @@ packages:
       typescript:
         optional: true
 
-  '@tabler/icons-react@3.15.0':
-    resolution: {integrity: sha512-EXIedaHiM4XcdZ8ml3pZeo5p/jetpXbwhDq9Zv3UVM8E3YACSww9TfCtEv3iBI74NI7mNz7Uua2qpNwwWljarg==}
+  '@tabler/icons-react@3.16.0':
+    resolution: {integrity: sha512-u2ABvvw71+VZMmkQ9PXsBQb+xoox8YSV8+96Xbg5jocE+gqIrAJD/3dJxWN9YhEP3TBhbcFQdkY4svvhhE+FBw==}
     peerDependencies:
       react: '>= 16'
 
-  '@tabler/icons@3.15.0':
-    resolution: {integrity: sha512-Pzo7g8znsCgCcnSLCfukEV+kcfr0/VjBoCLXJtrOtaY94gtvYjWC2hrKzazf511asUflRuk/+dxztdKYJgpe4g==}
+  '@tabler/icons@3.16.0':
+    resolution: {integrity: sha512-GU7MSx4uQEr55BmyON6hD/QYTl6k1v0YlRhM91gBWDoKAbyCt6QIYw7rpJ/ecdh5zrHaTOJKPenZ4+luoutwFA==}
 
   '@types/better-sqlite3@7.6.11':
     resolution: {integrity: sha512-i8KcD3PgGtGBLl3+mMYA8PdKkButvPyARxA7IQAd6qeslht13qxb1zzO8dRCtE7U3IoJS782zDBAeoKiM695kg==}
@@ -3630,8 +3630,8 @@ packages:
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
 
-  pump@3.0.0:
-    resolution: {integrity: sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==}
+  pump@3.0.1:
+    resolution: {integrity: sha512-2ynnAmUu45oUSq51AQbeugLkMSKaz8FqVpZ6ykTqzOVkzXe8u/ezkGsYrFJqKZx+D9cVxoDrSbR7CeAwxFa5cQ==}
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -6766,12 +6766,12 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.2
 
-  '@tabler/icons-react@3.15.0(react@18.3.1)':
+  '@tabler/icons-react@3.16.0(react@18.3.1)':
     dependencies:
-      '@tabler/icons': 3.15.0
+      '@tabler/icons': 3.16.0
       react: 18.3.1
 
-  '@tabler/icons@3.15.0': {}
+  '@tabler/icons@3.16.0': {}
 
   '@types/better-sqlite3@7.6.11':
     dependencies:
@@ -8571,7 +8571,7 @@ snapshots:
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
       node-abi: 3.67.0
-      pump: 3.0.0
+      pump: 3.0.1
       rc: 1.2.8
       simple-get: 4.0.1
       tar-fs: 2.1.1
@@ -8590,7 +8590,7 @@ snapshots:
       object-assign: 4.1.1
       react-is: 16.13.1
 
-  pump@3.0.0:
+  pump@3.0.1:
     dependencies:
       end-of-stream: 1.4.4
       once: 1.4.0
@@ -8990,7 +8990,7 @@ snapshots:
     dependencies:
       chownr: 1.1.4
       mkdirp-classic: 0.5.3
-      pump: 3.0.0
+      pump: 3.0.1
       tar-stream: 2.2.0
     optional: true
 
