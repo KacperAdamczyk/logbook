@@ -17,7 +17,6 @@ export const useConfirmationModal = (onConfirmation: () => void) => {
 	}, []);
 
 	return {
-		isOpen,
 		requestConfirmation,
 		modal: {
 			isOpen,
