@@ -1,5 +1,5 @@
 "use client";
-import type { createLogAction } from "@/actions/createLog";
+import { createLogAction } from "@/actions/createLog";
 import { logFormSchema } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
@@ -12,6 +12,7 @@ import {
 import { TextAreaField } from "@/components/fields/TextAreaField";
 import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
+import { actionToast } from "@/helpers/actionToast";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,8 +21,8 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { Button, Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { FC, useMemo } from "react";
-import { DefaultValues, FormProvider, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { DefaultValues, FormProvider } from "react-hook-form";
+import { toast } from "sonner";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
@@ -54,7 +55,7 @@ export interface LogFormFieldValues {
 export interface LogFormProps {
 	defaultValues?: DefaultValues<LogFormFieldValues>;
 	submitLabel: string;
-	action: typeof createLogAction;
+	action: "create";
 	aircraft: Aircraft[];
 	pilots: Pilot[];
 	places: Place[];
@@ -67,6 +68,10 @@ const engineOptions = [
 	{ label: "Multi", value: "multi" },
 ] satisfies RadioFieldOption[];
 
+const actionMap = {
+	create: createLogAction,
+} as const;
+
 export const LogForm: FC<LogFormProps> = ({
 	defaultValues,
 	submitLabel,
@@ -78,19 +83,21 @@ export const LogForm: FC<LogFormProps> = ({
 	onSuccessRedirect,
 }) => {
 	const router = useRouter();
+	const toasts = actionToast({
+		successMessageFn: () => onSuccessToast,
+	});
 	const {
 		handleSubmitWithAction,
 		form,
 		action: { isPending },
-	} = useHookFormAction(action, zodResolver(logFormSchema), {
+	} = useHookFormAction(actionMap[action], zodResolver(logFormSchema), {
 		formProps: {
 			defaultValues,
 		},
 		actionProps: {
+			...toasts,
 			onSuccess: ({ data }) => {
-				if (onSuccessToast) {
-					toast.success(onSuccessToast);
-				}
+				toasts.onSuccess({ data });
 
 				const updatedTimesCount = data?.updatedTimes?.length ?? 0;
 
@@ -104,11 +111,6 @@ export const LogForm: FC<LogFormProps> = ({
 					} else {
 						router.push(onSuccessRedirect);
 					}
-				}
-			},
-			onError: ({ error: { serverError } }) => {
-				if (serverError) {
-					toast.error(serverError);
 				}
 			},
 		},
