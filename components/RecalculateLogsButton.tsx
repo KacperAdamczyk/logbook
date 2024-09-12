@@ -12,10 +12,8 @@ export const RecalculateLogsButton: FC = () => {
 		onSuccess: ({ data }) => {
 			toast.success(`${data?.recalculatedLogsCount ?? 0} logs recalculated`);
 		},
-		onError: ({ error: { serverError, fetchError } }) => {
-			if (fetchError) {
-				toast.error(fetchError);
-			} else {
+		onError: ({ error: { serverError } }) => {
+			if (serverError) {
 				toast.error(serverError);
 			}
 		},
