@@ -55,7 +55,7 @@ export interface LogFormFieldValues {
 export interface LogFormProps {
 	defaultValues?: DefaultValues<LogFormFieldValues>;
 	submitLabel: string;
-	action: 'create';
+	action: "create";
 	aircraft: Aircraft[];
 	pilots: Pilot[];
 	places: Place[];
@@ -70,7 +70,7 @@ const engineOptions = [
 
 const actionMap = {
 	create: createLogAction,
-} as const
+} as const;
 
 export const LogForm: FC<LogFormProps> = ({
 	defaultValues,
