@@ -1,7 +1,7 @@
-import { auth } from "@/auth";
 import { db } from "@/db";
-import type { Aircraft, Log, Pilot, Place, Time } from "@/db/schema";
+import type { Time } from "@/db/schema";
 import { formatMinutes } from "@/helpers/formatMinutes";
+import { getUserId } from "@/helpers/getUserId";
 import { fromDate, toCalendarDate, toTime } from "@internationalized/date";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { cn } from "@nextui-org/react";
@@ -16,14 +16,12 @@ const DetailRow: FC<{
 	label: string;
 	value: string | number;
 	className?: string;
-}> = ({ label, value, className }) => {
-	return (
-		<div className={cn("flex justify-between", className)}>
-			<span className="text-default-500">{label}</span>
-			<span>{value}</span>
-		</div>
-	);
-};
+}> = ({ label, value, className }) => (
+	<div className={cn("flex justify-between", className)}>
+		<span className="text-default-500">{label}</span>
+		<span>{value}</span>
+	</div>
+);
 
 const TimeDetails: FC<{ title: string; times: Time }> = ({
 	title,
@@ -39,54 +37,47 @@ const TimeDetails: FC<{ title: string; times: Time }> = ({
 		functionInstructor,
 		totalFlight,
 	},
-}) => {
-	return (
-		<Card>
-			<CardHeader>{title}</CardHeader>
-			<CardBody className="grid grid-rows-10 sm:grid-rows-5 gap-x-8 gap-y-2 grid-flow-col">
-				<DetailRow
-					label="Single Pilot Single Engine"
-					value={formatMinutes(singlePilotSingleEngine)}
-				/>
-				<DetailRow
-					label="Single Pilot Multi Engine"
-					value={formatMinutes(singlePilotMultiEngine)}
-				/>
-				<DetailRow label="Multi Pilot" value={formatMinutes(multiPilot)} />
-				<DetailRow
-					label="Operational Condition Night"
-					value={formatMinutes(operationalConditionNight)}
-				/>
-				<DetailRow
-					label="Operational Condition IFR"
-					value={formatMinutes(operationalConditionIfr)}
-				/>
-				<DetailRow
-					label="Function Pilot In Command"
-					value={formatMinutes(functionPilotInCommand)}
-				/>
-				<DetailRow
-					label="Function Co Pilot"
-					value={formatMinutes(functionCoPilot)}
-				/>
-				<DetailRow label="Function Dual" value={formatMinutes(functionDual)} />
-				<DetailRow
-					label="Function Instructor"
-					value={formatMinutes(functionInstructor)}
-				/>
-				<DetailRow label="Total Flight" value={formatMinutes(totalFlight)} />
-			</CardBody>
-		</Card>
-	);
-};
+}) => (
+	<Card>
+		<CardHeader>{title}</CardHeader>
+		<CardBody className="grid grid-rows-10 sm:grid-rows-5 gap-x-8 gap-y-2 grid-flow-col">
+			<DetailRow
+				label="Single Pilot Single Engine"
+				value={formatMinutes(singlePilotSingleEngine)}
+			/>
+			<DetailRow
+				label="Single Pilot Multi Engine"
+				value={formatMinutes(singlePilotMultiEngine)}
+			/>
+			<DetailRow label="Multi Pilot" value={formatMinutes(multiPilot)} />
+			<DetailRow
+				label="Operational Condition Night"
+				value={formatMinutes(operationalConditionNight)}
+			/>
+			<DetailRow
+				label="Operational Condition IFR"
+				value={formatMinutes(operationalConditionIfr)}
+			/>
+			<DetailRow
+				label="Function Pilot In Command"
+				value={formatMinutes(functionPilotInCommand)}
+			/>
+			<DetailRow
+				label="Function Co Pilot"
+				value={formatMinutes(functionCoPilot)}
+			/>
+			<DetailRow label="Function Dual" value={formatMinutes(functionDual)} />
+			<DetailRow
+				label="Function Instructor"
+				value={formatMinutes(functionInstructor)}
+			/>
+			<DetailRow label="Total Flight" value={formatMinutes(totalFlight)} />
+		</CardBody>
+	</Card>
+);
 
 export const LogDetails: FC<Props> = async ({ logId }) => {
-	const session = await auth();
-	const userId = session?.user?.id;
-
-	if (!userId) {
-		notFound();
-	}
+	const userId = await getUserId();
 
 	const log = await db.query.logs.findFirst({
 		where: (logs, { eq, and }) =>

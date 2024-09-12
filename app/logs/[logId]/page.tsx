@@ -1,4 +1,6 @@
+import { DeleteLogButton } from "@/components/DeleteLogButton";
 import { LogDetails } from "@/components/LogDetails";
+import { redirect } from "next/navigation";
 
 interface Props {
 	params: {
@@ -8,8 +10,11 @@ interface Props {
 
 export default function LogPage({ params: { logId } }: Props) {
 	return (
-		<section>
-			<h1 className="text-xl text-center mb-2">Log</h1>
+		<section className="flex flex-col gap-2">
+			<div className="flex justify-center items-center">
+				<h1 className="text-xl text-center grow">Log</h1>
+				<DeleteLogButton logId={logId} redirect="/" />
+			</div>
 			<LogDetails logId={logId} />
 		</section>
 	);
