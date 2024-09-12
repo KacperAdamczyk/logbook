@@ -32,10 +32,8 @@ export const DeleteLogButton: FC<DeleteLogButtonProps> = ({
 				router.push(redirect);
 			}
 		},
-		onError: ({ error: { serverError, fetchError } }) => {
-			if (fetchError) {
-				toast.error(fetchError);
-			} else {
+		onError: ({ error: { serverError } }) => {
+			if (serverError) {
 				toast.error(serverError);
 			}
 		},
