@@ -1,7 +1,7 @@
 import type {
 	BaseFieldValues,
 	FieldBaseProps,
-} from "@/components/fields/FieldBase";
+} from "@/components/fields/fieldBase";
 import { type TextAreaProps, Textarea } from "@nextui-org/react";
 import { useController } from "react-hook-form";
 

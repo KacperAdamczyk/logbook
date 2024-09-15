@@ -18,6 +18,10 @@
 				"noUnusedVariables": "error",
 				"noUnusedFunctionParameters": "error",
 				"useHookAtTopLevel": "error"
+			},
+			"style": {
+				"useNamingConvention": "error",
+				"useFilenamingConvention": "error"
 			}
 		}
 	}

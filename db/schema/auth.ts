@@ -30,12 +30,18 @@ export const accounts = sqliteTable(
 		type: text("type").$type<AdapterAccountType>().notNull(),
 		provider: text("provider").notNull(),
 		providerAccountId: text("providerAccountId").notNull(),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
 		refresh_token: text("refresh_token"),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
 		access_token: text("access_token"),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
 		expires_at: integer("expires_at"),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
 		token_type: text("token_type"),
 		scope: text("scope"),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
 		id_token: text("id_token"),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
 		session_state: text("session_state"),
 	},
 	(account) => ({

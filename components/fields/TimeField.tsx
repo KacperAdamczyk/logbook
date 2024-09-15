@@ -1,7 +1,7 @@
 import type {
 	BaseFieldValues,
 	FieldBaseProps,
-} from "@/components/fields/FieldBase";
+} from "@/components/fields/fieldBase";
 import { parseTime } from "@internationalized/date";
 import { Button, TimeInput, type TimeInputProps, cn } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
