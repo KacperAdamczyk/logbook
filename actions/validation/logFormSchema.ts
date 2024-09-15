@@ -1,6 +1,6 @@
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatToMinutes } from "@/helpers/formatToMinutes";
-import { CalendarDate, parseTime } from "@internationalized/date";
+import { CalendarDate } from "@internationalized/date";
 import { z } from "zod";
 
 export const logFormSchema = z

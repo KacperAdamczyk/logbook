@@ -9,7 +9,6 @@ import { getOrCreatePlace } from "@/db/actions/getOrCreatePlace";
 import { recalculateLogs } from "@/db/actions/recalculateLogs";
 import { getOverlappingLogs } from "@/db/queries/getOverlappingLogs";
 import { logs, times } from "@/db/schema";
-import { formatToMinutes } from "@/helpers/formatToMinutes";
 import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";

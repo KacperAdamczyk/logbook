@@ -1,6 +1,5 @@
 import { DeleteLogButton } from "@/components/DeleteLogButton";
 import { LogDetails } from "@/components/LogDetails";
-import { redirect } from "next/navigation";
 
 interface Props {
 	params: {
