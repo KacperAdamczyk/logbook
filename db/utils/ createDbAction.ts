@@ -1,17 +1,16 @@
-import { Tx, db } from "@/db";
+import { type Tx, db } from "@/db";
 
-export interface DbActionIn<in Params extends {}, out Returns extends unknown> {
-	(tx: Tx, params: Params): Promise<Returns>;
-}
+export type DbActionIn<in Params extends {}, out Returns> = (
+	tx: Tx,
+	params: Params,
+) => Promise<Returns>;
 
-export interface DbActionOut<
-	in Params extends {},
-	out Returns extends unknown,
-> {
-	(params: Params, tx?: Tx): Promise<Returns>;
-}
+export type DbActionOut<in Params extends {}, out Returns> = (
+	params: Params,
+	tx?: Tx,
+) => Promise<Returns>;
 
-export function createDbAction<Params extends {}, Returns extends unknown>(
+export function createDbAction<Params extends {}, Returns>(
 	action: DbActionIn<Params, Returns>,
 ): DbActionOut<Params, Returns> {
 	return (params, tx) => {

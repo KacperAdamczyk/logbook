@@ -3,7 +3,7 @@ import { Providers } from "@/components/Providers";
 import { cn } from "@nextui-org/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import "./globals.css";

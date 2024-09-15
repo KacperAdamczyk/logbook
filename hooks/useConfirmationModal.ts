@@ -10,7 +10,7 @@ export const useConfirmationModal = (onConfirmation: () => void) => {
 	const onConfirm = useCallback(() => {
 		setIsOpen(false);
 		onConfirmation();
-	}, []);
+	}, [onConfirmation]);
 
 	const onCancel = useCallback(() => {
 		setIsOpen(false);

@@ -1,8 +1,11 @@
-import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
+import type {
+	BaseFieldValues,
+	FieldBaseProps,
+} from "@/components/fields/FieldBase";
 import {
 	Autocomplete,
 	AutocompleteItem,
-	AutocompleteProps,
+	type AutocompleteProps,
 } from "@nextui-org/react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";

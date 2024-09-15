@@ -1,5 +1,8 @@
-import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { Input, InputProps } from "@nextui-org/react";
+import type {
+	BaseFieldValues,
+	FieldBaseProps,
+} from "@/components/fields/FieldBase";
+import { Input, type InputProps } from "@nextui-org/react";
 import { useController } from "react-hook-form";
 
 interface NumberFieldProps<FieldValues extends BaseFieldValues>

@@ -1,11 +1,10 @@
-import { createLogAction } from "@/actions/createLog";
-import { LogForm, LogFormProps } from "@/components/forms/LogForm";
+import { LogForm, type LogFormProps } from "@/components/forms/LogForm";
 import { getUserAircraft } from "@/db/queries/getUserAircraft";
 import { getUserPilots } from "@/db/queries/getUserPilots";
 import { getUserPlaces } from "@/db/queries/getUserPlaces";
 import { getUserId } from "@/helpers/getUserId";
 import { today } from "@internationalized/date";
-import { FC } from "react";
+import type { FC } from "react";
 
 const defaultValues = {
 	date: today("utc").toString(),
