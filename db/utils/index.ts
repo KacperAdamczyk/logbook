@@ -1,1 +1,1 @@
-export * from "./ createDbAction";
+export * from "./createDbAction";

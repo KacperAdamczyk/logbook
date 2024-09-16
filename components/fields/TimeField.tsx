@@ -1,6 +1,9 @@
-import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
+import type {
+	BaseFieldValues,
+	FieldBaseProps,
+} from "@/components/fields/fieldBase";
 import { parseTime } from "@internationalized/date";
-import { Button, TimeInput, TimeInputProps, cn } from "@nextui-org/react";
+import { Button, TimeInput, type TimeInputProps, cn } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";

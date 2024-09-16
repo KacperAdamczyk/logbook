@@ -2,7 +2,7 @@
 
 import { NextUIProvider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export function Providers({ children }: { children: ReactNode }) {
 	const router = useRouter();

@@ -1,5 +1,8 @@
-import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { TextAreaProps, Textarea } from "@nextui-org/react";
+import type {
+	BaseFieldValues,
+	FieldBaseProps,
+} from "@/components/fields/fieldBase";
+import { type TextAreaProps, Textarea } from "@nextui-org/react";
 import { useController } from "react-hook-form";
 
 interface TextAreaFieldProps<FieldValues extends BaseFieldValues>

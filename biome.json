@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.9.1/schema.json",
 	"files": {
 		"ignore": [".next", "drizzle"]
 	},
@@ -10,9 +10,19 @@
 		"enabled": true
 	},
 	"linter": {
-		"enabled": false,
+		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error",
+				"noUnusedFunctionParameters": "error",
+				"useHookAtTopLevel": "error"
+			},
+			"style": {
+				"useNamingConvention": "error",
+				"useFilenamingConvention": "error"
+			}
 		}
 	}
 }

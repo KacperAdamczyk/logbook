@@ -1,10 +1,7 @@
 import { InterceptModal } from "@/components/InterceptModal";
 import { LogDetails } from "@/components/LogDetails";
 import { ReloadButton } from "@/components/ReloadButton";
-import { Button } from "@nextui-org/button";
 import { Spinner } from "@nextui-org/spinner";
-import { IconResize } from "@tabler/icons-react";
-import Link from "next/link";
 import { Suspense } from "react";
 
 interface Props {

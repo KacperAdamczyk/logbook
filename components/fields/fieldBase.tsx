@@ -7,4 +7,4 @@ export interface FieldBaseProps<FieldValues extends BaseFieldValues, Value> {
 	name: FieldPathByValue<FieldValues, Value>;
 }
 
-export { BaseFieldValues };
+export type { BaseFieldValues };

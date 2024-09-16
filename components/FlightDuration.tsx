@@ -1,8 +1,8 @@
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { parseTime } from "@internationalized/date";
-import { Input, TimeInput } from "@nextui-org/react";
+import { TimeInput } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
 	duration: number | null;
