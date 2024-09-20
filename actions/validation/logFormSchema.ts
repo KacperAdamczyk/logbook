@@ -3,6 +3,14 @@ import { formatToMinutes } from "@/helpers/formatToMinutes";
 import { CalendarDate, parseTime } from "@internationalized/date";
 import { z } from "zod";
 
+const landingsTakeoffsSchema = z.coerce
+	.number()
+	.int()
+	.nonnegative()
+	.optional()
+	.transform((value) => value?.toString());
+const timeSchema = z.union([z.string().trim().time(), z.literal("")]);
+
 export const logFormSchema = z
 	.object({
 		date: z.coerce
@@ -23,27 +31,27 @@ export const logFormSchema = z
 				).toString(),
 			),
 		departurePlace: z.string().trim().min(1),
-		departureTime: z.string().trim().min(1).time(),
+		departureTime: timeSchema,
 		arrivalPlace: z.string().trim().min(1),
-		arrivalTime: z.string().trim().min(1).time(),
+		arrivalTime: timeSchema,
 		planeModel: z.string().trim().min(1),
 		planeRegistration: z.string().trim().min(1),
 		engineType: z.enum(["single", "multi"]),
-		singlePilotTimeSingleEngine: z.string().trim().time().optional(),
-		singlePilotTimeMultiEngine: z.string().trim().time().optional(),
-		multiPilotTime: z.string().trim().time().optional(),
-		totalFlightTime: z.string().trim().time().min(1),
+		singlePilotTimeSingleEngine: timeSchema.optional(),
+		singlePilotTimeMultiEngine: timeSchema.optional(),
+		multiPilotTime: timeSchema.optional(),
+		totalFlightTime: timeSchema,
 		pilotInCommand: z.string().trim().min(1),
-		takeoffsDay: z.number().int().nonnegative().optional(),
-		takeoffsNight: z.number().int().nonnegative().optional(),
-		landingsDay: z.number().int().nonnegative().optional(),
-		landingsNight: z.number().int().nonnegative().optional(),
-		operationalConditionTimeNight: z.string().trim().min(1).optional(),
-		operationalConditionTimeIfr: z.string().trim().min(1).optional(),
-		functionTimePilotInCommand: z.string().trim().min(1).optional(),
-		functionTimeCoPilot: z.string().trim().min(1).optional(),
-		functionTimeDual: z.string().trim().min(1).optional(),
-		functionTimeInstructor: z.string().trim().min(1).optional(),
+		takeoffsDay: landingsTakeoffsSchema,
+		takeoffsNight: landingsTakeoffsSchema,
+		landingsDay: landingsTakeoffsSchema,
+		landingsNight: landingsTakeoffsSchema,
+		operationalConditionTimeNight: timeSchema.optional(),
+		operationalConditionTimeIfr: timeSchema.optional(),
+		functionTimePilotInCommand: timeSchema.optional(),
+		functionTimeCoPilot: timeSchema.optional(),
+		functionTimeDual: timeSchema.optional(),
+		functionTimeInstructor: timeSchema.optional(),
 		remarks: z.string().max(255).optional(),
 	})
 	.superRefine(

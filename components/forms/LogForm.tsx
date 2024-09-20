@@ -27,35 +27,35 @@ import { toast } from "sonner";
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
 	date: string;
-	departurePlace: string | undefined;
-	departureTime: string | undefined;
-	arrivalPlace: string | undefined;
-	arrivalTime: string | undefined;
-	planeModel: string | undefined;
-	planeRegistration: string | undefined;
+	departurePlace: string;
+	departureTime: string;
+	arrivalPlace: string;
+	arrivalTime: string;
+	planeModel: string;
+	planeRegistration: string;
 	engineType: EngineType;
-	singlePilotTimeSingleEngine: string | undefined;
-	singlePilotTimeMultiEngine: string | undefined;
-	multiPilotTime: string | undefined;
-	totalFlightTime: string | undefined;
-	pilotInCommand: string | undefined;
-	takeoffsDay: number | undefined;
-	takeoffsNight: number | undefined;
-	landingsDay: number | undefined;
-	landingsNight: number | undefined;
-	operationalConditionTimeNight: string | undefined;
-	operationalConditionTimeIfr: string | undefined;
-	functionTimePilotInCommand: string | undefined;
-	functionTimeCoPilot: string | undefined;
-	functionTimeDual: string | undefined;
-	functionTimeInstructor: string | undefined;
-	remarks: string | undefined;
+	singlePilotTimeSingleEngine: string;
+	singlePilotTimeMultiEngine: string;
+	multiPilotTime: string;
+	totalFlightTime: string;
+	pilotInCommand: string;
+	takeoffsDay: string;
+	takeoffsNight: string;
+	landingsDay: string;
+	landingsNight: string;
+	operationalConditionTimeNight: string;
+	operationalConditionTimeIfr: string;
+	functionTimePilotInCommand: string;
+	functionTimeCoPilot: string;
+	functionTimeDual: string;
+	functionTimeInstructor: string;
+	remarks: string;
 }
 
 export interface LogFormProps {
-	defaultValues?: DefaultValues<LogFormFieldValues>;
+	defaultValues: LogFormFieldValues;
 	submitLabel: string;
-	action: "create";
+	action: "create" | "edit";
 	aircraft: Aircraft[];
 	pilots: Pilot[];
 	places: Place[];
@@ -70,6 +70,7 @@ const engineOptions = [
 
 const actionMap = {
 	create: createLogAction,
+	edit: createLogAction,
 } as const;
 
 export const LogForm: FC<LogFormProps> = ({
@@ -115,6 +116,8 @@ export const LogForm: FC<LogFormProps> = ({
 			},
 		},
 	});
+
+	console.log(defaultValues);
 
 	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
 		"planeModel",

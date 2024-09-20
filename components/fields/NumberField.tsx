@@ -3,7 +3,7 @@ import { Input, InputProps } from "@nextui-org/react";
 import { useController } from "react-hook-form";
 
 interface NumberFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, number | undefined>,
+	extends FieldBaseProps<FieldValues, string>,
 		Pick<InputProps, "className" | "label" | "isRequired"> {}
 
 export function NumberField<FieldValues extends BaseFieldValues>({
@@ -16,18 +16,15 @@ export function NumberField<FieldValues extends BaseFieldValues>({
 	} = useController<FieldValues>({ name });
 
 	const handleChange = (value: string) => {
-		const numberValue = value === "" ? undefined : Number(value);
-		field.onChange(numberValue);
+		field.onChange(value);
 	};
-
-	const value = field.value?.toString() ?? "";
 
 	return (
 		<Input
 			type="number"
 			name={field.name}
 			ref={field.ref}
-			value={value}
+			value={field.value}
 			onValueChange={handleChange}
 			onBlur={field.onBlur}
 			isInvalid={invalid}

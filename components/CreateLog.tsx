@@ -1,5 +1,8 @@
-import { createLogAction } from "@/actions/createLog";
-import { LogForm, LogFormProps } from "@/components/forms/LogForm";
+import {
+	LogForm,
+	LogFormProps,
+	type LogFormFieldValues,
+} from "@/components/forms/LogForm";
 import { getUserAircraft } from "@/db/queries/getUserAircraft";
 import { getUserPilots } from "@/db/queries/getUserPilots";
 import { getUserPlaces } from "@/db/queries/getUserPlaces";
@@ -9,8 +12,30 @@ import { FC } from "react";
 
 const defaultValues = {
 	date: today("utc").toString(),
+	departurePlace: "",
+	departureTime: "",
+	arrivalPlace: "",
+	arrivalTime: "",
+	planeModel: "",
+	planeRegistration: "",
 	engineType: "single",
-} satisfies LogFormProps["defaultValues"];
+	singlePilotTimeSingleEngine: "",
+	singlePilotTimeMultiEngine: "",
+	multiPilotTime: "",
+	totalFlightTime: "",
+	pilotInCommand: "",
+	takeoffsDay: "",
+	takeoffsNight: "",
+	landingsDay: "",
+	landingsNight: "",
+	operationalConditionTimeNight: "",
+	operationalConditionTimeIfr: "",
+	functionTimePilotInCommand: "",
+	functionTimeCoPilot: "",
+	functionTimeDual: "",
+	functionTimeInstructor: "",
+	remarks: "",
+} satisfies LogFormFieldValues;
 
 interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {}
 

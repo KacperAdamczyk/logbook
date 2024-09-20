@@ -68,6 +68,14 @@ export const createLogAction = actionClient
 				.values([getParsedTimes(parsedInput), {}])
 				.returning();
 
+			const {
+				takeoffsDay,
+				takeoffsNight,
+				landingsDay,
+				landingsNight,
+				remarks,
+			} = parsedInput;
+
 			const [log] = await tx
 				.insert(logs)
 				.values({
@@ -78,11 +86,11 @@ export const createLogAction = actionClient
 					arrivalPlaceId: arrivalPlace.id,
 					aircraftId: aircraft.id,
 					pilotInCommandId: pilot.id,
-					takeoffsDay: parsedInput.takeoffsDay,
-					takeoffsNight: parsedInput.takeoffsNight,
-					landingsDay: parsedInput.landingsDay,
-					landingsNight: parsedInput.landingsNight,
-					remarks: parsedInput.remarks,
+					takeoffsDay: takeoffsDay ? parseInt(takeoffsDay) : null,
+					takeoffsNight: takeoffsNight ? parseInt(takeoffsNight) : null,
+					landingsDay: landingsDay ? parseInt(landingsDay) : null,
+					landingsNight: landingsNight ? parseInt(landingsNight) : null,
+					remarks: remarks,
 					singularTimesId: singularTimes.id,
 					cumulatedTimesId: cumulatedTimes.id,
 				})

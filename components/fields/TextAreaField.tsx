@@ -3,7 +3,7 @@ import { TextAreaProps, Textarea } from "@nextui-org/react";
 import { useController } from "react-hook-form";
 
 interface TextAreaFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
+	extends FieldBaseProps<FieldValues, string>,
 		Pick<
 			TextAreaProps,
 			"className" | "label" | "isRequired" | "minRows" | "maxRows"
