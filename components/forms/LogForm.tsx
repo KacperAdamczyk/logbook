@@ -10,45 +10,50 @@ import {
 	type SelectFieldItem,
 } from "@/components/fields/SelectField";
 import { TextAreaField } from "@/components/fields/TextAreaField";
-import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
+import {
+	TimeField,
+	TimeFieldProps,
+	type TimeFieldValue,
+} from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
 import { actionToast } from "@/helpers/actionToast";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parseTime } from "@internationalized/date";
+import { parseTime, type Time } from "@internationalized/date";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Button, Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { FC, useMemo } from "react";
 import { DefaultValues, FormProvider } from "react-hook-form";
 import { toast } from "sonner";
+import { DevTool } from "@hookform/devtools";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
 	date: string;
 	departurePlace: string;
-	departureTime: string;
+	departureTime: TimeFieldValue | null;
 	arrivalPlace: string;
-	arrivalTime: string;
+	arrivalTime: TimeFieldValue | null;
 	planeModel: string;
 	planeRegistration: string;
 	engineType: EngineType;
-	singlePilotTimeSingleEngine: string;
-	singlePilotTimeMultiEngine: string;
-	multiPilotTime: string;
-	totalFlightTime: string;
+	singlePilotTimeSingleEngine: TimeFieldValue | null;
+	singlePilotTimeMultiEngine: TimeFieldValue | null;
+	multiPilotTime: TimeFieldValue | null;
+	totalFlightTime: TimeFieldValue | null;
 	pilotInCommand: string;
-	takeoffsDay: string;
-	takeoffsNight: string;
-	landingsDay: string;
-	landingsNight: string;
-	operationalConditionTimeNight: string;
-	operationalConditionTimeIfr: string;
-	functionTimePilotInCommand: string;
-	functionTimeCoPilot: string;
-	functionTimeDual: string;
-	functionTimeInstructor: string;
+	takeoffsDay: number;
+	takeoffsNight: number;
+	landingsDay: number;
+	landingsNight: number;
+	operationalConditionTimeNight: TimeFieldValue | null;
+	operationalConditionTimeIfr: TimeFieldValue | null;
+	functionTimePilotInCommand: TimeFieldValue | null;
+	functionTimeCoPilot: TimeFieldValue | null;
+	functionTimeDual: TimeFieldValue | null;
+	functionTimeInstructor: TimeFieldValue | null;
 	remarks: string;
 }
 
@@ -381,6 +386,7 @@ export const LogForm: FC<LogFormProps> = ({
 				>
 					{submitLabel}
 				</Button>
+				<DevTool control={form.control} />
 			</form>
 		</FormProvider>
 	);

@@ -32,29 +32,28 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 		fieldState: { invalid, error },
 	} = useController<FieldValues>({ name });
 
-	const onInputChange = useCallback<NonNullable<AutocompleteProps["onInputChange"]>>(
+	const onInputChange = useCallback<
+		NonNullable<AutocompleteProps["onInputChange"]>
+	>(
 		(value) => {
-			console.log("onInputChange", {value});
 			field.onChange(value);
 		},
 		[field],
 	);
 
-	const onSelectionChange = useCallback<NonNullable<AutocompleteProps["onSelectionChange"]>>((key) => {
-		const value = items.find((item) => item.key === key)?.value;
-		console.log("onSelectionChange", {key, value});
-		
-		
-		field.onChange(value);
-	}, [field, items])
+	const onSelectionChange = useCallback<
+		NonNullable<AutocompleteProps["onSelectionChange"]>
+	>(
+		(key) => {
+			const value = items.find((item) => item.key === key)?.value;
 
+			field.onChange(value);
+		},
+		[field, items],
+	);
 
 	const currentItem = items.find((item) => item.value === field.value);
 	const selectedKey = currentItem?.key ?? null;
-
-
-	console.log({name, v:field.value, currentItem, selectedKey});
-	
 
 	return (
 		<Autocomplete
@@ -73,9 +72,7 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 			{...autocompleteProps}
 		>
 			{(item) => (
-				<AutocompleteItem key={item.key}>
-					{item.label}
-				</AutocompleteItem>
+				<AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
 			)}
 		</Autocomplete>
 	);

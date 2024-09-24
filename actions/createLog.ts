@@ -19,6 +19,8 @@ export const createLogAction = actionClient
 	.schema(logFormSchema)
 	.action(async ({ parsedInput, ctx: { userId } }) =>
 		db.transaction(async (tx) => {
+			console.log(parsedInput); // TODO remove
+			return;
 			const [departure, arrival] = getFlightDates(
 				parsedInput.date,
 				parsedInput.departureTime,

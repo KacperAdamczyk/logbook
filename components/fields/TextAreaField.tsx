@@ -1,6 +1,6 @@
 import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
 import { TextAreaProps, Textarea } from "@nextui-org/react";
-import { useController } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
 
 interface TextAreaFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, string>,
@@ -13,20 +13,24 @@ export function TextAreaField<FieldValues extends BaseFieldValues>({
 	name,
 	...textareaProps
 }: TextAreaFieldProps<FieldValues>) {
-	const {
-		field,
-		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	// const {
+	// 	field,
+	// 	fieldState: { invalid, error },
+	// } = useController<FieldValues>({ name });
+
+	const { register } = useFormContext();
+	const field = register(name);
 
 	return (
 		<Textarea
-			name={field.name}
-			ref={field.ref}
-			value={field.value}
-			onValueChange={field.onChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
+			{...field}
+			// name={field.name}
+			// ref={field.ref}
+			// value={field.value}
+			// onValueChange={field.onChange}
+			// onBlur={field.onBlur}
+			// isInvalid={invalid}
+			// errorMessage={error?.message}
 			{...textareaProps}
 		/>
 	);

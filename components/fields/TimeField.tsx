@@ -1,15 +1,22 @@
 import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { parseTime } from "@internationalized/date";
-import { Button, TimeInput, TimeInputProps, cn } from "@nextui-org/react";
+import { isTimeValue, type TimeValue } from "@/types/TimeValue";
+import { parseTime, Time } from "@internationalized/date";
+import {
+	Button,
+	TimeInput,
+	TimeInputProps,
+	cn,
+	type TimeInputValue,
+} from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
-import { useCallback } from "react";
-import { useController } from "react-hook-form";
+import { useCallback, useRef } from "react";
+import { useController, useFormContext } from "react-hook-form";
 
 export interface TimeFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
+	extends FieldBaseProps<FieldValues, TimeValue | null>,
 		Pick<TimeInputProps, "className" | "label" | "isRequired"> {
 	fillable?: boolean;
-	fillValue?: string;
+	fillValue?: TimeValue;
 }
 
 export function TimeField<FieldValues extends BaseFieldValues>({
@@ -20,36 +27,43 @@ export function TimeField<FieldValues extends BaseFieldValues>({
 	...timeInputProps
 }: TimeFieldProps<FieldValues>) {
 	const {
-		field,
+		field: { name: fieldName, ref, value, onChange, onBlur, disabled },
 		fieldState: { invalid, error },
 	} = useController<FieldValues>({ name });
 
-	const onChange = useCallback<NonNullable<TimeInputProps["onChange"]>>(
-		(value) => {
-			field.onChange(value ? value.toString() : undefined);
+	const handleChange = useCallback(
+		(time: Time | null) => {
+			onChange(
+				time && ({ hour: time.hour, minute: time.minute } satisfies TimeValue),
+			);
 		},
-		[field],
+		[onChange],
 	);
 
 	const onFill = useCallback(() => {
 		if (!fillValue) return;
 
-		field.onChange(fillValue);
-	}, [field, fillValue]);
+		onChange(fillValue);
+	}, [fillValue, onChange]);
 
-	const value = field.value ? parseTime(field.value) : null;
+	if (value !== null && !isTimeValue(value)) {
+		throw new Error(`Time field value ${name} must be an object`);
+	}
+
+	const timeValue = value && new Time(value.hour, value.minute);
 
 	return (
 		<div className={cn("flex gap-1", className)}>
-			<TimeInput
-				name={field.name}
-				inputRef={field.ref}
-				value={value}
-				onChange={onChange}
-				onBlur={field.onBlur}
+			<TimeInput<Time>
+				name={fieldName}
+				inputRef={ref}
+				value={timeValue}
+				onChange={handleChange}
+				onBlur={onBlur}
 				isInvalid={invalid}
 				errorMessage={error?.message}
 				hourCycle={24}
+				isDisabled={disabled}
 				{...timeInputProps}
 			/>
 			{fillable && (

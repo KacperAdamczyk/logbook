@@ -1,6 +1,7 @@
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { formatToMinutes } from "@/helpers/formatToMinutes";
-import { CalendarDate, parseTime } from "@internationalized/date";
+import { timeToMinutes } from "@/helpers/timeToMinutes";
+import { CalendarDate, parseTime, Time } from "@internationalized/date";
 import { z } from "zod";
 
 const landingsTakeoffsSchema = z.coerce
@@ -9,7 +10,14 @@ const landingsTakeoffsSchema = z.coerce
 	.nonnegative()
 	.optional()
 	.transform((value) => value?.toString());
-const timeSchema = z.union([z.string().trim().time(), z.literal("")]);
+const timeSchema = z.object(
+	{
+		hour: z.number().int().min(0).max(23),
+		minute: z.number().int().min(0).max(59),
+	},
+	{ message: "Must be a valid time" },
+);
+const optionalTimeSchema = z.union([timeSchema, z.null()]);
 
 export const logFormSchema = z
 	.object({
@@ -37,21 +45,21 @@ export const logFormSchema = z
 		planeModel: z.string().trim().min(1),
 		planeRegistration: z.string().trim().min(1),
 		engineType: z.enum(["single", "multi"]),
-		singlePilotTimeSingleEngine: timeSchema.optional(),
-		singlePilotTimeMultiEngine: timeSchema.optional(),
-		multiPilotTime: timeSchema.optional(),
+		singlePilotTimeSingleEngine: optionalTimeSchema,
+		singlePilotTimeMultiEngine: optionalTimeSchema,
+		multiPilotTime: optionalTimeSchema,
 		totalFlightTime: timeSchema,
 		pilotInCommand: z.string().trim().min(1),
 		takeoffsDay: landingsTakeoffsSchema,
 		takeoffsNight: landingsTakeoffsSchema,
 		landingsDay: landingsTakeoffsSchema,
 		landingsNight: landingsTakeoffsSchema,
-		operationalConditionTimeNight: timeSchema.optional(),
-		operationalConditionTimeIfr: timeSchema.optional(),
-		functionTimePilotInCommand: timeSchema.optional(),
-		functionTimeCoPilot: timeSchema.optional(),
-		functionTimeDual: timeSchema.optional(),
-		functionTimeInstructor: timeSchema.optional(),
+		operationalConditionTimeNight: optionalTimeSchema,
+		operationalConditionTimeIfr: optionalTimeSchema,
+		functionTimePilotInCommand: optionalTimeSchema,
+		functionTimeCoPilot: optionalTimeSchema,
+		functionTimeDual: optionalTimeSchema,
+		functionTimeInstructor: optionalTimeSchema,
 		remarks: z.string().max(255).optional(),
 	})
 	.superRefine(
@@ -65,7 +73,7 @@ export const logFormSchema = z
 			},
 			ctx,
 		) => {
-			const totalFlightTimeMinutes = formatToMinutes(totalFlightTime);
+			const totalFlightTimeMinutes = timeToMinutes(totalFlightTime);
 
 			if (engineType === "single") {
 				if (!singlePilotTimeSingleEngine && !singlePilotTimeMultiEngine) {
@@ -100,7 +108,7 @@ export const logFormSchema = z
 				const message = "Must be less or equal to Total Flight Time";
 				if (
 					singlePilotTimeSingleEngine &&
-					totalFlightTimeMinutes < formatToMinutes(singlePilotTimeSingleEngine)
+					totalFlightTimeMinutes < timeToMinutes(singlePilotTimeSingleEngine)
 				) {
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
@@ -111,7 +119,7 @@ export const logFormSchema = z
 
 				if (
 					singlePilotTimeMultiEngine &&
-					totalFlightTimeMinutes < formatToMinutes(singlePilotTimeMultiEngine)
+					totalFlightTimeMinutes < timeToMinutes(singlePilotTimeMultiEngine)
 				) {
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
@@ -134,7 +142,7 @@ export const logFormSchema = z
 				const message = "Must be less or equal to Total Flight Time";
 				if (
 					multiPilotTime &&
-					totalFlightTimeMinutes < formatToMinutes(multiPilotTime)
+					totalFlightTimeMinutes < timeToMinutes(multiPilotTime)
 				) {
 					ctx.addIssue({
 						code: z.ZodIssueCode.custom,
@@ -160,7 +168,7 @@ export const logFormSchema = z
 			},
 			ctx,
 		) => {
-			const totalFlightTimeMinutes = formatToMinutes(totalFlightTime);
+			const totalFlightTimeMinutes = timeToMinutes(totalFlightTime);
 			const flightDuration = calculateFlightTime(departureTime, arrivalTime);
 			if (totalFlightTimeMinutes > flightDuration) {
 				const message =
@@ -175,7 +183,7 @@ export const logFormSchema = z
 			const message = "Must be less or equal to Total Flight Time";
 			if (
 				operationalConditionTimeNight &&
-				totalFlightTimeMinutes < formatToMinutes(operationalConditionTimeNight)
+				totalFlightTimeMinutes < timeToMinutes(operationalConditionTimeNight)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -186,7 +194,7 @@ export const logFormSchema = z
 
 			if (
 				operationalConditionTimeIfr &&
-				totalFlightTimeMinutes < formatToMinutes(operationalConditionTimeIfr)
+				totalFlightTimeMinutes < timeToMinutes(operationalConditionTimeIfr)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -197,7 +205,7 @@ export const logFormSchema = z
 
 			if (
 				functionTimePilotInCommand &&
-				totalFlightTimeMinutes < formatToMinutes(functionTimePilotInCommand)
+				totalFlightTimeMinutes < timeToMinutes(functionTimePilotInCommand)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -208,7 +216,7 @@ export const logFormSchema = z
 
 			if (
 				functionTimeCoPilot &&
-				totalFlightTimeMinutes < formatToMinutes(functionTimeCoPilot)
+				totalFlightTimeMinutes < timeToMinutes(functionTimeCoPilot)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -219,7 +227,7 @@ export const logFormSchema = z
 
 			if (
 				functionTimeDual &&
-				totalFlightTimeMinutes < formatToMinutes(functionTimeDual)
+				totalFlightTimeMinutes < timeToMinutes(functionTimeDual)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
@@ -230,7 +238,7 @@ export const logFormSchema = z
 
 			if (
 				functionTimeInstructor &&
-				totalFlightTimeMinutes < formatToMinutes(functionTimeInstructor)
+				totalFlightTimeMinutes < timeToMinutes(functionTimeInstructor)
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
