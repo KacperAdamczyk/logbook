@@ -13,11 +13,10 @@ import { useController } from "react-hook-form";
 export interface SelectFieldItem {
 	label: string;
 	value: string;
-	key: string;
 }
 
 interface SelectFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
+	extends FieldBaseProps<FieldValues, string | null>,
 		Pick<
 			AutocompleteProps,
 			"className" | "label" | "isRequired" | "isDisabled"
@@ -47,26 +46,24 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 	const onSelectionChange = useCallback<
 		NonNullable<AutocompleteProps["onSelectionChange"]>
 	>(
-		(key) => {
-			const value = items.find((item) => item.key === key)?.value;
-
+		(value) => {
 			field.onChange(value);
 		},
-		[field, items],
+		[field],
 	);
 
 	const currentItem = items.find((item) => item.value === field.value);
-	const selectedKey = currentItem?.key ?? null;
+	const selectedKey = currentItem?.value ?? null;
 
 	return (
 		<Autocomplete
 			name={field.name}
-			// wrapperRef={field.ref}
+			wrapperRef={field.ref}
 			inputValue={field.value ?? ""}
 			selectedKey={selectedKey}
-			// onInputChange={onInputChange}
+			onInputChange={onInputChange}
 			onSelectionChange={onSelectionChange}
-			// onBlur={field.onBlur}
+			onBlur={field.onBlur}
 			isInvalid={invalid}
 			errorMessage={error?.message}
 			items={items}
@@ -75,7 +72,7 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 			{...autocompleteProps}
 		>
 			{(item) => (
-				<AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
+				<AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
 			)}
 		</Autocomplete>
 	);

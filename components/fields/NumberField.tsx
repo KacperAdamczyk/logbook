@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 interface NumberFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, number | undefined>,
+	extends FieldBaseProps<FieldValues, number | null>,
 		Pick<InputProps, "className" | "label" | "isRequired"> {}
 
 export function NumberField<FieldValues extends BaseFieldValues>({
@@ -21,7 +21,7 @@ export function NumberField<FieldValues extends BaseFieldValues>({
 
 	const handleChange = useCallback(
 		(value: string) => {
-			field.onChange(value !== "" ? Number.parseInt(value) : undefined);
+			field.onChange(value !== "" ? Number.parseInt(value) : null);
 		},
 		[field],
 	);

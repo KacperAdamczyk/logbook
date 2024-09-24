@@ -2,22 +2,20 @@ import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { timeToMinutes } from "@/helpers/timeToMinutes";
 import { z } from "zod";
 
-const landingsTakeoffsSchema = z.coerce
-	.number()
-	.int()
-	.nonnegative()
-	.optional()
-	.transform((value) => value?.toString());
-const timeSchema = z.object({
-	hour: z.number().int().min(0).max(23),
-	minute: z.number().int().min(0).max(59),
-});
-const optionalTimeSchema = timeSchema.optional();
+const landingsTakeoffsSchema = z.coerce.number().int().nonnegative().nullable();
+const timeSchema = z.object(
+	{
+		hour: z.number().int().min(0).max(23),
+		minute: z.number().int().min(0).max(59),
+	},
+	{ message: "Must be a valid time" },
+);
+const optionalTimeSchema = timeSchema.nullable();
 
 export const logFormSchema = z
 	.object({
 		date: z
-			.date()
+			.date({ message: "Must be a valid date" })
 			.min(
 				new Date("1900-01-01"),
 				"Date must be greater than or equal to 1900-01-01",
@@ -48,7 +46,7 @@ export const logFormSchema = z
 		functionTimeCoPilot: optionalTimeSchema,
 		functionTimeDual: optionalTimeSchema,
 		functionTimeInstructor: optionalTimeSchema,
-		remarks: z.string().max(255).optional(),
+		remarks: z.string().max(255).nullable(),
 	})
 	.superRefine(
 		(

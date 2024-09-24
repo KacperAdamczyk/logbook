@@ -30,30 +30,30 @@ import { toast } from "sonner";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
-	date: Date | undefined;
-	departurePlace: string;
-	departureTime: TimeValue | undefined;
-	arrivalPlace: string;
-	arrivalTime: TimeValue | undefined;
-	planeModel: string;
-	planeRegistration: string;
+	date: Date | null;
+	departurePlace: string | null;
+	departureTime: TimeValue | null;
+	arrivalPlace: string | null;
+	arrivalTime: TimeValue | null;
+	planeModel: string | null;
+	planeRegistration: string | null;
 	engineType: EngineType;
-	singlePilotTimeSingleEngine: TimeValue | undefined;
-	singlePilotTimeMultiEngine: TimeValue | undefined;
-	multiPilotTime: TimeValue | undefined;
-	totalFlightTime: TimeValue | undefined;
-	pilotInCommand: string;
-	takeoffsDay: number | undefined;
-	takeoffsNight: number | undefined;
-	landingsDay: number | undefined;
-	landingsNight: number | undefined;
-	operationalConditionTimeNight: TimeValue | undefined;
-	operationalConditionTimeIfr: TimeValue | undefined;
-	functionTimePilotInCommand: TimeValue | undefined;
-	functionTimeCoPilot: TimeValue | undefined;
-	functionTimeDual: TimeValue | undefined;
-	functionTimeInstructor: TimeValue | undefined;
-	remarks: string | undefined;
+	singlePilotTimeSingleEngine: TimeValue | null;
+	singlePilotTimeMultiEngine: TimeValue | null;
+	multiPilotTime: TimeValue | null;
+	totalFlightTime: TimeValue | null;
+	pilotInCommand: string | null;
+	takeoffsDay: number | null;
+	takeoffsNight: number | null;
+	landingsDay: number | null;
+	landingsNight: number | null;
+	operationalConditionTimeNight: TimeValue | null;
+	operationalConditionTimeIfr: TimeValue | null;
+	functionTimePilotInCommand: TimeValue | null;
+	functionTimeCoPilot: TimeValue | null;
+	functionTimeDual: TimeValue | null;
+	functionTimeInstructor: TimeValue | null;
+	remarks: string | null;
 }
 
 export interface LogFormProps {
@@ -78,7 +78,7 @@ const actionMap = {
 } as const;
 
 export const LogForm: FC<LogFormProps> = ({
-	initialValues: initialValues,
+	initialValues,
 	submitLabel,
 	action,
 	aircraft,
@@ -152,9 +152,9 @@ export const LogForm: FC<LogFormProps> = ({
 
 	const aircraftModelItems = useMemo(() => {
 		const aircraftMap = new Map(
-			aircraft.map(({ id, model }) => [
+			aircraft.map(({ model }) => [
 				model,
-				{ label: model, value: model, key: id } satisfies SelectFieldItem,
+				{ label: model, value: model } satisfies SelectFieldItem,
 			]),
 		);
 
@@ -166,11 +166,10 @@ export const LogForm: FC<LogFormProps> = ({
 			aircraft
 				.filter((aircraft) => aircraft.model === planeModel)
 				.map(
-					({ id, registration }) =>
+					({ registration }) =>
 						({
 							label: registration,
 							value: registration,
-							key: id,
 						}) satisfies SelectFieldItem,
 				),
 		[aircraft, planeModel],
@@ -179,11 +178,10 @@ export const LogForm: FC<LogFormProps> = ({
 	const placesItems = useMemo(
 		() =>
 			places.map(
-				({ id, name }) =>
+				({ name }) =>
 					({
 						label: name,
 						value: name,
-						key: id,
 					}) satisfies SelectFieldItem,
 			),
 		[places],
@@ -192,11 +190,10 @@ export const LogForm: FC<LogFormProps> = ({
 	const pilotsItems = useMemo(
 		() =>
 			pilots.map(
-				({ id, name }) =>
+				({ name }) =>
 					({
 						label: name,
 						value: name,
-						key: id,
 					}) satisfies SelectFieldItem,
 			),
 		[pilots],

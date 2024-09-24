@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 interface TextAreaFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
+	extends FieldBaseProps<FieldValues, string | null>,
 		Pick<
 			TextAreaProps,
 			"className" | "label" | "isRequired" | "minRows" | "maxRows"

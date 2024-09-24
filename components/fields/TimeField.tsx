@@ -10,7 +10,7 @@ import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 export interface TimeFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, TimeValue | undefined>,
+	extends FieldBaseProps<FieldValues, TimeValue | null>,
 		Pick<TimeInputProps, "className" | "label" | "isRequired"> {
 	fillable?: boolean;
 	fillValue?: TimeValue;

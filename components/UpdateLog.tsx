@@ -3,19 +3,12 @@ import { db } from "@/db";
 import { getUserAircraft } from "@/db/queries/getUserAircraft";
 import { getUserPilots } from "@/db/queries/getUserPilots";
 import { getUserPlaces } from "@/db/queries/getUserPlaces";
-import { formatMinutes } from "@/helpers/formatMinutes";
 import { getUserId } from "@/helpers/getUserId";
-import {
-	CalendarDate,
-	Time,
-	fromDate,
-	parseTime,
-} from "@internationalized/date";
+import { minutesToTime } from "@/helpers/minutesToTime";
+import type { TimeValue } from "@/types/TimeValue";
+import { CalendarDate, fromDate } from "@internationalized/date";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
-
-const formatTime = (time: number) =>
-	time ? parseTime(formatMinutes(time)).toString() : "";
 
 interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {
 	logId: string;
@@ -51,12 +44,15 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		departureDate.year,
 		departureDate.month,
 		departureDate.day,
-	).toString();
-	const departureTime = new Time(
-		departureDate.hour,
-		departureDate.minute,
-	).toString();
-	const arrivalTime = new Time(arrivalDate.hour, arrivalDate.minute).toString();
+	).toDate("utc");
+	const departureTime = {
+		hour: departureDate.hour,
+		minute: departureDate.minute,
+	} satisfies TimeValue;
+	const arrivalTime = {
+		hour: arrivalDate.hour,
+		minute: arrivalDate.minute,
+	} satisfies TimeValue;
 
 	const defaultValues = {
 		date,
@@ -67,32 +63,32 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		planeModel: log.aircraft.model,
 		planeRegistration: log.aircraft.registration,
 		engineType: log.singularTimes.multiPilot ? "multi" : "single",
-		singlePilotTimeSingleEngine: formatTime(
+		singlePilotTimeSingleEngine: minutesToTime(
 			log.singularTimes.singlePilotSingleEngine,
 		),
-		singlePilotTimeMultiEngine: formatTime(
+		singlePilotTimeMultiEngine: minutesToTime(
 			log.singularTimes.singlePilotMultiEngine,
 		),
-		multiPilotTime: formatTime(log.singularTimes.multiPilot),
-		totalFlightTime: formatTime(log.singularTimes.totalFlight),
+		multiPilotTime: minutesToTime(log.singularTimes.multiPilot),
+		totalFlightTime: minutesToTime(log.singularTimes.totalFlight),
 		pilotInCommand: log.pilotInCommand.name,
-		takeoffsDay: log.takeoffsDay?.toString() ?? "",
-		takeoffsNight: log.takeoffsNight?.toString() ?? "",
-		landingsDay: log.landingsDay?.toString() ?? "",
-		landingsNight: log.landingsNight?.toString() ?? "",
-		operationalConditionTimeNight: formatTime(
+		takeoffsDay: log.takeoffsDay,
+		takeoffsNight: log.takeoffsNight,
+		landingsDay: log.landingsDay,
+		landingsNight: log.landingsNight,
+		operationalConditionTimeNight: minutesToTime(
 			log.singularTimes.operationalConditionNight,
 		),
-		operationalConditionTimeIfr: formatTime(
+		operationalConditionTimeIfr: minutesToTime(
 			log.singularTimes.operationalConditionIfr,
 		),
-		functionTimePilotInCommand: formatTime(
+		functionTimePilotInCommand: minutesToTime(
 			log.singularTimes.functionPilotInCommand,
 		),
-		functionTimeCoPilot: formatTime(log.singularTimes.functionCoPilot),
-		functionTimeDual: formatTime(log.singularTimes.functionDual),
-		functionTimeInstructor: formatTime(log.singularTimes.functionInstructor),
-		remarks: log.remarks ?? "",
+		functionTimeCoPilot: minutesToTime(log.singularTimes.functionCoPilot),
+		functionTimeDual: minutesToTime(log.singularTimes.functionDual),
+		functionTimeInstructor: minutesToTime(log.singularTimes.functionInstructor),
+		remarks: log.remarks,
 	} satisfies LogFormProps["initialValues"];
 
 	return (
