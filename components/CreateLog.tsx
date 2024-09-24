@@ -1,14 +1,13 @@
 import {
 	LogForm,
-	LogFormProps,
 	type LogFormFieldValues,
+	type LogFormProps,
 } from "@/components/forms/LogForm";
 import { getUserAircraft } from "@/db/queries/getUserAircraft";
 import { getUserPilots } from "@/db/queries/getUserPilots";
 import { getUserPlaces } from "@/db/queries/getUserPlaces";
 import { getUserId } from "@/helpers/getUserId";
-import { today } from "@internationalized/date";
-import { FC } from "react";
+import type { FC } from "react";
 
 const defaultValues = {
 	date: new Date(),

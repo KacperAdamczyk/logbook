@@ -1,16 +1,13 @@
-import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { type TimeValue } from "@/types/TimeValue";
-import { parseTime, Time } from "@internationalized/date";
-import {
-	Button,
-	TimeInput,
-	TimeInputProps,
-	cn,
-	type TimeInputValue,
-} from "@nextui-org/react";
+import type {
+	BaseFieldValues,
+	FieldBaseProps,
+} from "@/components/fields/fieldBase";
+import type { TimeValue } from "@/types/TimeValue";
+import { Time } from "@internationalized/date";
+import { Button, TimeInput, type TimeInputProps, cn } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
-import { useCallback, useRef } from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useCallback } from "react";
+import { useController } from "react-hook-form";
 
 export interface TimeFieldProps<FieldValues extends BaseFieldValues>
 	extends FieldBaseProps<FieldValues, TimeValue | null>,

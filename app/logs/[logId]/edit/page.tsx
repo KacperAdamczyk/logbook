@@ -6,7 +6,7 @@ interface Props {
 	};
 }
 
-export default function UpdateLogPage({params: {logId}}: Props) {
+export default function UpdateLogPage({ params: { logId } }: Props) {
 	return (
 		<section>
 			<h1 className="text-xl text-center mb-2">Edit Log</h1>
@@ -14,4 +14,3 @@ export default function UpdateLogPage({params: {logId}}: Props) {
 		</section>
 	);
 }
-

@@ -1,6 +1,9 @@
-import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { CalendarDate, fromDate } from "@internationalized/date";
-import { DatePicker, DatePickerProps } from "@nextui-org/react";
+import type {
+	BaseFieldValues,
+	FieldBaseProps,
+} from "@/components/fields/fieldBase";
+import { CalendarDate } from "@internationalized/date";
+import { DatePicker, type DatePickerProps } from "@nextui-org/react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 

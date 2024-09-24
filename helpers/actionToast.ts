@@ -4,18 +4,14 @@ interface ActionToastParams<Data> {
 	successMessageFn: (data?: Data) => string | undefined;
 }
 
-interface OnSuccessFn<Data> {
-	(data: { data?: Data }): void;
-}
+type OnSuccessFn<Data> = (data: { data?: Data }) => void;
 
-interface OnErrorFn {
-	(input: {
-		error: {
-			serverError?: string;
-			validationErrors?: { _errors?: string[] };
-		};
-	}): void;
-}
+type OnErrorFn = (input: {
+	error: {
+		serverError?: string;
+		validationErrors?: { _errors?: string[] };
+	};
+}) => void;
 
 export const actionToast = <Data>({
 	successMessageFn,
@@ -33,9 +29,9 @@ export const actionToast = <Data>({
 			toast.error(serverError);
 		}
 
-		validationErrors?._errors?.forEach((error) => {
+		for (const error of validationErrors?._errors ?? []) {
 			toast.error(error);
-		});
+		}
 	};
 
 	return { onSuccess, onError };

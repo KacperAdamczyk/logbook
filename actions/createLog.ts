@@ -9,7 +9,6 @@ import { getOrCreatePlace } from "@/db/actions/getOrCreatePlace";
 import { recalculateLogs } from "@/db/actions/recalculateLogs";
 import { getOverlappingLogs } from "@/db/queries/getOverlappingLogs";
 import { logs, times } from "@/db/schema";
-import { formatToMinutes } from "@/helpers/formatToMinutes";
 import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";
@@ -88,10 +87,10 @@ export const createLogAction = actionClient
 					arrivalPlaceId: arrivalPlace.id,
 					aircraftId: aircraft.id,
 					pilotInCommandId: pilot.id,
-					takeoffsDay: takeoffsDay ? parseInt(takeoffsDay) : null,
-					takeoffsNight: takeoffsNight ? parseInt(takeoffsNight) : null,
-					landingsDay: landingsDay ? parseInt(landingsDay) : null,
-					landingsNight: landingsNight ? parseInt(landingsNight) : null,
+					takeoffsDay: takeoffsDay ? Number.parseInt(takeoffsDay) : null,
+					takeoffsNight: takeoffsNight ? Number.parseInt(takeoffsNight) : null,
+					landingsDay: landingsDay ? Number.parseInt(landingsDay) : null,
+					landingsNight: landingsNight ? Number.parseInt(landingsNight) : null,
 					remarks: remarks,
 					singularTimesId: singularTimes.id,
 					cumulatedTimesId: cumulatedTimes.id,

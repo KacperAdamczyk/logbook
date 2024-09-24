@@ -1,4 +1,4 @@
-import { LogForm, LogFormProps } from "@/components/forms/LogForm";
+import { LogForm, type LogFormProps } from "@/components/forms/LogForm";
 import { db } from "@/db";
 import { getUserAircraft } from "@/db/queries/getUserAircraft";
 import { getUserPilots } from "@/db/queries/getUserPilots";
@@ -7,12 +7,12 @@ import { formatMinutes } from "@/helpers/formatMinutes";
 import { getUserId } from "@/helpers/getUserId";
 import {
 	CalendarDate,
+	Time,
 	fromDate,
 	parseTime,
-	Time,
 } from "@internationalized/date";
 import { notFound } from "next/navigation";
-import { FC } from "react";
+import type { FC } from "react";
 
 const formatTime = (time: number) =>
 	time ? parseTime(formatMinutes(time)).toString() : "";

@@ -4,7 +4,7 @@ export default function CreateLogPage() {
 	return (
 		<section>
 			<h1 className="text-xl text-center mb-2">Create New Log</h1>
-			<CreateLog onSuccessRedirect="/" />;
+			<CreateLog onSuccessRedirect="/" />
 		</section>
 	);
 }

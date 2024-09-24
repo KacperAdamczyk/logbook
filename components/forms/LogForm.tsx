@@ -4,28 +4,29 @@ import { logFormSchema } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { NumberField } from "@/components/fields/NumberField";
-import { RadioField, RadioFieldOption } from "@/components/fields/RadioField";
+import {
+	RadioField,
+	type RadioFieldOption,
+} from "@/components/fields/RadioField";
 import {
 	SelectField,
 	type SelectFieldItem,
 } from "@/components/fields/SelectField";
 import { TextAreaField } from "@/components/fields/TextAreaField";
-import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
+import { TimeField, type TimeFieldProps } from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
 import { actionToast } from "@/helpers/actionToast";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
-import { formatMinutes } from "@/helpers/formatMinutes";
+import { minutesToTime } from "@/helpers/minutesToTime";
+import type { TimeValue } from "@/types/TimeValue";
+import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parseTime, type Time } from "@internationalized/date";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Button, Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { FC, useMemo } from "react";
-import { DefaultValues, FormProvider } from "react-hook-form";
+import { type FC, useMemo } from "react";
+import { FormProvider } from "react-hook-form";
 import { toast } from "sonner";
-import { DevTool } from "@hookform/devtools";
-import { minutesToTime } from "@/helpers/minutesToTime";
-import type { TimeValue } from "@/types/TimeValue";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
