@@ -30,7 +30,7 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 	const {
 		field,
 		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	} = useController<FieldValues, typeof name>({ name });
 
 	const onInputChange = useCallback<
 		NonNullable<AutocompleteProps["onInputChange"]>

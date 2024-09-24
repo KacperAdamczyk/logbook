@@ -10,11 +10,7 @@ import {
 	type SelectFieldItem,
 } from "@/components/fields/SelectField";
 import { TextAreaField } from "@/components/fields/TextAreaField";
-import {
-	TimeField,
-	TimeFieldProps,
-	type TimeFieldValue,
-} from "@/components/fields/TimeField";
+import { TimeField, TimeFieldProps } from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
 import { actionToast } from "@/helpers/actionToast";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
@@ -28,32 +24,34 @@ import { FC, useMemo } from "react";
 import { DefaultValues, FormProvider } from "react-hook-form";
 import { toast } from "sonner";
 import { DevTool } from "@hookform/devtools";
+import { minutesToTime } from "@/helpers/minutesToTime";
+import type { TimeValue } from "@/types/TimeValue";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
-	date: string;
+	date: Date | null;
 	departurePlace: string;
-	departureTime: TimeFieldValue | null;
+	departureTime: TimeValue | null;
 	arrivalPlace: string;
-	arrivalTime: TimeFieldValue | null;
+	arrivalTime: TimeValue | null;
 	planeModel: string;
 	planeRegistration: string;
 	engineType: EngineType;
-	singlePilotTimeSingleEngine: TimeFieldValue | null;
-	singlePilotTimeMultiEngine: TimeFieldValue | null;
-	multiPilotTime: TimeFieldValue | null;
-	totalFlightTime: TimeFieldValue | null;
+	singlePilotTimeSingleEngine: TimeValue | null;
+	singlePilotTimeMultiEngine: TimeValue | null;
+	multiPilotTime: TimeValue | null;
+	totalFlightTime: TimeValue | null;
 	pilotInCommand: string;
 	takeoffsDay: number;
 	takeoffsNight: number;
 	landingsDay: number;
 	landingsNight: number;
-	operationalConditionTimeNight: TimeFieldValue | null;
-	operationalConditionTimeIfr: TimeFieldValue | null;
-	functionTimePilotInCommand: TimeFieldValue | null;
-	functionTimeCoPilot: TimeFieldValue | null;
-	functionTimeDual: TimeFieldValue | null;
-	functionTimeInstructor: TimeFieldValue | null;
+	operationalConditionTimeNight: TimeValue | null;
+	operationalConditionTimeIfr: TimeValue | null;
+	functionTimePilotInCommand: TimeValue | null;
+	functionTimeCoPilot: TimeValue | null;
+	functionTimeDual: TimeValue | null;
+	functionTimeInstructor: TimeValue | null;
 	remarks: string;
 }
 
@@ -136,16 +134,14 @@ export const LogForm: FC<LogFormProps> = ({
 			return null;
 		}
 
-		return calculateFlightTime(departureTime, arrivalTime);
+		return minutesToTime(calculateFlightTime(departureTime, arrivalTime));
 	}, [departureTime, arrivalTime]);
 
 	const fillProps = useMemo(
 		() =>
 			({
 				fillable: true,
-				fillValue: flightDuration
-					? parseTime(formatMinutes(flightDuration)).toString()
-					: undefined,
+				fillValue: flightDuration ?? undefined,
 			}) satisfies Pick<
 				TimeFieldProps<LogFormFieldValues>,
 				"fillable" | "fillValue"

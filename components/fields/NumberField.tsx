@@ -13,7 +13,7 @@ export function NumberField<FieldValues extends BaseFieldValues>({
 	const {
 		field,
 		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	} = useController<FieldValues, typeof name>({ name });
 
 	const handleChange = (value: string) => {
 		field.onChange(value);

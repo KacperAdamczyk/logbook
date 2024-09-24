@@ -25,7 +25,7 @@ export function RadioField<FieldValues extends BaseFieldValues>({
 	const {
 		field,
 		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	} = useController<FieldValues, typeof name>({ name });
 
 	return (
 		<RadioGroup

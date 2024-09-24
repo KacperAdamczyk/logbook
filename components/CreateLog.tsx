@@ -11,7 +11,7 @@ import { today } from "@internationalized/date";
 import { FC } from "react";
 
 const defaultValues = {
-	date: today("utc").toString(),
+	date: new Date(),
 	departurePlace: "",
 	departureTime: null,
 	arrivalPlace: "",

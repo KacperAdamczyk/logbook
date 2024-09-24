@@ -1,11 +1,11 @@
 import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { parseDate } from "@internationalized/date";
+import { CalendarDate, fromDate } from "@internationalized/date";
 import { DatePicker, DatePickerProps } from "@nextui-org/react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 interface DateFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
+	extends FieldBaseProps<FieldValues, Date | null>,
 		Pick<DatePickerProps, "className" | "label" | "isRequired"> {}
 
 export function DateField<FieldValues extends BaseFieldValues>({
@@ -13,27 +13,35 @@ export function DateField<FieldValues extends BaseFieldValues>({
 	...datePickerProps
 }: DateFieldProps<FieldValues>) {
 	const {
-		field,
+		field: { ref, name: fieldName, value, onChange, onBlur, disabled },
 		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	} = useController<FieldValues, typeof name>({ name });
 
-	const onChange = useCallback<NonNullable<DatePickerProps["onChange"]>>(
-		(value) => {
-			field.onChange(value ? value.toString() : undefined);
+	const handleChange = useCallback(
+		(date: CalendarDate | null) => {
+			onChange(date && date.toDate("utc"));
 		},
-		[field],
+		[onChange],
 	);
-	const value = field.value ? parseDate(field.value) : null;
+
+	const dateValue =
+		value &&
+		new CalendarDate(
+			value.getFullYear(),
+			value.getMonth() + 1,
+			value.getDate(),
+		);
 
 	return (
 		<DatePicker
-			name={field.name}
-			inputRef={field.ref}
-			value={value}
-			onChange={onChange}
-			onBlur={field.onBlur}
+			name={fieldName}
+			inputRef={ref}
+			value={dateValue}
+			onChange={handleChange}
+			onBlur={onBlur}
 			isInvalid={invalid}
 			errorMessage={error?.message}
+			isDisabled={disabled}
 			showMonthAndYearPickers
 			{...datePickerProps}
 		/>

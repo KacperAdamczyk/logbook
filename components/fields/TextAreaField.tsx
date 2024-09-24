@@ -16,7 +16,7 @@ export function TextAreaField<FieldValues extends BaseFieldValues>({
 	// const {
 	// 	field,
 	// 	fieldState: { invalid, error },
-	// } = useController<FieldValues>({ name });
+	// } = useController<FieldValues, typeof name>({ name });
 
 	const { register } = useFormContext();
 	const field = register(name);

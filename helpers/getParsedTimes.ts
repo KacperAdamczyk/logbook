@@ -1,5 +1,5 @@
 import type { LogFormValues } from "@/actions/validation/logFormSchema";
-import { formatToMinutes } from "@/helpers/formatToMinutes";
+import { timeToMinutes } from "@/helpers/timeToMinutes";
 
 type GetParsedTimesArgs = Pick<
 	LogFormValues,
@@ -27,30 +27,28 @@ export const getParsedTimes = ({
 	functionTimeInstructor,
 	functionTimeDual,
 }: GetParsedTimesArgs) => ({
-	totalFlight: formatToMinutes(totalFlightTime),
+	totalFlight: timeToMinutes(totalFlightTime),
 	singlePilotSingleEngine: singlePilotTimeSingleEngine
-		? formatToMinutes(singlePilotTimeSingleEngine)
+		? timeToMinutes(singlePilotTimeSingleEngine)
 		: undefined,
 	singlePilotMultiEngine: singlePilotTimeMultiEngine
-		? formatToMinutes(singlePilotTimeMultiEngine)
+		? timeToMinutes(singlePilotTimeMultiEngine)
 		: undefined,
-	multiPilot: multiPilotTime ? formatToMinutes(multiPilotTime) : undefined,
+	multiPilot: multiPilotTime ? timeToMinutes(multiPilotTime) : undefined,
 	operationalConditionNight: operationalConditionTimeNight
-		? formatToMinutes(operationalConditionTimeNight)
+		? timeToMinutes(operationalConditionTimeNight)
 		: undefined,
 	operationalConditionIfr: operationalConditionTimeIfr
-		? formatToMinutes(operationalConditionTimeIfr)
+		? timeToMinutes(operationalConditionTimeIfr)
 		: undefined,
 	functionPilotInCommand: functionTimePilotInCommand
-		? formatToMinutes(functionTimePilotInCommand)
+		? timeToMinutes(functionTimePilotInCommand)
 		: undefined,
 	functionCoPilot: functionTimeCoPilot
-		? formatToMinutes(functionTimeCoPilot)
+		? timeToMinutes(functionTimeCoPilot)
 		: undefined,
-	functionDual: functionTimeDual
-		? formatToMinutes(functionTimeDual)
-		: undefined,
+	functionDual: functionTimeDual ? timeToMinutes(functionTimeDual) : undefined,
 	functionInstructor: functionTimeInstructor
-		? formatToMinutes(functionTimeInstructor)
+		? timeToMinutes(functionTimeInstructor)
 		: undefined,
 });

@@ -1,5 +1,5 @@
 import { BaseFieldValues, FieldBaseProps } from "@/components/fields/FieldBase";
-import { isTimeValue, type TimeValue } from "@/types/TimeValue";
+import { type TimeValue } from "@/types/TimeValue";
 import { parseTime, Time } from "@internationalized/date";
 import {
 	Button,
@@ -29,7 +29,7 @@ export function TimeField<FieldValues extends BaseFieldValues>({
 	const {
 		field: { name: fieldName, ref, value, onChange, onBlur, disabled },
 		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	} = useController<FieldValues, typeof name>({ name });
 
 	const handleChange = useCallback(
 		(time: Time | null) => {
@@ -45,10 +45,6 @@ export function TimeField<FieldValues extends BaseFieldValues>({
 
 		onChange(fillValue);
 	}, [fillValue, onChange]);
-
-	if (value !== null && !isTimeValue(value)) {
-		throw new Error(`Time field value ${name} must be an object`);
-	}
 
 	const timeValue = value && new Time(value.hour, value.minute);
 

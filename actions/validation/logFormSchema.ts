@@ -17,11 +17,11 @@ const timeSchema = z.object(
 	},
 	{ message: "Must be a valid time" },
 );
-const optionalTimeSchema = z.union([timeSchema, z.null()]);
+const optionalTimeSchema = timeSchema.nullable();
 
 export const logFormSchema = z
 	.object({
-		date: z.coerce
+		date: z
 			.date()
 			.min(
 				new Date("1900-01-01"),
@@ -30,13 +30,6 @@ export const logFormSchema = z
 			.max(
 				new Date("2100-01-01"),
 				"Date must be smaller than or equal to 2100-01-01",
-			)
-			.transform((date) =>
-				new CalendarDate(
-					date.getUTCFullYear(),
-					date.getUTCMonth() + 1,
-					date.getUTCDate(),
-				).toString(),
 			),
 		departurePlace: z.string().trim().min(1),
 		departureTime: timeSchema,
