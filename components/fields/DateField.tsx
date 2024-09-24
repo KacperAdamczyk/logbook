@@ -8,7 +8,7 @@ import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 interface DateFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, Date | null>,
+	extends FieldBaseProps<FieldValues, Date | undefined>,
 		Pick<DatePickerProps, "className" | "label" | "isRequired"> {}
 
 export function DateField<FieldValues extends BaseFieldValues>({
@@ -22,7 +22,7 @@ export function DateField<FieldValues extends BaseFieldValues>({
 
 	const handleChange = useCallback(
 		(date: CalendarDate | null) => {
-			onChange(date && date.toDate("utc"));
+			onChange(date?.toDate("utc"));
 		},
 		[onChange],
 	);

@@ -8,14 +8,11 @@ const landingsTakeoffsSchema = z.coerce
 	.nonnegative()
 	.optional()
 	.transform((value) => value?.toString());
-const timeSchema = z.object(
-	{
-		hour: z.number().int().min(0).max(23),
-		minute: z.number().int().min(0).max(59),
-	},
-	{ message: "Must be a valid time" },
-);
-const optionalTimeSchema = timeSchema.nullable();
+const timeSchema = z.object({
+	hour: z.number().int().min(0).max(23),
+	minute: z.number().int().min(0).max(59),
+});
+const optionalTimeSchema = timeSchema.optional();
 
 export const logFormSchema = z
 	.object({

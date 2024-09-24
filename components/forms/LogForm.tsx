@@ -30,34 +30,34 @@ import { toast } from "sonner";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
-	date: Date | null;
+	date: Date | undefined;
 	departurePlace: string;
-	departureTime: TimeValue | null;
+	departureTime: TimeValue | undefined;
 	arrivalPlace: string;
-	arrivalTime: TimeValue | null;
+	arrivalTime: TimeValue | undefined;
 	planeModel: string;
 	planeRegistration: string;
 	engineType: EngineType;
-	singlePilotTimeSingleEngine: TimeValue | null;
-	singlePilotTimeMultiEngine: TimeValue | null;
-	multiPilotTime: TimeValue | null;
-	totalFlightTime: TimeValue | null;
+	singlePilotTimeSingleEngine: TimeValue | undefined;
+	singlePilotTimeMultiEngine: TimeValue | undefined;
+	multiPilotTime: TimeValue | undefined;
+	totalFlightTime: TimeValue | undefined;
 	pilotInCommand: string;
-	takeoffsDay: number;
-	takeoffsNight: number;
-	landingsDay: number;
-	landingsNight: number;
-	operationalConditionTimeNight: TimeValue | null;
-	operationalConditionTimeIfr: TimeValue | null;
-	functionTimePilotInCommand: TimeValue | null;
-	functionTimeCoPilot: TimeValue | null;
-	functionTimeDual: TimeValue | null;
-	functionTimeInstructor: TimeValue | null;
-	remarks: string;
+	takeoffsDay: number | undefined;
+	takeoffsNight: number | undefined;
+	landingsDay: number | undefined;
+	landingsNight: number | undefined;
+	operationalConditionTimeNight: TimeValue | undefined;
+	operationalConditionTimeIfr: TimeValue | undefined;
+	functionTimePilotInCommand: TimeValue | undefined;
+	functionTimeCoPilot: TimeValue | undefined;
+	functionTimeDual: TimeValue | undefined;
+	functionTimeInstructor: TimeValue | undefined;
+	remarks: string | undefined;
 }
 
 export interface LogFormProps {
-	defaultValues: LogFormFieldValues;
+	initialValues: LogFormFieldValues;
 	submitLabel: string;
 	action: "create" | "edit";
 	aircraft: Aircraft[];
@@ -78,7 +78,7 @@ const actionMap = {
 } as const;
 
 export const LogForm: FC<LogFormProps> = ({
-	defaultValues,
+	initialValues: initialValues,
 	submitLabel,
 	action,
 	aircraft,
@@ -97,7 +97,7 @@ export const LogForm: FC<LogFormProps> = ({
 		action: { isPending },
 	} = useHookFormAction(actionMap[action], zodResolver(logFormSchema), {
 		formProps: {
-			defaultValues,
+			defaultValues: initialValues,
 		},
 		actionProps: {
 			...toasts,
@@ -121,7 +121,7 @@ export const LogForm: FC<LogFormProps> = ({
 		},
 	});
 
-	console.log(defaultValues);
+	console.log(initialValues);
 
 	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
 		"planeModel",
@@ -132,7 +132,7 @@ export const LogForm: FC<LogFormProps> = ({
 
 	const flightDuration = useMemo(() => {
 		if (!departureTime || !arrivalTime) {
-			return null;
+			return undefined;
 		}
 
 		return minutesToTime(calculateFlightTime(departureTime, arrivalTime));

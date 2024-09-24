@@ -5,7 +5,7 @@ import { IconClockHour1 } from "@tabler/icons-react";
 import type { FC } from "react";
 
 interface Props {
-	duration: TimeValue | null;
+	duration: TimeValue | undefined;
 	className?: string;
 }
 

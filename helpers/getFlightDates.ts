@@ -1,33 +1,27 @@
-import {
-	CalendarDateTime,
-	parseDate,
-	parseTime,
-} from "@internationalized/date";
+import type { TimeValue } from "@/types/TimeValue";
+import { CalendarDateTime, Time } from "@internationalized/date";
 
 export const getFlightDates = (
-	date: string,
-	departureTime: string,
-	arrivalTime: string,
+	date: Date,
+	departureTime: TimeValue,
+	arrivalTime: TimeValue,
 ) => {
-	const baseDate = parseDate(date);
-	const departure = parseTime(departureTime);
-	const arrival = parseTime(arrivalTime);
+	const departure = new Time(departureTime.hour, departureTime.minute);
+	const arrival = new Time(arrivalTime.hour, arrivalTime.minute);
 
 	const departureDate = new CalendarDateTime(
-		baseDate.year,
-		baseDate.month,
-		baseDate.day,
-		departure.hour,
-		departure.minute,
-		departure.second,
+		date.getFullYear(),
+		date.getMonth() + 1,
+		date.getDate(),
+		departureTime.hour,
+		departureTime.minute,
 	);
 	const arrivalDate = new CalendarDateTime(
-		baseDate.year,
-		baseDate.month,
-		baseDate.day,
-		arrival.hour,
-		arrival.minute,
-		arrival.second,
+		date.getFullYear(),
+		date.getMonth() + 1,
+		date.getDate(),
+		arrivalTime.hour,
+		arrivalTime.minute,
 	).add({ days: departure.compare(arrival) > 0 ? 1 : 0 });
 
 	return [departureDate.toDate("utc"), arrivalDate.toDate("utc")];

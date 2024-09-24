@@ -9,31 +9,31 @@ import { getUserPlaces } from "@/db/queries/getUserPlaces";
 import { getUserId } from "@/helpers/getUserId";
 import type { FC } from "react";
 
-const defaultValues = {
+const initialValues = {
 	date: new Date(),
 	departurePlace: "",
-	departureTime: null,
+	departureTime: undefined,
 	arrivalPlace: "",
-	arrivalTime: null,
+	arrivalTime: undefined,
 	planeModel: "",
 	planeRegistration: "",
 	engineType: "single",
-	singlePilotTimeSingleEngine: null,
-	singlePilotTimeMultiEngine: null,
-	multiPilotTime: null,
-	totalFlightTime: null,
+	singlePilotTimeSingleEngine: undefined,
+	singlePilotTimeMultiEngine: undefined,
+	multiPilotTime: undefined,
+	totalFlightTime: undefined,
 	pilotInCommand: "",
-	takeoffsDay: null,
-	takeoffsNight: null,
-	landingsDay: null,
-	landingsNight: null,
-	operationalConditionTimeNight: null,
-	operationalConditionTimeIfr: null,
-	functionTimePilotInCommand: null,
-	functionTimeCoPilot: null,
-	functionTimeDual: null,
-	functionTimeInstructor: null,
-	remarks: "",
+	takeoffsDay: undefined,
+	takeoffsNight: undefined,
+	landingsDay: undefined,
+	landingsNight: undefined,
+	operationalConditionTimeNight: undefined,
+	operationalConditionTimeIfr: undefined,
+	functionTimePilotInCommand: undefined,
+	functionTimeCoPilot: undefined,
+	functionTimeDual: undefined,
+	functionTimeInstructor: undefined,
+	remarks: undefined,
 } satisfies LogFormFieldValues;
 
 interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {}
@@ -49,7 +49,7 @@ export const CreateLog: FC<Props> = async ({ onSuccessRedirect }) => {
 
 	return (
 		<LogForm
-			defaultValues={defaultValues}
+			initialValues={initialValues}
 			submitLabel="Create Log"
 			action="create"
 			aircraft={aircraft}

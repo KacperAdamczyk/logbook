@@ -93,11 +93,11 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		functionTimeDual: formatTime(log.singularTimes.functionDual),
 		functionTimeInstructor: formatTime(log.singularTimes.functionInstructor),
 		remarks: log.remarks ?? "",
-	} satisfies LogFormProps["defaultValues"];
+	} satisfies LogFormProps["initialValues"];
 
 	return (
 		<LogForm
-			defaultValues={defaultValues}
+			initialValues={defaultValues}
 			submitLabel="Edit Log"
 			action="edit"
 			aircraft={aircraft}

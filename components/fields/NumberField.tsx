@@ -3,10 +3,11 @@ import type {
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
 import { Input, type InputProps } from "@nextui-org/react";
+import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
 interface NumberFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string>,
+	extends FieldBaseProps<FieldValues, number | undefined>,
 		Pick<InputProps, "className" | "label" | "isRequired"> {}
 
 export function NumberField<FieldValues extends BaseFieldValues>({
@@ -18,16 +19,19 @@ export function NumberField<FieldValues extends BaseFieldValues>({
 		fieldState: { invalid, error },
 	} = useController<FieldValues, typeof name>({ name });
 
-	const handleChange = (value: string) => {
-		field.onChange(value);
-	};
+	const handleChange = useCallback(
+		(value: string) => {
+			field.onChange(value !== "" ? Number.parseInt(value) : undefined);
+		},
+		[field],
+	);
 
 	return (
 		<Input
 			type="number"
 			name={field.name}
 			ref={field.ref}
-			value={field.value}
+			value={field.value ?? ""}
 			onValueChange={handleChange}
 			onBlur={field.onBlur}
 			isInvalid={invalid}
