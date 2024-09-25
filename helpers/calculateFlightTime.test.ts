@@ -3,13 +3,13 @@ import { describe, expect, test } from "vitest";
 
 describe("calculateFlightTime", () => {
 	test.each([
-		["10:00", "11:00", 60],
-		["10:00", "12:00", 120],
-		["10:00", "10:30", 30],
-		["06:00", "16:00", 600],
-		["23:00", "01:00", 120],
-		["23:59", "00:01", 2],
-		["17:00", "03:00", 600],
+		[{ hour: 10, minute: 0 }, { hour: 11, minute: 0 }, 60],
+		[{ hour: 10, minute: 0 }, { hour: 12, minute: 0 }, 120],
+		[{ hour: 10, minute: 0 }, { hour: 10, minute: 30 }, 30],
+		[{ hour: 6, minute: 0 }, { hour: 16, minute: 0 }, 600],
+		[{ hour: 23, minute: 0 }, { hour: 1, minute: 0 }, 120],
+		[{ hour: 23, minute: 59 }, { hour: 0, minute: 1 }, 2],
+		[{ hour: 17, minute: 0 }, { hour: 3, minute: 0 }, 600],
 	])(
 		"should calculate flight time correctly from %s to %s as %i minutes",
 		(departureTime, arrivalTime, expected) => {

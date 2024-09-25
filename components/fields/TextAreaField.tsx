@@ -33,7 +33,7 @@ export function TextAreaField<FieldValues extends BaseFieldValues>({
 		<Textarea
 			name={field.name}
 			ref={field.ref}
-			value={field.value}
+			value={field.value ?? ""}
 			onValueChange={handleChange}
 			onBlur={field.onBlur}
 			isInvalid={invalid}

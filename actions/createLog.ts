@@ -31,7 +31,7 @@ export const createLogAction = actionClient
 
 			if (overlappingLogs.length) {
 				returnValidationErrors(logFormSchema, {
-					date: { _errors: ["This log overlaps with an existing log"] },
+					_errors: ["This log overlaps with an existing log"],
 				});
 			}
 
@@ -85,10 +85,10 @@ export const createLogAction = actionClient
 					arrivalPlaceId: arrivalPlace.id,
 					aircraftId: aircraft.id,
 					pilotInCommandId: pilot.id,
-					takeoffsDay: takeoffsDay ? Number.parseInt(takeoffsDay) : null,
-					takeoffsNight: takeoffsNight ? Number.parseInt(takeoffsNight) : null,
-					landingsDay: landingsDay ? Number.parseInt(landingsDay) : null,
-					landingsNight: landingsNight ? Number.parseInt(landingsNight) : null,
+					takeoffsDay,
+					takeoffsNight,
+					landingsDay,
+					landingsNight,
 					remarks: remarks,
 					singularTimesId: singularTimes.id,
 					cumulatedTimesId: cumulatedTimes.id,

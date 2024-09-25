@@ -1,6 +1,9 @@
 "use client";
 import { createLogAction } from "@/actions/createLog";
-import { logFormSchema } from "@/actions/validation/logFormSchema";
+import {
+	type LogFormValues,
+	logFormSchema,
+} from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { NumberField } from "@/components/fields/NumberField";
@@ -21,11 +24,12 @@ import { minutesToTime } from "@/helpers/minutesToTime";
 import type { TimeValue } from "@/types/TimeValue";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useHookFormActionErrorMapper } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Button, Divider } from "@nextui-org/react";
+import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { type FC, useMemo } from "react";
-import { FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export type EngineType = "single" | "multi";
@@ -92,36 +96,36 @@ export const LogForm: FC<LogFormProps> = ({
 		successMessageFn: () => onSuccessToast,
 	});
 	const {
-		handleSubmitWithAction,
-		form,
-		action: { isPending },
-	} = useHookFormAction(actionMap[action], zodResolver(logFormSchema), {
-		formProps: {
-			defaultValues: initialValues,
-		},
-		actionProps: {
-			...toasts,
-			onSuccess: ({ data }) => {
-				toasts.onSuccess({ data });
+		executeAsync,
+		isPending,
+		result: { validationErrors },
+	} = useAction(actionMap[action], {
+		...toasts,
+		onSuccess: ({ data }) => {
+			toasts.onSuccess({ data });
 
-				const updatedTimesCount = data?.updatedTimes?.length ?? 0;
+			const updatedTimesCount = data?.updatedTimes?.length ?? 0;
 
-				if (updatedTimesCount > 1) {
-					toast.info(`Recalculated ${updatedTimesCount - 1} additional logs`);
+			if (updatedTimesCount > 1) {
+				toast.info(`Recalculated ${updatedTimesCount - 1} additional logs`);
+			}
+
+			if (onSuccessRedirect) {
+				if (onSuccessRedirect === "..") {
+					router.back();
+				} else {
+					router.push(onSuccessRedirect);
 				}
-
-				if (onSuccessRedirect) {
-					if (onSuccessRedirect === "..") {
-						router.back();
-					} else {
-						router.push(onSuccessRedirect);
-					}
-				}
-			},
+			}
 		},
 	});
-
-	console.log(initialValues);
+	const { hookFormValidationErrors } =
+		useHookFormActionErrorMapper(validationErrors);
+	const form = useForm<LogFormFieldValues, void, LogFormValues>({
+		defaultValues: initialValues,
+		resolver: zodResolver(logFormSchema),
+		errors: hookFormValidationErrors,
+	});
 
 	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
 		"planeModel",
@@ -158,7 +162,7 @@ export const LogForm: FC<LogFormProps> = ({
 			]),
 		);
 
-		return Array.from(aircraftMap.values());
+		return aircraftMap.values().toArray();
 	}, [aircraft]);
 
 	const aircraftRegistrationItems = useMemo(
@@ -203,7 +207,7 @@ export const LogForm: FC<LogFormProps> = ({
 		<FormProvider {...form}>
 			<form
 				className="grid grid-cols-4 gap-2 max-w-5xl mx-auto"
-				onSubmit={handleSubmitWithAction}
+				onSubmit={form.handleSubmit(executeAsync)}
 			>
 				<DateField<LogFormFieldValues>
 					className="col-span-4"
