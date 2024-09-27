@@ -95,7 +95,7 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		<LogForm
 			initialValues={defaultValues}
 			submitLabel="Edit Log"
-			action="edit"
+			logId={logId}
 			aircraft={aircraft}
 			pilots={pilots}
 			places={places}

@@ -1,5 +1,6 @@
 "use client";
 import { createLogAction } from "@/actions/createLog";
+import { updateLogAction } from "@/actions/updateLog";
 import {
 	type LogFormValues,
 	logFormSchema,
@@ -63,7 +64,7 @@ export interface LogFormFieldValues {
 export interface LogFormProps {
 	initialValues: LogFormFieldValues;
 	submitLabel: string;
-	action: "create" | "edit";
+	logId?: string;
 	aircraft: Aircraft[];
 	pilots: Pilot[];
 	places: Place[];
@@ -76,15 +77,10 @@ const engineOptions = [
 	{ label: "Multi", value: "multi" },
 ] satisfies RadioFieldOption[];
 
-const actionMap = {
-	create: createLogAction,
-	edit: createLogAction,
-} as const;
-
 export const LogForm: FC<LogFormProps> = ({
 	initialValues,
 	submitLabel,
-	action,
+	logId,
 	aircraft,
 	pilots,
 	places,
@@ -95,16 +91,20 @@ export const LogForm: FC<LogFormProps> = ({
 	const toasts = actionToast({
 		successMessageFn: () => onSuccessToast,
 	});
+
+	const action = logId
+		? updateLogAction.bind(null, logId)
+		: createLogAction.bind(null, null);
 	const {
 		executeAsync,
 		isPending,
 		result: { validationErrors },
-	} = useAction(actionMap[action], {
+	} = useAction(action, {
 		...toasts,
 		onSuccess: ({ data }) => {
 			toasts.onSuccess({ data });
 
-			const updatedTimesCount = data?.updatedTimes?.length ?? 0;
+			const updatedTimesCount = data?.recalculatedLogsCount ?? 0;
 
 			if (updatedTimesCount > 1) {
 				toast.info(`Recalculated ${updatedTimesCount - 1} additional logs`);

@@ -51,7 +51,6 @@ export const CreateLog: FC<Props> = async ({ onSuccessRedirect }) => {
 		<LogForm
 			initialValues={initialValues}
 			submitLabel="Create Log"
-			action="create"
 			aircraft={aircraft}
 			pilots={pilots}
 			places={places}

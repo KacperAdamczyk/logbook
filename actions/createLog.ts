@@ -13,9 +13,11 @@ import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export const createLogAction = actionClient
 	.schema(logFormSchema)
+	.bindArgsSchemas([z.null()])
 	.action(async ({ parsedInput, ctx: { userId } }) =>
 		db.transaction(async (tx) => {
 			const [departure, arrival] = getFlightDates(
@@ -89,19 +91,19 @@ export const createLogAction = actionClient
 					takeoffsNight,
 					landingsDay,
 					landingsNight,
-					remarks: remarks,
+					remarks,
 					singularTimesId: singularTimes.id,
 					cumulatedTimesId: cumulatedTimes.id,
 				})
 				.returning();
 
-			const updatedTimes = await recalculateLogs(
+			const recalculatedLogs = await recalculateLogs(
 				{ userId, since: log.departureAt },
 				tx,
 			);
 
 			revalidatePath("/");
 
-			return { log, updatedTimes };
+			return { log, recalculatedLogsCount: recalculatedLogs.length };
 		}),
 	);
