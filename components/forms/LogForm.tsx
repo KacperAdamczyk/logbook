@@ -146,7 +146,7 @@ export const LogForm: FC<LogFormProps> = ({
 		() =>
 			({
 				fillable: true,
-				fillValue: flightDuration ?? undefined,
+				fillValue: flightDuration,
 			}) satisfies Pick<
 				TimeFieldProps<LogFormFieldValues>,
 				"fillable" | "fillValue"
