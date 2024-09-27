@@ -13,10 +13,16 @@ interface Props {
 export default function LogPage({ params: { logId } }: Props) {
 	return (
 		<section className="flex flex-col gap-2">
-			<div className="flex justify-center items-center">
+			<div className="flex gap-1 justify-center items-center">
 				<h1 className="text-xl text-center grow">Log</h1>
 				<DeleteLogButton logId={logId} redirect="/" />
-				<Button as={Link} href={`/logs/${logId}/edit`} isIconOnly>
+				<Button
+					as={Link}
+					href={`/logs/${logId}/edit`}
+					isIconOnly
+					variant="flat"
+					color="warning"
+				>
 					<IconEdit />
 				</Button>
 			</div>
