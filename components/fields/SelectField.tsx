@@ -13,11 +13,10 @@ import { useController } from "react-hook-form";
 export interface SelectFieldItem {
 	label: string;
 	value: string;
-	key?: string;
 }
 
 interface SelectFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
+	extends FieldBaseProps<FieldValues, string | null>,
 		Pick<
 			AutocompleteProps,
 			"className" | "label" | "isRequired" | "isDisabled"
@@ -33,32 +32,47 @@ export function SelectField<FieldValues extends BaseFieldValues>({
 	const {
 		field,
 		fieldState: { invalid, error },
-	} = useController<FieldValues>({ name });
+	} = useController<FieldValues, typeof name>({ name });
 
-	const onChange = useCallback<NonNullable<AutocompleteProps["onInputChange"]>>(
+	const onInputChange = useCallback<
+		NonNullable<AutocompleteProps["onInputChange"]>
+	>(
 		(value) => {
-			field.onChange(value === "" ? undefined : value);
+			field.onChange(value);
 		},
 		[field],
 	);
 
+	const onSelectionChange = useCallback<
+		NonNullable<AutocompleteProps["onSelectionChange"]>
+	>(
+		(value) => {
+			field.onChange(value);
+		},
+		[field],
+	);
+
+	const currentItem = items.find((item) => item.value === field.value);
+	const selectedKey = currentItem?.value ?? null;
+
 	return (
 		<Autocomplete
 			name={field.name}
-			ref={field.ref}
-			value={field.value}
-			onInputChange={onChange}
+			wrapperRef={field.ref}
+			inputValue={field.value ?? ""}
+			selectedKey={selectedKey}
+			onInputChange={onInputChange}
+			onSelectionChange={onSelectionChange}
 			onBlur={field.onBlur}
 			isInvalid={invalid}
 			errorMessage={error?.message}
 			items={items}
 			allowsCustomValue
+			isClearable
 			{...autocompleteProps}
 		>
 			{(item) => (
-				<AutocompleteItem key={item.key ?? item.value}>
-					{item.label}
-				</AutocompleteItem>
+				<AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>
 			)}
 		</Autocomplete>
 	);

@@ -13,9 +13,11 @@ import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export const createLogAction = actionClient
 	.schema(logFormSchema)
+	.bindArgsSchemas([z.null()])
 	.action(async ({ parsedInput, ctx: { userId } }) =>
 		db.transaction(async (tx) => {
 			const [departure, arrival] = getFlightDates(
@@ -31,7 +33,7 @@ export const createLogAction = actionClient
 
 			if (overlappingLogs.length) {
 				returnValidationErrors(logFormSchema, {
-					date: { _errors: ["This log overlaps with an existing log"] },
+					_errors: ["This log overlaps with an existing log"],
 				});
 			}
 
@@ -67,6 +69,14 @@ export const createLogAction = actionClient
 				.values([getParsedTimes(parsedInput), {}])
 				.returning();
 
+			const {
+				takeoffsDay,
+				takeoffsNight,
+				landingsDay,
+				landingsNight,
+				remarks,
+			} = parsedInput;
+
 			const [log] = await tx
 				.insert(logs)
 				.values({
@@ -77,23 +87,23 @@ export const createLogAction = actionClient
 					arrivalPlaceId: arrivalPlace.id,
 					aircraftId: aircraft.id,
 					pilotInCommandId: pilot.id,
-					takeoffsDay: parsedInput.takeoffsDay,
-					takeoffsNight: parsedInput.takeoffsNight,
-					landingsDay: parsedInput.landingsDay,
-					landingsNight: parsedInput.landingsNight,
-					remarks: parsedInput.remarks,
+					takeoffsDay,
+					takeoffsNight,
+					landingsDay,
+					landingsNight,
+					remarks,
 					singularTimesId: singularTimes.id,
 					cumulatedTimesId: cumulatedTimes.id,
 				})
 				.returning();
 
-			const updatedTimes = await recalculateLogs(
+			const recalculatedLogs = await recalculateLogs(
 				{ userId, since: log.departureAt },
 				tx,
 			);
 
 			revalidatePath("/");
 
-			return { log, updatedTimes };
+			return { log, recalculatedLogsCount: recalculatedLogs.length };
 		}),
 	);

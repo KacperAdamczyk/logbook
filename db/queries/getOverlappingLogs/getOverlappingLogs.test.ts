@@ -107,4 +107,15 @@ describe("getOverlappingLogs", () => {
 
 		expect(result).toHaveLength(+overlaps);
 	});
+
+	test("skips a log with logId", async () => {
+		const result = await getOverlappingLogs({
+			userId: user1.id,
+			departure: new Date("2024-05-03T11:00:00Z"),
+			arrival: new Date("2024-05-03T12:30:00Z"),
+			logId: log1.id,
+		});
+
+		expect(result).toHaveLength(0);
+	});
 });

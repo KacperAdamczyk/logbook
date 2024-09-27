@@ -1,6 +1,10 @@
 "use client";
 import { createLogAction } from "@/actions/createLog";
-import { logFormSchema } from "@/actions/validation/logFormSchema";
+import { updateLogAction } from "@/actions/updateLog";
+import {
+	type LogFormValues,
+	logFormSchema,
+} from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import { DateField } from "@/components/fields/DateField";
 import { NumberField } from "@/components/fields/NumberField";
@@ -17,48 +21,50 @@ import { TimeField, type TimeFieldProps } from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
 import { actionToast } from "@/helpers/actionToast";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
-import { formatMinutes } from "@/helpers/formatMinutes";
+import { minutesToTime } from "@/helpers/minutesToTime";
+import type { TimeValue } from "@/types/TimeValue";
+import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { parseTime } from "@internationalized/date";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useHookFormActionErrorMapper } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Button, Divider } from "@nextui-org/react";
+import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { type FC, useMemo } from "react";
-import { type DefaultValues, FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export type EngineType = "single" | "multi";
 export interface LogFormFieldValues {
-	date: string;
-	departurePlace: string | undefined;
-	departureTime: string | undefined;
-	arrivalPlace: string | undefined;
-	arrivalTime: string | undefined;
-	planeModel: string | undefined;
-	planeRegistration: string | undefined;
+	date: Date | null;
+	departurePlace: string | null;
+	departureTime: TimeValue | null;
+	arrivalPlace: string | null;
+	arrivalTime: TimeValue | null;
+	planeModel: string | null;
+	planeRegistration: string | null;
 	engineType: EngineType;
-	singlePilotTimeSingleEngine: string | undefined;
-	singlePilotTimeMultiEngine: string | undefined;
-	multiPilotTime: string | undefined;
-	totalFlightTime: string | undefined;
-	pilotInCommand: string | undefined;
-	takeoffsDay: number | undefined;
-	takeoffsNight: number | undefined;
-	landingsDay: number | undefined;
-	landingsNight: number | undefined;
-	operationalConditionTimeNight: string | undefined;
-	operationalConditionTimeIfr: string | undefined;
-	functionTimePilotInCommand: string | undefined;
-	functionTimeCoPilot: string | undefined;
-	functionTimeDual: string | undefined;
-	functionTimeInstructor: string | undefined;
-	remarks: string | undefined;
+	singlePilotTimeSingleEngine: TimeValue | null;
+	singlePilotTimeMultiEngine: TimeValue | null;
+	multiPilotTime: TimeValue | null;
+	totalFlightTime: TimeValue | null;
+	pilotInCommand: string | null;
+	takeoffsDay: number | null;
+	takeoffsNight: number | null;
+	landingsDay: number | null;
+	landingsNight: number | null;
+	operationalConditionTimeNight: TimeValue | null;
+	operationalConditionTimeIfr: TimeValue | null;
+	functionTimePilotInCommand: TimeValue | null;
+	functionTimeCoPilot: TimeValue | null;
+	functionTimeDual: TimeValue | null;
+	functionTimeInstructor: TimeValue | null;
+	remarks: string | null;
 }
 
 export interface LogFormProps {
-	defaultValues?: DefaultValues<LogFormFieldValues>;
+	initialValues: LogFormFieldValues;
 	submitLabel: string;
-	action: "create";
+	logId?: string;
 	aircraft: Aircraft[];
 	pilots: Pilot[];
 	places: Place[];
@@ -71,14 +77,10 @@ const engineOptions = [
 	{ label: "Multi", value: "multi" },
 ] satisfies RadioFieldOption[];
 
-const actionMap = {
-	create: createLogAction,
-} as const;
-
 export const LogForm: FC<LogFormProps> = ({
-	defaultValues,
+	initialValues,
 	submitLabel,
-	action,
+	logId,
 	aircraft,
 	pilots,
 	places,
@@ -89,34 +91,40 @@ export const LogForm: FC<LogFormProps> = ({
 	const toasts = actionToast({
 		successMessageFn: () => onSuccessToast,
 	});
+
+	const action = logId
+		? updateLogAction.bind(null, logId)
+		: createLogAction.bind(null, null);
 	const {
-		handleSubmitWithAction,
-		form,
-		action: { isPending },
-	} = useHookFormAction(actionMap[action], zodResolver(logFormSchema), {
-		formProps: {
-			defaultValues,
-		},
-		actionProps: {
-			...toasts,
-			onSuccess: ({ data }) => {
-				toasts.onSuccess({ data });
+		executeAsync,
+		isPending,
+		result: { validationErrors },
+	} = useAction(action, {
+		...toasts,
+		onSuccess: ({ data }) => {
+			toasts.onSuccess({ data });
 
-				const updatedTimesCount = data?.updatedTimes?.length ?? 0;
+			const updatedTimesCount = data?.recalculatedLogsCount ?? 0;
 
-				if (updatedTimesCount > 1) {
-					toast.info(`Recalculated ${updatedTimesCount - 1} additional logs`);
+			if (updatedTimesCount > 1) {
+				toast.info(`Recalculated ${updatedTimesCount - 1} additional logs`);
+			}
+
+			if (onSuccessRedirect) {
+				if (onSuccessRedirect === "..") {
+					router.back();
+				} else {
+					router.push(onSuccessRedirect);
 				}
-
-				if (onSuccessRedirect) {
-					if (onSuccessRedirect === "..") {
-						router.back();
-					} else {
-						router.push(onSuccessRedirect);
-					}
-				}
-			},
+			}
 		},
+	});
+	const { hookFormValidationErrors } =
+		useHookFormActionErrorMapper(validationErrors);
+	const form = useForm<LogFormFieldValues, void, LogFormValues>({
+		defaultValues: initialValues,
+		resolver: zodResolver(logFormSchema),
+		errors: hookFormValidationErrors,
 	});
 
 	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
@@ -128,19 +136,17 @@ export const LogForm: FC<LogFormProps> = ({
 
 	const flightDuration = useMemo(() => {
 		if (!departureTime || !arrivalTime) {
-			return null;
+			return undefined;
 		}
 
-		return calculateFlightTime(departureTime, arrivalTime);
+		return minutesToTime(calculateFlightTime(departureTime, arrivalTime));
 	}, [departureTime, arrivalTime]);
 
 	const fillProps = useMemo(
 		() =>
 			({
 				fillable: true,
-				fillValue: flightDuration
-					? parseTime(formatMinutes(flightDuration)).toString()
-					: undefined,
+				fillValue: flightDuration,
 			}) satisfies Pick<
 				TimeFieldProps<LogFormFieldValues>,
 				"fillable" | "fillValue"
@@ -150,13 +156,13 @@ export const LogForm: FC<LogFormProps> = ({
 
 	const aircraftModelItems = useMemo(() => {
 		const aircraftMap = new Map(
-			aircraft.map(({ id, model }) => [
+			aircraft.map(({ model }) => [
 				model,
-				{ label: model, value: model, key: id } satisfies SelectFieldItem,
+				{ label: model, value: model } satisfies SelectFieldItem,
 			]),
 		);
 
-		return Array.from(aircraftMap.values());
+		return aircraftMap.values().toArray();
 	}, [aircraft]);
 
 	const aircraftRegistrationItems = useMemo(
@@ -164,11 +170,10 @@ export const LogForm: FC<LogFormProps> = ({
 			aircraft
 				.filter((aircraft) => aircraft.model === planeModel)
 				.map(
-					({ id, registration }) =>
+					({ registration }) =>
 						({
 							label: registration,
 							value: registration,
-							key: id,
 						}) satisfies SelectFieldItem,
 				),
 		[aircraft, planeModel],
@@ -177,11 +182,10 @@ export const LogForm: FC<LogFormProps> = ({
 	const placesItems = useMemo(
 		() =>
 			places.map(
-				({ id, name }) =>
+				({ name }) =>
 					({
 						label: name,
 						value: name,
-						key: id,
 					}) satisfies SelectFieldItem,
 			),
 		[places],
@@ -190,11 +194,10 @@ export const LogForm: FC<LogFormProps> = ({
 	const pilotsItems = useMemo(
 		() =>
 			pilots.map(
-				({ id, name }) =>
+				({ name }) =>
 					({
 						label: name,
 						value: name,
-						key: id,
 					}) satisfies SelectFieldItem,
 			),
 		[pilots],
@@ -204,7 +207,7 @@ export const LogForm: FC<LogFormProps> = ({
 		<FormProvider {...form}>
 			<form
 				className="grid grid-cols-4 gap-2 max-w-5xl mx-auto"
-				onSubmit={handleSubmitWithAction}
+				onSubmit={form.handleSubmit(executeAsync)}
 			>
 				<DateField<LogFormFieldValues>
 					className="col-span-4"
@@ -381,6 +384,7 @@ export const LogForm: FC<LogFormProps> = ({
 				>
 					{submitLabel}
 				</Button>
+				<DevTool control={form.control} />
 			</form>
 		</FormProvider>
 	);
