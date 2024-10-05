@@ -100,8 +100,8 @@ importers:
         specifier: 14.2.14
         version: 14.2.14(eslint@8.57.1)(typescript@5.6.2)
       jiti:
-        specifier: 2.2.1
-        version: 2.2.1
+        specifier: 2.3.0
+        version: 2.3.0
       postcss:
         specifier: 8.4.47
         version: 8.4.47
@@ -3305,8 +3305,8 @@ packages:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
 
-  jiti@2.2.1:
-    resolution: {integrity: sha512-weIl/Bv3G0J3UKamLxEA2G+FfQ33Z1ZkQJGPjKFV21zQdKWu2Pi6o4elpj2uEl5XdFJZ9xzn1fsanWTFSt45zw==}
+  jiti@2.3.0:
+    resolution: {integrity: sha512-sxPw05kUBzmPclmPVH12lMDiUPUWVPQwZdULPxKljb9GDqAu9qHc/5jF2v+I4j7Sd8UQ7yehHmlReBBmdhEE9g==}
     hasBin: true
 
   jose@5.9.3:
@@ -8525,7 +8525,7 @@ snapshots:
 
   jiti@1.21.6: {}
 
-  jiti@2.2.1: {}
+  jiti@2.3.0: {}
 
   jose@5.9.3: {}
 
