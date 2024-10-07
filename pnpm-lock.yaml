@@ -33,8 +33,8 @@ importers:
         specifier: ^3.16.0
         version: 3.19.0(react@18.3.1)
       drizzle-orm:
-        specifier: ^0.33.0
-        version: 0.33.0(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(@types/react@18.3.11)(better-sqlite3@11.3.0)(bun-types@1.1.29)(react@18.3.1)
+        specifier: ^0.34.0
+        version: 0.34.0(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(@types/react@18.3.11)(better-sqlite3@11.3.0)(bun-types@1.1.29)(react@18.3.1)
       framer-motion:
         specifier: ^11.3.28
         version: 11.11.1(@emotion/is-prop-valid@1.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2655,13 +2655,13 @@ packages:
     resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
     hasBin: true
 
-  drizzle-orm@0.33.0:
-    resolution: {integrity: sha512-SHy72R2Rdkz0LEq0PSG/IdvnT3nGiWuRk+2tXZQ90GVq/XQhpCzu/EFT3V2rox+w8MlkBQxifF8pCStNYnERfA==}
+  drizzle-orm@0.34.0:
+    resolution: {integrity: sha512-6l9v65YoCr53UOWjyPPNYYQsZYvtzgxMKxljQ5VlJcS3/zM81MXnWeSfqQFlrUHxoTNgyi9BWHysUE8+c0odzA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
       '@electric-sql/pglite': '>=0.1.1'
-      '@libsql/client': '*'
+      '@libsql/client': '>=0.10.0'
       '@neondatabase/serverless': '>=0.1'
       '@op-engineering/op-sqlite': '>=2'
       '@opentelemetry/api': ^1.4.1
@@ -7740,7 +7740,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.33.0(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(@types/react@18.3.11)(better-sqlite3@11.3.0)(bun-types@1.1.29)(react@18.3.1):
+  drizzle-orm@0.34.0(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(@types/react@18.3.11)(better-sqlite3@11.3.0)(bun-types@1.1.29)(react@18.3.1):
     optionalDependencies:
       '@libsql/client': 0.14.0
       '@neondatabase/serverless': 0.9.5
