@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@auth/drizzle-adapter':
         specifier: ^1.4.1
-        version: 1.6.0
+        version: 1.6.1
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.0(react-hook-form@7.53.0(react@18.3.1))
@@ -155,8 +155,8 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/drizzle-adapter@1.6.0':
-    resolution: {integrity: sha512-9fxXDeWItF0qqukUN90yCo2p8mZ+BKWi9yAOK1+gVVrkseAwF5wearQABWi22RCvJ3JcUxK2i76UnXDstwF0lA==}
+  '@auth/drizzle-adapter@1.6.1':
+    resolution: {integrity: sha512-BbWjTFuNXrAIPa7uj9mDhmiHQPABIu74TqzslIkfMgcblMgXruVSVxoPeFJCQjZE25O3bLO2riX83VEbG1K29w==}
 
   '@babel/code-frame@7.24.7':
     resolution: {integrity: sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==}
@@ -315,9 +315,11 @@ packages:
 
   '@esbuild-kit/core-utils@3.3.2':
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild-kit/esm-loader@2.6.5':
     resolution: {integrity: sha512-FxEMIkJKnodyA1OaCUoEvbYRkoZlLZ4d/eXFu9Fh8CbBBgP5EmZxrfTRyN0qpXZ4vOvqnE5YdRdcrmUUXuU+dA==}
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -4477,7 +4479,7 @@ snapshots:
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
 
-  '@auth/drizzle-adapter@1.6.0':
+  '@auth/drizzle-adapter@1.6.1':
     dependencies:
       '@auth/core': 0.36.0
     transitivePeerDependencies:
