@@ -9,7 +9,7 @@ const sql = createClient({
 	authToken: env.DATABASE_TOKEN,
 });
 
-export const db = drizzle(sql, { schema });
+export const db = drizzle(sql, { schema, casing: "snake_case" });
 
 // export const db = await drizzle("turso", {
 // 	connection: {
