@@ -33,7 +33,7 @@ importers:
         specifier: ^3.16.0
         version: 3.19.0(react@18.3.1)
       drizzle-orm:
-        specifier: ^0.34.0
+        specifier: ^0.34.1
         version: 0.34.1(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(@types/react@18.3.11)(better-sqlite3@11.3.0)(bun-types@1.1.29)(react@18.3.1)
       framer-motion:
         specifier: ^11.3.28
@@ -91,8 +91,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2(vitest@2.1.2)
       drizzle-kit:
-        specifier: 0.24.2
-        version: 0.24.2
+        specifier: 0.25.0
+        version: 0.25.0
       eslint:
         specifier: 8.57.1
         version: 8.57.1
@@ -2522,7 +2522,7 @@ packages:
     resolution: {integrity: sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==}
 
   concat-map@0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
 
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
@@ -2651,8 +2651,8 @@ packages:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
     engines: {node: '>=6.0.0'}
 
-  drizzle-kit@0.24.2:
-    resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
+  drizzle-kit@0.25.0:
+    resolution: {integrity: sha512-Rcf0nYCAKizwjWQCY+d3zytyuTbDb81NcaPor+8NebESlUz1+9W3uGl0+r9FhU4Qal5Zv9j/7neXCSCe7DHzjA==}
     hasBin: true
 
   drizzle-orm@0.34.1:
@@ -7731,7 +7731,7 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  drizzle-kit@0.24.2:
+  drizzle-kit@0.25.0:
     dependencies:
       '@drizzle-team/brocli': 0.10.1
       '@esbuild-kit/esm-loader': 2.6.5
