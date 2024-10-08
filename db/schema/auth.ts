@@ -4,46 +4,42 @@ import { pilots } from "@/db/schema/pilots";
 import { places } from "@/db/schema/places";
 import { simulators } from "@/db/schema/simulators";
 import { relations } from "drizzle-orm";
-import {
-	integer,
-	primaryKey,
-	sqliteTable,
-	text,
-} from "drizzle-orm/sqlite-core";
+import { primaryKey, sqliteTable } from "drizzle-orm/sqlite-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { v7 } from "uuid";
 
-export const users = sqliteTable("users", {
-	id: text("id").primaryKey().$defaultFn(v7),
-	name: text("name"),
-	email: text("email").notNull(),
-	emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
-	image: text("image"),
-});
+export const users = sqliteTable("users", (t) => ({
+	id: t.text().primaryKey().$defaultFn(v7),
+	name: t.text(),
+	email: t.text().notNull(),
+	emailVerified: t.integer("emailVerified", { mode: "timestamp_ms" }),
+	image: t.text(),
+}));
 
 export const accounts = sqliteTable(
 	"accounts",
-	{
-		userId: text("userId")
+	(t) => ({
+		userId: t
+			.text("userId")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
-		type: text("type").$type<AdapterAccountType>().notNull(),
-		provider: text("provider").notNull(),
-		providerAccountId: text("providerAccountId").notNull(),
+		type: t.text().$type<AdapterAccountType>().notNull(),
+		provider: t.text().notNull(),
+		providerAccountId: t.text("providerAccountId").notNull(),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		refresh_token: text("refresh_token"),
+		refresh_token: t.text("refresh_token"),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		access_token: text("access_token"),
+		access_token: t.text("access_token"),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		expires_at: integer("expires_at"),
+		expires_at: t.integer("expires_at"),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		token_type: text("token_type"),
-		scope: text("scope"),
+		token_type: t.text("token_type"),
+		scope: t.text("scope"),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		id_token: text("id_token"),
+		id_token: t.text("id_token"),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		session_state: text("session_state"),
-	},
+		session_state: t.text("session_state"),
+	}),
 	(account) => ({
 		compoundKey: primaryKey({
 			columns: [account.provider, account.providerAccountId],
@@ -51,17 +47,18 @@ export const accounts = sqliteTable(
 	}),
 );
 
-export const sessions = sqliteTable("sessions", {
-	sessionToken: text("sessionToken").primaryKey(),
-	userId: text("userId")
+export const sessions = sqliteTable("sessions", (t) => ({
+	sessionToken: t.text("sessionToken").primaryKey(),
+	userId: t
+		.text("userId")
 		.notNull()
 		.references(() => users.id, { onDelete: "cascade" }),
-	expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-});
+	expires: t.integer({ mode: "timestamp_ms" }).notNull(),
+}));
 
-export const allowedUsers = sqliteTable("allowed_users", {
-	email: text("email").primaryKey(),
-});
+export const allowedUsers = sqliteTable("allowed_users", (t) => ({
+	email: t.text().primaryKey(),
+}));
 
 export const usersRelations = relations(users, ({ many }) => ({
 	aircraft: many(aircraft),
