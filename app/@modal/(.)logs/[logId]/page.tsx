@@ -5,13 +5,19 @@ import { Spinner } from "@nextui-org/spinner";
 import { Suspense } from "react";
 
 interface Props {
-	params: {
+	params: Promise<{
 		logId: string;
-	};
+	}>;
 }
 
-export default function LogPage({ params: { logId } }: Props) {
-	return (
+export default async function LogPage(props: Props) {
+    const params = await props.params;
+
+    const {
+        logId
+    } = params;
+
+    return (
 		<InterceptModal size="5xl">
 			<section className="flex flex-col gap-2 m-4">
 				<div className="flex justify-center items-center">
