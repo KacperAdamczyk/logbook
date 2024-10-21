@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@types/react': npm:types-react@19.0.0-rc.1
-  '@types/react-dom': npm:types-react-dom@19.0.0-rc.1
+  '@types/react-dom': npm:types-react-dom@19.0.0
 
 importers:
 
@@ -86,8 +86,8 @@ importers:
         specifier: npm:types-react@19.0.0-rc.1
         version: types-react@19.0.0-rc.1
       '@types/react-dom':
-        specifier: npm:types-react-dom@19.0.0-rc.1
-        version: types-react-dom@19.0.0-rc.1
+        specifier: npm:types-react-dom@19.0.0
+        version: types-react-dom@19.0.0
       '@types/uuid':
         specifier: 10.0.0
         version: 10.0.0
@@ -2607,7 +2607,7 @@ packages:
     resolution: {integrity: sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==}
 
   concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
@@ -4326,8 +4326,8 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
-  types-react-dom@19.0.0-rc.1:
-    resolution: {integrity: sha512-VSLZJl8VXCD0fAWp7DUTFUDCcZ8DVXOQmjhJMD03odgeFmu14ZQJHCXeETm3BEAhJqfgJaFkLnGkQv88sRx0fQ==}
+  types-react-dom@19.0.0:
+    resolution: {integrity: sha512-qtWBYduBCmrgf4wqnTrGttEJJSZ6cTGmzuvmWd/34TJNKz/Pp69Islc1+txHF3nRxSuRvmhxztFXvLyxhp8G2w==}
 
   types-react@19.0.0-rc.1:
     resolution: {integrity: sha512-RshndUfqTW6K3STLPis8BtAYCGOkMbtvYsi90gmVNDZBXUyUc5juf2PE9LfS/JmOlUIRO8cWTS/1MTnmhjDqyQ==}
@@ -9683,7 +9683,7 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
 
-  types-react-dom@19.0.0-rc.1:
+  types-react-dom@19.0.0:
     dependencies:
       '@types/react': types-react@19.0.0-rc.1
 
