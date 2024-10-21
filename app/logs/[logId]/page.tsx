@@ -11,13 +11,11 @@ interface Props {
 }
 
 export default async function LogPage(props: Props) {
-    const params = await props.params;
+	const params = await props.params;
 
-    const {
-        logId
-    } = params;
+	const { logId } = params;
 
-    return (
+	return (
 		<section className="flex flex-col gap-2">
 			<div className="flex gap-1 justify-center items-center">
 				<h1 className="text-xl text-center grow">Log</h1>

@@ -1,4 +1,5 @@
 import { auth, signOut } from "@/auth";
+import { Button } from "@nextui-org/button";
 import {
 	Navbar,
 	NavbarBrand,
@@ -8,7 +9,6 @@ import {
 	NavbarMenuItem,
 	NavbarMenuToggle,
 } from "@nextui-org/navbar";
-import { Button } from "@nextui-org/button";
 import { User } from "@nextui-org/user";
 
 import Link from "next/link";

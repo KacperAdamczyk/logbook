@@ -7,13 +7,11 @@ interface Props {
 }
 
 export default async function UpdateLogPage(props: Props) {
-    const params = await props.params;
+	const params = await props.params;
 
-    const {
-        logId
-    } = params;
+	const { logId } = params;
 
-    return (
+	return (
 		<section>
 			<h1 className="text-xl text-center mb-2">Edit Log</h1>
 			<UpdateLog onSuccessRedirect="/" logId={logId} />
