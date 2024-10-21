@@ -1,6 +1,6 @@
 import { auth, signOut } from "@/auth";
+import { Button } from "@nextui-org/button";
 import {
-	Button,
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
@@ -8,8 +8,9 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
-	User,
-} from "@nextui-org/react";
+} from "@nextui-org/navbar";
+import { User } from "@nextui-org/user";
+
 import Link from "next/link";
 
 const links = [

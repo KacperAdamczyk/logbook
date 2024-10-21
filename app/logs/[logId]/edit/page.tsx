@@ -1,12 +1,16 @@
 import { UpdateLog } from "@/components/UpdateLog";
 
 interface Props {
-	params: {
+	params: Promise<{
 		logId: string;
-	};
+	}>;
 }
 
-export default function UpdateLogPage({ params: { logId } }: Props) {
+export default async function UpdateLogPage(props: Props) {
+	const params = await props.params;
+
+	const { logId } = params;
+
 	return (
 		<section>
 			<h1 className="text-xl text-center mb-2">Edit Log</h1>

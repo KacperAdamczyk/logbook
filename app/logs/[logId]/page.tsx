@@ -5,12 +5,16 @@ import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
 
 interface Props {
-	params: {
+	params: Promise<{
 		logId: string;
-	};
+	}>;
 }
 
-export default function LogPage({ params: { logId } }: Props) {
+export default async function LogPage(props: Props) {
+	const params = await props.params;
+
+	const { logId } = params;
+
 	return (
 		<section className="flex flex-col gap-2">
 			<div className="flex gap-1 justify-center items-center">
