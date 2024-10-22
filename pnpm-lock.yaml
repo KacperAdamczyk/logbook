@@ -38,7 +38,7 @@ importers:
         version: 3.19.0(react@19.0.0-rc-fb9a90fa48-20240614)
       drizzle-orm:
         specifier: ^0.35.0
-        version: 0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(better-sqlite3@11.3.0)(bun-types@1.1.30)(react@19.0.0-rc-fb9a90fa48-20240614)(types-react@19.0.0-rc.1)
+        version: 0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(better-sqlite3@11.3.0)(bun-types@1.1.32)(react@19.0.0-rc-fb9a90fa48-20240614)(types-react@19.0.0-rc.1)
       framer-motion:
         specifier: ^11.3.28
         version: 11.11.9(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
@@ -77,8 +77,8 @@ importers:
         specifier: 4.3.1
         version: 4.3.1(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)(types-react@19.0.0-rc.1)
       '@types/bun':
-        specifier: 1.1.11
-        version: 1.1.11
+        specifier: 1.1.12
+        version: 1.1.12
       '@types/node':
         specifier: 20.16.14
         version: 20.16.14
@@ -2232,8 +2232,8 @@ packages:
   '@types/better-sqlite3@7.6.11':
     resolution: {integrity: sha512-i8KcD3PgGtGBLl3+mMYA8PdKkButvPyARxA7IQAd6qeslht13qxb1zzO8dRCtE7U3IoJS782zDBAeoKiM695kg==}
 
-  '@types/bun@1.1.11':
-    resolution: {integrity: sha512-0N7D/H/8sbf9JMkaG5F3+I/cB4TlhKTkO9EskEWP8XDr8aVcDe4EywSnU4cnyZy6tar1dq70NeFNkqMEUigthw==}
+  '@types/bun@1.1.12':
+    resolution: {integrity: sha512-UkewJesRDP3+AW30Gc8hvxuIt+vHgYZXmVOKaXV8xnwAnMXTAs3XZDsa/jW+LSdAYhHslokSm72lq63FYYjZqA==}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -2516,8 +2516,8 @@ packages:
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
-  bun-types@1.1.30:
-    resolution: {integrity: sha512-mGh7NLisOXskBU62DxLS+/nwmLlCYHYAkCzdo4DZ9+fzrpP41hAdOqaN4DO6tQfenHb4pYb0/shw29k4/6I2yQ==}
+  bun-types@1.1.32:
+    resolution: {integrity: sha512-Lxgux4InO/WRjSAEy3iyDscsnDXR8+3rgNDeZYjPAizFYjUraoNuMl9PuRd9XMgFZgdyQwaUX7/QHmOw5KGFQw==}
 
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
@@ -7313,9 +7313,9 @@ snapshots:
       '@types/node': 20.16.14
     optional: true
 
-  '@types/bun@1.1.11':
+  '@types/bun@1.1.12':
     dependencies:
-      bun-types: 1.1.30
+      bun-types: 1.1.32
 
   '@types/cookie@0.6.0': {}
 
@@ -7675,7 +7675,7 @@ snapshots:
       ieee754: 1.2.1
     optional: true
 
-  bun-types@1.1.30:
+  bun-types@1.1.32:
     dependencies:
       '@types/node': 20.12.14
       '@types/ws': 8.5.12
@@ -7905,7 +7905,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(better-sqlite3@11.3.0)(bun-types@1.1.30)(react@19.0.0-rc-fb9a90fa48-20240614)(types-react@19.0.0-rc.1):
+  drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(better-sqlite3@11.3.0)(bun-types@1.1.32)(react@19.0.0-rc-fb9a90fa48-20240614)(types-react@19.0.0-rc.1):
     dependencies:
       '@libsql/client-wasm': 0.14.0
     optionalDependencies:
@@ -7915,7 +7915,7 @@ snapshots:
       '@types/pg': 8.11.8
       '@types/react': types-react@19.0.0-rc.1
       better-sqlite3: 11.3.0
-      bun-types: 1.1.30
+      bun-types: 1.1.32
       react: 19.0.0-rc-fb9a90fa48-20240614
 
   eastasianwidth@0.2.0: {}
