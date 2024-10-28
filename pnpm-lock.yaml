@@ -35,7 +35,7 @@ importers:
         version: 0.11.1(typescript@5.6.3)(zod@3.23.8)
       '@tabler/icons-react':
         specifier: ^3.16.0
-        version: 3.20.0(react@19.0.0-rc-69d4b800-20241021)
+        version: 3.21.0(react@19.0.0-rc-69d4b800-20241021)
       drizzle-orm:
         specifier: ^0.35.0
         version: 0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@neondatabase/serverless@0.9.5)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.8)(better-sqlite3@11.3.0)(bun-types@1.1.32)(react@19.0.0-rc-69d4b800-20241021)(types-react@19.0.0-rc.1)
@@ -2244,13 +2244,13 @@ packages:
       typescript:
         optional: true
 
-  '@tabler/icons-react@3.20.0':
-    resolution: {integrity: sha512-a47oaL48bb5Cx/WUVfg/NZrsWwFExrcDQO8thUZ7S6h/OQYFu7sm4E5pZsmUtGCjikB3lRzjtmMD+C4s7mr9yw==}
+  '@tabler/icons-react@3.21.0':
+    resolution: {integrity: sha512-Qq0GnZzzccbv/zuMyXAUUPlogNAqx9KsF8cr/ev3bxs+GMObqNEjXv1eZl9GFzxyQTS435siJNU8A1BaIYhX8g==}
     peerDependencies:
       react: '>= 16'
 
-  '@tabler/icons@3.20.0':
-    resolution: {integrity: sha512-nXSeUzsCOxX/Of+kdUVQfxL9bG+ck8XCWNf9dGSpE+nhVexRwk/4HiDQDxFDysfT7vfgSut6GXnrZsU5M5dSlA==}
+  '@tabler/icons@3.21.0':
+    resolution: {integrity: sha512-5+GkkmWCr1wgMor5cOF1/YYflTQdc15y10FUikJ3HW8hDiFjfbuoAHJi17FT1vwsr1sA78rkJMn+fDoOOjnnPA==}
 
   '@types/better-sqlite3@7.6.11':
     resolution: {integrity: sha512-i8KcD3PgGtGBLl3+mMYA8PdKkButvPyARxA7IQAd6qeslht13qxb1zzO8dRCtE7U3IoJS782zDBAeoKiM695kg==}
@@ -7302,12 +7302,12 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  '@tabler/icons-react@3.20.0(react@19.0.0-rc-69d4b800-20241021)':
+  '@tabler/icons-react@3.21.0(react@19.0.0-rc-69d4b800-20241021)':
     dependencies:
-      '@tabler/icons': 3.20.0
+      '@tabler/icons': 3.21.0
       react: 19.0.0-rc-69d4b800-20241021
 
-  '@tabler/icons@3.20.0': {}
+  '@tabler/icons@3.21.0': {}
 
   '@types/better-sqlite3@7.6.11':
     dependencies:
