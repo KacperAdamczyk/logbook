@@ -1,5 +1,5 @@
-import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
 
 const compat = new FlatCompat({
 	baseDirectory: import.meta.dirname,
