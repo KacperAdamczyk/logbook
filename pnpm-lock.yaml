@@ -74,10 +74,10 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@eslint/eslintrc':
-        specifier: ^3.1.0
+        specifier: 3.1.0
         version: 3.1.0
       '@eslint/js':
-        specifier: ^9.14.0
+        specifier: 9.14.0
         version: 9.14.0
       '@hookform/devtools':
         specifier: 4.3.1
@@ -2649,7 +2649,7 @@ packages:
     resolution: {integrity: sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==}
 
   concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
@@ -3502,6 +3502,7 @@ packages:
 
   libsql@0.4.4:
     resolution: {integrity: sha512-Ub1YDlfAKOst9xoHMOb1dhgcu8qkMP6IM+xZoEptQuPtFe+w3ShRvJMa9FvI7FI5EEG/B4FXLLXPS9utMQq5xQ==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:
