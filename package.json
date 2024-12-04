@@ -47,7 +47,7 @@
 		"@types/react-dom": "npm:types-react-dom@19.0.0",
 		"@types/uuid": "10.0.0",
 		"@vitest/ui": "2.1.6",
-		"drizzle-kit": "0.29.0",
+		"drizzle-kit": "0.29.1",
 		"eslint": "9.16.0",
 		"eslint-config-next": "15.0.3",
 		"jiti": "2.4.1",
