@@ -24,7 +24,7 @@
 		"@nextui-org/react": "^2.4.6",
 		"@t3-oss/env-nextjs": "^0.11.0",
 		"@tabler/icons-react": "^3.22.0",
-		"drizzle-orm": "^0.37.0",
+		"drizzle-orm": "^0.38.0",
 		"framer-motion": "^11.11.15",
 		"next": "15.0.4",
 		"next-auth": "5.0.0-beta.25",
