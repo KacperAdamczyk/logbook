@@ -1,18 +1,17 @@
 import { users } from "@/db/schema/auth";
 import { logs } from "@/db/schema/logs";
-import { relations } from "drizzle-orm";
+import { relations, text } from "drizzle-orm";
 import { sqliteTable } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
-export const aircraft = sqliteTable("aircraft", (t) => ({
-	id: t.text().primaryKey().$defaultFn(v7),
-	userId: t
-		.text()
+export const aircraft = sqliteTable("aircraft", {
+	id: text().primaryKey().$defaultFn(v7),
+	userId: text()
 		.notNull()
 		.references(() => users.id),
-	model: t.text().notNull(),
-	registration: t.text().notNull(),
-}));
+	model: text().notNull(),
+	registration: text().notNull(),
+});
 
 export const aircraftRelations = relations(aircraft, ({ one, many }) => ({
 	user: one(users, {

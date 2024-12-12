@@ -4,47 +4,40 @@ import { pilots } from "@/db/schema/pilots";
 import { places } from "@/db/schema/places";
 import { times } from "@/db/schema/times";
 import { relations } from "drizzle-orm";
-import { sqliteTable } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
-export const logs = sqliteTable("logs", (t) => ({
-	id: t.text().primaryKey().$defaultFn(v7),
-	userId: t
-		.text()
+export const logs = sqliteTable("logs", {
+	id: text().primaryKey().$defaultFn(v7),
+	userId: text()
 		.notNull()
 		.references(() => users.id),
-	departureAt: t.integer({ mode: "timestamp_ms" }).notNull(),
-	arrivalAt: t.integer({ mode: "timestamp_ms" }).notNull(),
-	departurePlaceId: t
-		.text()
+	departureAt: integer({ mode: "timestamp_ms" }).notNull(),
+	arrivalAt: integer({ mode: "timestamp_ms" }).notNull(),
+	departurePlaceId: text()
 		.notNull()
 		.references(() => places.id),
-	arrivalPlaceId: t
-		.text()
+	arrivalPlaceId: text()
 		.notNull()
 		.references(() => places.id),
-	aircraftId: t
-		.text()
+	aircraftId: text()
 		.notNull()
 		.references(() => aircraft.id),
-	pilotInCommandId: t
-		.text()
+	pilotInCommandId: text()
 		.notNull()
 		.references(() => pilots.id),
-	takeoffsDay: t.integer(),
-	takeoffsNight: t.integer(),
-	landingsDay: t.integer(),
-	landingsNight: t.integer(),
-	singularTimesId: t
-		.text()
+	takeoffsDay: integer(),
+	takeoffsNight: integer(),
+	landingsDay: integer(),
+	landingsNight: integer(),
+	singularTimesId: text()
 		.notNull()
 		.references(() => times.id),
-	cumulatedTimesId: t
-		.text()
+	cumulatedTimesId: text()
 		.notNull()
 		.references(() => times.id),
-	remarks: t.text(),
-}));
+	remarks: text(),
+});
 
 export const logsRelations = relations(logs, ({ one }) => ({
 	user: one(users, {
