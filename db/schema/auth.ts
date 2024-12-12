@@ -5,10 +5,10 @@ import { places } from "@/db/schema/places";
 import { simulators } from "@/db/schema/simulators";
 import { relations } from "drizzle-orm";
 import {
+	integer,
 	primaryKey,
 	sqliteTable,
 	text,
-	integer,
 } from "drizzle-orm/sqlite-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { v7 } from "uuid";

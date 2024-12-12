@@ -4,7 +4,7 @@ import { pilots } from "@/db/schema/pilots";
 import { places } from "@/db/schema/places";
 import { times } from "@/db/schema/times";
 import { relations } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
 export const logs = sqliteTable("logs", {
