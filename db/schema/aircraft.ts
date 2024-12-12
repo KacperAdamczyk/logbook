@@ -1,7 +1,7 @@
 import { users } from "@/db/schema/auth";
 import { logs } from "@/db/schema/logs";
-import { relations, text } from "drizzle-orm";
-import { sqliteTable } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
+import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
 export const aircraft = sqliteTable("aircraft", {

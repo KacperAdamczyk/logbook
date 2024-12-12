@@ -4,7 +4,12 @@ import { pilots } from "@/db/schema/pilots";
 import { places } from "@/db/schema/places";
 import { simulators } from "@/db/schema/simulators";
 import { relations } from "drizzle-orm";
-import { primaryKey, sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import {
+	primaryKey,
+	sqliteTable,
+	text,
+	integer,
+} from "drizzle-orm/sqlite-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { v7 } from "uuid";
 
@@ -39,11 +44,11 @@ export const accounts = sqliteTable(
 		// biome-ignore lint/style/useNamingConvention: <explanation>
 		session_state: text("session_state"),
 	},
-	(account) => ({
-		compoundKey: primaryKey({
+	(account) => [
+		primaryKey({
 			columns: [account.provider, account.providerAccountId],
 		}),
-	}),
+	],
 );
 
 export const sessions = sqliteTable("sessions", {
