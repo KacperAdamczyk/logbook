@@ -1,6 +1,4 @@
 import { db } from "@/db";
-import { TAGS } from "@/queries/tags";
-import { unstable_cache } from "next/cache";
 
 export const getUserLogs = async (userId: string) =>
 	db.query.logs.findMany({
@@ -12,7 +10,3 @@ export const getUserLogs = async (userId: string) =>
 			singularTimes: true,
 		},
 	});
-
-export const getUserLogsQuery = unstable_cache(getUserLogs, ["getUserLogs"], {
-	tags: [TAGS.logs],
-});

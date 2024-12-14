@@ -13,7 +13,6 @@ import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { eq } from "drizzle-orm";
 import { returnValidationErrors } from "next-safe-action";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const updateLogAction = actionClient
@@ -112,8 +111,6 @@ export const updateLogAction = actionClient
 					{ userId, since: updatedLog.departureAt },
 					tx,
 				);
-
-				revalidatePath("/");
 
 				return { log, recalculatedLogsCount: recalculatedLogs.length };
 			}),
