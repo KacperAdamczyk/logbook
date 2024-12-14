@@ -12,7 +12,6 @@ import { logs, times } from "@/db/schema";
 import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const createLogAction = actionClient
@@ -101,8 +100,6 @@ export const createLogAction = actionClient
 				{ userId, since: log.departureAt },
 				tx,
 			);
-
-			revalidatePath("/");
 
 			return { log, recalculatedLogsCount: recalculatedLogs.length };
 		}),
