@@ -13,7 +13,7 @@ importers:
         version: 1.7.4
       '@hookform/resolvers':
         specifier: ^3.9.0
-        version: 3.9.1(react-hook-form@7.54.1(react@19.0.0))
+        version: 3.9.1(react-hook-form@7.54.2(react@19.0.0))
       '@internationalized/date':
         specifier: ^3.5.5
         version: 3.6.0
@@ -22,7 +22,7 @@ importers:
         version: 0.14.0
       '@next-safe-action/adapter-react-hook-form':
         specifier: ^1.0.13
-        version: 1.0.13(@hookform/resolvers@3.9.1(react-hook-form@7.54.1(react@19.0.0)))(next-safe-action@7.10.2(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1))(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.1(react@19.0.0))(react@19.0.0)
+        version: 1.0.13(@hookform/resolvers@3.9.1(react-hook-form@7.54.2(react@19.0.0)))(next-safe-action@7.10.2(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1))(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)
       '@nextui-org/react':
         specifier: ^2.4.6
         version: 2.6.8(@types/react@19.0.2)(framer-motion@11.15.0(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)
@@ -55,7 +55,7 @@ importers:
         version: 19.0.0(react@19.0.0)
       react-hook-form:
         specifier: ^7.53.0
-        version: 7.54.1(react@19.0.0)
+        version: 7.54.2(react@19.0.0)
       sonner:
         specifier: ^1.5.0
         version: 1.7.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -3829,8 +3829,8 @@ packages:
     peerDependencies:
       react: ^19.0.0
 
-  react-hook-form@7.54.1:
-    resolution: {integrity: sha512-PUNzFwQeQ5oHiiTUO7GO/EJXGEtuun2Y1A59rLnZBBj+vNEOWt/3ERTiG1/zt7dVeJEM+4vDX/7XQ/qanuvPMg==}
+  react-hook-form@7.54.2:
+    resolution: {integrity: sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -4935,9 +4935,9 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@hookform/resolvers@3.9.1(react-hook-form@7.54.1(react@19.0.0))':
+  '@hookform/resolvers@3.9.1(react-hook-form@7.54.2(react@19.0.0))':
     dependencies:
-      react-hook-form: 7.54.1(react@19.0.0)
+      react-hook-form: 7.54.2(react@19.0.0)
 
   '@humanfs/core@0.19.1': {}
 
@@ -5134,14 +5134,14 @@ snapshots:
 
   '@neon-rs/load@0.0.4': {}
 
-  '@next-safe-action/adapter-react-hook-form@1.0.13(@hookform/resolvers@3.9.1(react-hook-form@7.54.1(react@19.0.0)))(next-safe-action@7.10.2(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1))(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.1(react@19.0.0))(react@19.0.0)':
+  '@next-safe-action/adapter-react-hook-form@1.0.13(@hookform/resolvers@3.9.1(react-hook-form@7.54.2(react@19.0.0)))(next-safe-action@7.10.2(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1))(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react-hook-form@7.54.2(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@hookform/resolvers': 3.9.1(react-hook-form@7.54.1(react@19.0.0))
+      '@hookform/resolvers': 3.9.1(react-hook-form@7.54.2(react@19.0.0))
       next: 15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-safe-action: 7.10.2(next@15.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.24.1)
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-      react-hook-form: 7.54.1(react@19.0.0)
+      react-hook-form: 7.54.2(react@19.0.0)
 
   '@next/env@15.1.2': {}
 
@@ -8863,7 +8863,7 @@ snapshots:
       react: 19.0.0
       scheduler: 0.25.0
 
-  react-hook-form@7.54.1(react@19.0.0):
+  react-hook-form@7.54.2(react@19.0.0):
     dependencies:
       react: 19.0.0
 
