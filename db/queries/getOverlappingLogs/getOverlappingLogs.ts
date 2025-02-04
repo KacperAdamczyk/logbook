@@ -1,4 +1,4 @@
-import type { Log } from "@/db/schema/logs";
+import type { Log } from "@/db/schema/log";
 import { createDbAction } from "@/db/utils";
 
 export interface GetOverlappingLogsArgs {
@@ -10,13 +10,13 @@ export interface GetOverlappingLogsArgs {
 
 export const getOverlappingLogs = createDbAction<GetOverlappingLogsArgs, Log[]>(
 	async (tx, { userId, logId, departure, arrival }) =>
-		tx.query.logs.findMany({
-			where: (logs, { and, lt, gt, eq, ne }) =>
+		tx.query.log.findMany({
+			where: (log, { and, lt, gt, eq, ne }) =>
 				and(
-					eq(logs.userId, userId),
-					logId ? ne(logs.id, logId) : undefined,
-					lt(logs.departureAt, arrival),
-					gt(logs.arrivalAt, departure),
+					eq(log.userId, userId),
+					logId ? ne(log.id, logId) : undefined,
+					lt(log.departureAt, arrival),
+					gt(log.arrivalAt, departure),
 				),
 		}),
 );

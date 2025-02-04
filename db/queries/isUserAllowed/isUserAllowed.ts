@@ -6,8 +6,8 @@ export interface IsUserAllowedArgs {
 
 export const isUserAllowed = createDbAction<IsUserAllowedArgs, boolean>(
 	async (tx, { email }) => {
-		const allowedUser = await tx.query.allowedUsers.findFirst({
-			where: (allowedUsers, { eq }) => eq(allowedUsers.email, email),
+		const allowedUser = await tx.query.allowedUser.findFirst({
+			where: (allowedUser, { eq }) => eq(allowedUser.email, email),
 		});
 
 		return !!allowedUser;

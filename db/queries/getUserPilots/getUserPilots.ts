@@ -7,8 +7,8 @@ interface GetUserPilotsArgs {
 
 export const getUserPilots = createDbAction<GetUserPilotsArgs, Pilot[]>(
 	(tx, { userId }) => {
-		return tx.query.pilots.findMany({
-			where: (pilots, { eq }) => eq(pilots.userId, userId),
+		return tx.query.pilot.findMany({
+			where: (pilot, { eq }) => eq(pilot.userId, userId),
 		});
 	},
 );

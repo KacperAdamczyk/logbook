@@ -8,7 +8,7 @@ import { getOrCreatePilot } from "@/db/actions/getOrCreatePilot";
 import { getOrCreatePlace } from "@/db/actions/getOrCreatePlace";
 import { recalculateLogs } from "@/db/actions/recalculateLogs";
 import { getOverlappingLogs } from "@/db/queries/getOverlappingLogs";
-import { logs, times } from "@/db/schema";
+import { log, time } from "@/db/schema";
 import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { eq } from "drizzle-orm";
@@ -21,12 +21,12 @@ export const updateLogAction = actionClient
 	.action(
 		async ({ parsedInput, bindArgsParsedInputs: [logId], ctx: { userId } }) =>
 			db.transaction(async (tx) => {
-				const log = await tx.query.logs.findFirst({
-					where: (logs, { and, eq }) =>
-						and(eq(logs.userId, userId), eq(logs.id, logId)),
+				const currentLog = await tx.query.log.findFirst({
+					where: (log, { and, eq }) =>
+						and(eq(log.userId, userId), eq(log.id, logId)),
 				});
 
-				if (!log) {
+				if (!currentLog) {
 					returnValidationErrors(logFormSchema, {
 						_errors: ["Log not found"],
 					});
@@ -77,9 +77,9 @@ export const updateLogAction = actionClient
 				);
 
 				await tx
-					.update(times)
+					.update(time)
 					.set(getParsedTimes(parsedInput))
-					.where(eq(times.id, log.singularTimesId));
+					.where(eq(time.id, currentLog.singularTimesId));
 
 				const {
 					takeoffsDay,
@@ -90,7 +90,7 @@ export const updateLogAction = actionClient
 				} = parsedInput;
 
 				const [updatedLog] = await tx
-					.update(logs)
+					.update(log)
 					.set({
 						departureAt: departure,
 						arrivalAt: arrival,
@@ -104,7 +104,7 @@ export const updateLogAction = actionClient
 						landingsNight,
 						remarks,
 					})
-					.where(eq(logs.id, logId))
+					.where(eq(log.id, logId))
 					.returning();
 
 				const recalculatedLogs = await recalculateLogs(
@@ -112,6 +112,9 @@ export const updateLogAction = actionClient
 					tx,
 				);
 
-				return { log, recalculatedLogsCount: recalculatedLogs.length };
+				return {
+					log: currentLog,
+					recalculatedLogsCount: recalculatedLogs.length,
+				};
 			}),
 	);

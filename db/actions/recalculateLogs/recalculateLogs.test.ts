@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { aircraft, logs, pilots, places, times, users } from "@/db/schema";
+import { aircraft, log, pilot, place, time, user } from "@/db/schema";
 import {
 	aircraft1,
 	cumulatedTimes1,
@@ -29,12 +29,12 @@ import { recalculateLogs } from "./recalculateLogs";
 describe("recalculateLogs", () => {
 	beforeEach(async () => {
 		await db.batch([
-			db.insert(users).values([user1]),
-			db.insert(places).values([place1, place2]),
+			db.insert(user).values([user1]),
+			db.insert(place).values([place1, place2]),
 			db.insert(aircraft).values([aircraft1]),
-			db.insert(pilots).values([pilot1]),
+			db.insert(pilot).values([pilot1]),
 			db
-				.insert(times)
+				.insert(time)
 				.values([
 					singularTimes1,
 					cumulatedTimes1,
@@ -47,7 +47,7 @@ describe("recalculateLogs", () => {
 					singularTimes5,
 					cumulatedTimes5,
 				]),
-			db.insert(logs).values([log1, log2, log3, log4, log5]),
+			db.insert(log).values([log1, log2, log3, log4, log5]),
 		]);
 	});
 
@@ -166,8 +166,8 @@ describe("recalculateLogs", () => {
 		};
 
 		await db.batch([
-			db.insert(times).values([newSingularTimes, newCumulatedTimes]),
-			db.insert(logs).values([newLog]),
+			db.insert(time).values([newSingularTimes, newCumulatedTimes]),
+			db.insert(log).values([newLog]),
 		]);
 
 		const result = await recalculateLogs({
@@ -238,8 +238,8 @@ describe("recalculateLogs", () => {
 		};
 
 		await db.batch([
-			db.insert(times).values([newSingularTimes, newCumulatedTimes]),
-			db.insert(logs).values([newLog]),
+			db.insert(time).values([newSingularTimes, newCumulatedTimes]),
+			db.insert(log).values([newLog]),
 		]);
 
 		const result = await recalculateLogs({

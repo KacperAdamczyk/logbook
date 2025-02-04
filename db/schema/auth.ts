@@ -1,8 +1,8 @@
 import { aircraft } from "@/db/schema/aircraft";
-import { logs } from "@/db/schema/logs";
-import { pilots } from "@/db/schema/pilots";
-import { places } from "@/db/schema/places";
-import { simulators } from "@/db/schema/simulators";
+import { log } from "@/db/schema/log";
+import { pilot } from "@/db/schema/pilot";
+import { place } from "@/db/schema/place";
+import { simulator } from "@/db/schema/simulator";
 import { relations } from "drizzle-orm";
 import {
 	integer,
@@ -13,7 +13,7 @@ import {
 import type { AdapterAccountType } from "next-auth/adapters";
 import { v7 } from "uuid";
 
-export const users = sqliteTable("users", {
+export const user = sqliteTable("user", {
 	id: text().primaryKey().$defaultFn(v7),
 	name: text(),
 	email: text().notNull(),
@@ -21,12 +21,12 @@ export const users = sqliteTable("users", {
 	image: text(),
 });
 
-export const accounts = sqliteTable(
-	"accounts",
+export const account = sqliteTable(
+	"account",
 	{
 		userId: text("userId")
 			.notNull()
-			.references(() => users.id, { onDelete: "cascade" }),
+			.references(() => user.id, { onDelete: "cascade" }),
 		type: text().$type<AdapterAccountType>().notNull(),
 		provider: text().notNull(),
 		providerAccountId: text("providerAccountId").notNull(),
@@ -51,22 +51,22 @@ export const accounts = sqliteTable(
 	],
 );
 
-export const sessions = sqliteTable("sessions", {
+export const session = sqliteTable("session", {
 	sessionToken: text("sessionToken").primaryKey(),
 	userId: text("userId")
 		.notNull()
-		.references(() => users.id, { onDelete: "cascade" }),
+		.references(() => user.id, { onDelete: "cascade" }),
 	expires: integer({ mode: "timestamp_ms" }).notNull(),
 });
 
-export const allowedUsers = sqliteTable("allowed_users", {
+export const allowedUser = sqliteTable("allowedUser", {
 	email: text().primaryKey(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const userRelations = relations(user, ({ many }) => ({
 	aircraft: many(aircraft),
-	logs: many(logs),
-	pilots: many(pilots),
-	places: many(places),
-	simulators: many(simulators),
+	logs: many(log),
+	pilots: many(pilot),
+	places: many(place),
+	simulators: many(simulator),
 }));

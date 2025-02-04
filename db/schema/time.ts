@@ -1,7 +1,7 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
-export const times = sqliteTable("times", {
+export const time = sqliteTable("time", {
 	id: text().primaryKey().$defaultFn(v7),
 	totalFlight: integer().notNull().default(0),
 	singlePilotSingleEngine: integer().notNull().default(0),
@@ -15,5 +15,5 @@ export const times = sqliteTable("times", {
 	functionInstructor: integer().notNull().default(0),
 });
 
-export type Time = typeof times.$inferSelect;
-export type CreateTime = typeof times.$inferInsert;
+export type Time = typeof time.$inferSelect;
+export type CreateTime = typeof time.$inferInsert;

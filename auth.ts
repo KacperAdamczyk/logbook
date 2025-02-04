@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { createSelfAsPilot } from "@/db/actions/createSelfAsPilot";
 import { isUserAllowed } from "@/db/queries/isUserAllowed";
-import { accounts, sessions, users } from "@/db/schema/auth";
+import { account, session, user } from "@/db/schema/auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
@@ -9,9 +9,9 @@ import GitHub from "next-auth/providers/github";
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [GitHub],
 	adapter: DrizzleAdapter(db, {
-		usersTable: users,
-		accountsTable: accounts,
-		sessionsTable: sessions,
+		usersTable: user,
+		accountsTable: account,
+		sessionsTable: session,
 	}),
 	callbacks: {
 		authorized: async ({ auth }) => !!auth,
