@@ -3,10 +3,10 @@ CREATE TABLE `aircraft` (
 	`user_id` text NOT NULL,
 	`model` text NOT NULL,
 	`registration` text NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `accounts` (
+CREATE TABLE `account` (
 	`userId` text NOT NULL,
 	`type` text NOT NULL,
 	`provider` text NOT NULL,
@@ -19,21 +19,21 @@ CREATE TABLE `accounts` (
 	`id_token` text,
 	`session_state` text,
 	PRIMARY KEY(`provider`, `providerAccountId`),
-	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `allowed_users` (
+CREATE TABLE `allowedUser` (
 	`email` text PRIMARY KEY NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `sessions` (
+CREATE TABLE `session` (
 	`sessionToken` text PRIMARY KEY NOT NULL,
 	`userId` text NOT NULL,
 	`expires` integer NOT NULL,
-	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `users` (
+CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text,
 	`email` text NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `users` (
 	`image` text
 );
 --> statement-breakpoint
-CREATE TABLE `logs` (
+CREATE TABLE `log` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
 	`departure_at` integer NOT NULL,
@@ -57,38 +57,38 @@ CREATE TABLE `logs` (
 	`singular_times_id` text NOT NULL,
 	`cumulated_times_id` text NOT NULL,
 	`remarks` text,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`departure_place_id`) REFERENCES `places`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`arrival_place_id`) REFERENCES `places`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`departure_place_id`) REFERENCES `place`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`arrival_place_id`) REFERENCES `place`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`aircraft_id`) REFERENCES `aircraft`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`pilot_in_command_id`) REFERENCES `pilots`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`singular_times_id`) REFERENCES `times`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`cumulated_times_id`) REFERENCES `times`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`pilot_in_command_id`) REFERENCES `pilot`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`singular_times_id`) REFERENCES `time`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`cumulated_times_id`) REFERENCES `time`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `places` (
+CREATE TABLE `place` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
 	`name` text NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `pilots` (
+CREATE TABLE `pilot` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
 	`name` text NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `simulators` (
+CREATE TABLE `simulator` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE TABLE `times` (
+CREATE TABLE `time` (
 	`id` text PRIMARY KEY NOT NULL,
-	`total_flight` integer NOT NULL,
+	`total_flight` integer DEFAULT 0 NOT NULL,
 	`single_pilot_single_engine` integer DEFAULT 0 NOT NULL,
 	`single_pilot_multi_engine` integer DEFAULT 0 NOT NULL,
 	`multi_pilot` integer DEFAULT 0 NOT NULL,

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "476297cc-e7aa-4588-88d4-2a4ca774f439",
+  "id": "30667559-ca12-4966-a6ef-f92be1516a04",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "aircraft": {
@@ -38,10 +38,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "aircraft_user_id_users_id_fk": {
-          "name": "aircraft_user_id_users_id_fk",
+        "aircraft_user_id_user_id_fk": {
+          "name": "aircraft_user_id_user_id_fk",
           "tableFrom": "aircraft",
-          "tableTo": "users",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -53,10 +53,11 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "accounts": {
-      "name": "accounts",
+    "account": {
+      "name": "account",
       "columns": {
         "userId": {
           "name": "userId",
@@ -138,10 +139,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "accounts_userId_users_id_fk": {
-          "name": "accounts_userId_users_id_fk",
-          "tableFrom": "accounts",
-          "tableTo": "users",
+        "account_userId_user_id_fk": {
+          "name": "account_userId_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -153,18 +154,19 @@
         }
       },
       "compositePrimaryKeys": {
-        "accounts_provider_providerAccountId_pk": {
+        "account_provider_providerAccountId_pk": {
           "columns": [
             "provider",
             "providerAccountId"
           ],
-          "name": "accounts_provider_providerAccountId_pk"
+          "name": "account_provider_providerAccountId_pk"
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "allowed_users": {
-      "name": "allowed_users",
+    "allowedUser": {
+      "name": "allowedUser",
       "columns": {
         "email": {
           "name": "email",
@@ -177,10 +179,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "sessions": {
-      "name": "sessions",
+    "session": {
+      "name": "session",
       "columns": {
         "sessionToken": {
           "name": "sessionToken",
@@ -206,10 +209,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "sessions_userId_users_id_fk": {
-          "name": "sessions_userId_users_id_fk",
-          "tableFrom": "sessions",
-          "tableTo": "users",
+        "session_userId_user_id_fk": {
+          "name": "session_userId_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -221,10 +224,11 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "users": {
-      "name": "users",
+    "user": {
+      "name": "user",
       "columns": {
         "id": {
           "name": "id",
@@ -265,10 +269,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "logs": {
-      "name": "logs",
+    "log": {
+      "name": "log",
       "columns": {
         "id": {
           "name": "id",
@@ -378,10 +383,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "logs_user_id_users_id_fk": {
-          "name": "logs_user_id_users_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "users",
+        "log_user_id_user_id_fk": {
+          "name": "log_user_id_user_id_fk",
+          "tableFrom": "log",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -391,10 +396,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "logs_departure_place_id_places_id_fk": {
-          "name": "logs_departure_place_id_places_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "places",
+        "log_departure_place_id_place_id_fk": {
+          "name": "log_departure_place_id_place_id_fk",
+          "tableFrom": "log",
+          "tableTo": "place",
           "columnsFrom": [
             "departure_place_id"
           ],
@@ -404,10 +409,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "logs_arrival_place_id_places_id_fk": {
-          "name": "logs_arrival_place_id_places_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "places",
+        "log_arrival_place_id_place_id_fk": {
+          "name": "log_arrival_place_id_place_id_fk",
+          "tableFrom": "log",
+          "tableTo": "place",
           "columnsFrom": [
             "arrival_place_id"
           ],
@@ -417,9 +422,9 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "logs_aircraft_id_aircraft_id_fk": {
-          "name": "logs_aircraft_id_aircraft_id_fk",
-          "tableFrom": "logs",
+        "log_aircraft_id_aircraft_id_fk": {
+          "name": "log_aircraft_id_aircraft_id_fk",
+          "tableFrom": "log",
           "tableTo": "aircraft",
           "columnsFrom": [
             "aircraft_id"
@@ -430,10 +435,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "logs_pilot_in_command_id_pilots_id_fk": {
-          "name": "logs_pilot_in_command_id_pilots_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "pilots",
+        "log_pilot_in_command_id_pilot_id_fk": {
+          "name": "log_pilot_in_command_id_pilot_id_fk",
+          "tableFrom": "log",
+          "tableTo": "pilot",
           "columnsFrom": [
             "pilot_in_command_id"
           ],
@@ -443,10 +448,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "logs_singular_times_id_times_id_fk": {
-          "name": "logs_singular_times_id_times_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "times",
+        "log_singular_times_id_time_id_fk": {
+          "name": "log_singular_times_id_time_id_fk",
+          "tableFrom": "log",
+          "tableTo": "time",
           "columnsFrom": [
             "singular_times_id"
           ],
@@ -456,10 +461,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "logs_cumulated_times_id_times_id_fk": {
-          "name": "logs_cumulated_times_id_times_id_fk",
-          "tableFrom": "logs",
-          "tableTo": "times",
+        "log_cumulated_times_id_time_id_fk": {
+          "name": "log_cumulated_times_id_time_id_fk",
+          "tableFrom": "log",
+          "tableTo": "time",
           "columnsFrom": [
             "cumulated_times_id"
           ],
@@ -471,10 +476,11 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "places": {
-      "name": "places",
+    "place": {
+      "name": "place",
       "columns": {
         "id": {
           "name": "id",
@@ -500,10 +506,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "places_user_id_users_id_fk": {
-          "name": "places_user_id_users_id_fk",
-          "tableFrom": "places",
-          "tableTo": "users",
+        "place_user_id_user_id_fk": {
+          "name": "place_user_id_user_id_fk",
+          "tableFrom": "place",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -515,10 +521,11 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "pilots": {
-      "name": "pilots",
+    "pilot": {
+      "name": "pilot",
       "columns": {
         "id": {
           "name": "id",
@@ -544,10 +551,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "pilots_user_id_users_id_fk": {
-          "name": "pilots_user_id_users_id_fk",
-          "tableFrom": "pilots",
-          "tableTo": "users",
+        "pilot_user_id_user_id_fk": {
+          "name": "pilot_user_id_user_id_fk",
+          "tableFrom": "pilot",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -559,10 +566,11 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "simulators": {
-      "name": "simulators",
+    "simulator": {
+      "name": "simulator",
       "columns": {
         "id": {
           "name": "id",
@@ -581,10 +589,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "simulators_user_id_users_id_fk": {
-          "name": "simulators_user_id_users_id_fk",
-          "tableFrom": "simulators",
-          "tableTo": "users",
+        "simulator_user_id_user_id_fk": {
+          "name": "simulator_user_id_user_id_fk",
+          "tableFrom": "simulator",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -596,10 +604,11 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "times": {
-      "name": "times",
+    "time": {
+      "name": "time",
       "columns": {
         "id": {
           "name": "id",
@@ -613,7 +622,8 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": 0
         },
         "single_pilot_single_engine": {
           "name": "single_pilot_single_engine",
@@ -691,9 +701,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
+  "views": {},
   "enums": {},
   "_meta": {
     "schemas": {},
