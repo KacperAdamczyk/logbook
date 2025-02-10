@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "^1.4.1",
-		"@hookform/resolvers": "^3.9.0",
+		"@hookform/resolvers": "^4.0.0",
 		"@internationalized/date": "^3.5.5",
 		"@libsql/client": "^0.14.0",
 		"@next-safe-action/adapter-react-hook-form": "^1.0.13",
