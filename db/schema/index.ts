@@ -5,3 +5,4 @@ export * from "./place";
 export * from "./pilot";
 export * from "./simulator";
 export * from "./time";
+export * from "./allowedUser";

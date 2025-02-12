@@ -13,7 +13,8 @@
 		"check": "pnpm biome check",
 		"check:write": "pnpm biome check --write",
 		"ts-check": "tsc --noEmit",
-		"db:": "bun run --env-file=.env.local drizzle-kit"
+		"db:": "bun run --env-file=.env.local drizzle-kit",
+		"better-auth:generate": "bun run --env-file=.env.local node_modules/@better-auth/cli generate --output db/schema/auth.ts"
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "^1.4.1",
@@ -24,6 +25,7 @@
 		"@nextui-org/react": "^2.4.6",
 		"@t3-oss/env-nextjs": "^0.12.0",
 		"@tabler/icons-react": "^3.22.0",
+		"better-auth": "^1.1.17",
 		"drizzle-orm": "^0.39.0",
 		"framer-motion": "^12.0.0",
 		"next": "15.1.6",
@@ -37,6 +39,7 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
+		"@better-auth/cli": "^1.1.15",
 		"@biomejs/biome": "1.9.4",
 		"@eslint/eslintrc": "3.2.0",
 		"@eslint/js": "9.19.0",
@@ -62,5 +65,13 @@
 		"node": ">=20",
 		"pnpm": ">=9"
 	},
-	"packageManager": "pnpm@10.2.0"
+	"packageManager": "pnpm@10.2.0",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@prisma/client",
+			"@prisma/engines",
+			"better-sqlite3",
+			"prisma"
+		]
+	}
 }
