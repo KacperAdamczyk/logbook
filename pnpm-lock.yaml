@@ -67,7 +67,7 @@ importers:
         version: 3.24.2
     devDependencies:
       '@better-auth/cli':
-        specifier: ^1.1.15
+        specifier: 1.1.15
         version: 1.1.15(@babel/core@7.26.7)(@libsql/client@0.14.0)(@types/pg@8.11.8)(@types/react@19.0.10)(bun-types@1.2.3)(kysely@0.27.5)(react@19.0.0)
       '@biomejs/biome':
         specifier: 1.9.4
@@ -1370,6 +1370,7 @@ packages:
 
   '@nextui-org/divider@2.2.5':
     resolution: {integrity: sha512-OB8b3CU4nQ5ARIGL48izhzrAHR0mnwws+Kd5LqRCZ/1R9uRMqsq7L0gpG9FkuV2jf2FuA7xa/GLOLKbIl4CEww==}
+    deprecated: This package has been deprecated. Please use @heroui/divider instead.
     peerDependencies:
       '@nextui-org/theme': '>=2.4.0'
       react: '>=18 || >=19.0.0-rc.0'
