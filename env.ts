@@ -16,5 +16,5 @@ export const env = createEnv({
 	},
 	// biome-ignore lint/style/useNamingConvention: <explanation>
 	experimental__runtimeEnv: {},
-	skipValidation: process.env.GITHUB === "true",
+	skipValidation: !!process.env.CI,
 });
