@@ -26,7 +26,7 @@ import type { TimeValue } from "@/types/TimeValue";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormActionErrorMapper } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { Button, Divider } from "@nextui-org/react";
+import { Button, Divider } from "@heroui/react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { type FC, useMemo } from "react";

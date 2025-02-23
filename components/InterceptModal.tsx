@@ -5,7 +5,7 @@ import {
 	ModalBody,
 	ModalContent,
 	type ModalProps,
-} from "@nextui-org/modal";
+} from "@heroui/modal";
 
 import { useRouter } from "next/navigation";
 

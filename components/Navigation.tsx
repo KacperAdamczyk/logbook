@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
 	Navbar,
 	NavbarBrand,
@@ -8,8 +8,8 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
-} from "@nextui-org/navbar";
-import { User } from "@nextui-org/user";
+} from "@heroui/navbar";
+import { User } from "@heroui/user";
 import { headers } from "next/headers";
 
 import Link from "next/link";

@@ -1,7 +1,7 @@
 import { InterceptModal } from "@/components/InterceptModal";
 import { LogDetails } from "@/components/LogDetails";
 import { ReloadButton } from "@/components/ReloadButton";
-import { Spinner } from "@nextui-org/spinner";
+import { Spinner } from "@heroui/spinner";
 import { Suspense } from "react";
 
 interface Props {

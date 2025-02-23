@@ -4,7 +4,7 @@ import type {
 } from "@/components/fields/fieldBase";
 import type { TimeValue } from "@/types/TimeValue";
 import { Time } from "@internationalized/date";
-import { Button, TimeInput, type TimeInputProps, cn } from "@nextui-org/react";
+import { Button, TimeInput, type TimeInputProps, cn } from "@heroui/react";
 import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";

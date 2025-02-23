@@ -3,7 +3,7 @@ import type {
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
 import { CalendarDate } from "@internationalized/date";
-import { DatePicker, type DatePickerProps } from "@nextui-org/react";
+import { DatePicker, type DatePickerProps } from "@heroui/react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
