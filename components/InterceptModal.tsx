@@ -1,11 +1,6 @@
 "use client";
 
-import {
-	Modal,
-	ModalBody,
-	ModalContent,
-	type ModalProps,
-} from "@heroui/modal";
+import { Modal, ModalBody, ModalContent, type ModalProps } from "@heroui/modal";
 
 import { useRouter } from "next/navigation";
 
