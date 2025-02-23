@@ -21,9 +21,9 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		getUserAircraft({ userId }),
 		getUserPilots({ userId }),
 		getUserPlaces({ userId }),
-		db.query.logs.findFirst({
-			where: (logs, { and, eq }) =>
-				and(eq(logs.userId, userId), eq(logs.id, logId)),
+		db.query.log.findFirst({
+			where: (log, { and, eq }) =>
+				and(eq(log.userId, userId), eq(log.id, logId)),
 			with: {
 				departurePlace: true,
 				arrivalPlace: true,

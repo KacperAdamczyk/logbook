@@ -7,8 +7,8 @@ interface GetUserPlacesArgs {
 
 export const getUserPlaces = createDbAction<GetUserPlacesArgs, Place[]>(
 	(tx, { userId }) => {
-		return tx.query.places.findMany({
-			where: (places, { eq }) => eq(places.userId, userId),
+		return tx.query.place.findMany({
+			where: (place, { eq }) => eq(place.userId, userId),
 		});
 	},
 );

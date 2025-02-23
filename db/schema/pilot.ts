@@ -4,22 +4,21 @@ import { relations } from "drizzle-orm";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 } from "uuid";
 
-export const aircraft = sqliteTable("aircraft", {
+export const pilot = sqliteTable("pilot", {
 	id: text().primaryKey().$defaultFn(v7),
 	userId: text()
 		.notNull()
 		.references(() => user.id),
-	model: text().notNull(),
-	registration: text().notNull(),
+	name: text().notNull(),
 });
 
-export const aircraftRelations = relations(aircraft, ({ one, many }) => ({
+export const pilotRelations = relations(pilot, ({ one, many }) => ({
 	user: one(user, {
-		fields: [aircraft.userId],
+		fields: [pilot.userId],
 		references: [user.id],
 	}),
 	logs: many(log),
 }));
 
-export type Aircraft = typeof aircraft.$inferSelect;
-export type CreateAircraft = typeof aircraft.$inferInsert;
+export type Pilot = typeof pilot.$inferSelect;
+export type CreatePilot = typeof pilot.$inferInsert;

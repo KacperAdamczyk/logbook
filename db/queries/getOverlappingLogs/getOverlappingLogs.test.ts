@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { aircraft, logs, pilots, places, times, users } from "@/db/schema";
+import { aircraft, log, pilot, place, time, user } from "@/db/schema";
 import {
 	aircraft1,
 	cumulatedTimes1,
@@ -16,12 +16,12 @@ import { getOverlappingLogs } from "./getOverlappingLogs";
 describe("getOverlappingLogs", () => {
 	beforeEach(async () => {
 		await db.batch([
-			db.insert(users).values([user1]),
-			db.insert(places).values([place1, place2]),
+			db.insert(user).values([user1]),
+			db.insert(place).values([place1, place2]),
 			db.insert(aircraft).values([aircraft1]),
-			db.insert(pilots).values([pilot1]),
-			db.insert(times).values([singularTimes1, cumulatedTimes1]),
-			db.insert(logs).values([log1]),
+			db.insert(pilot).values([pilot1]),
+			db.insert(time).values([singularTimes1, cumulatedTimes1]),
+			db.insert(log).values([log1]),
 		]);
 	});
 

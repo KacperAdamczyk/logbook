@@ -79,9 +79,8 @@ const TimeDetails: FC<{ title: string; times: Time }> = ({
 export const LogDetails: FC<Props> = async ({ logId }) => {
 	const userId = await getUserId();
 
-	const log = await db.query.logs.findFirst({
-		where: (logs, { eq, and }) =>
-			and(eq(logs.userId, userId), eq(logs.id, logId)),
+	const log = await db.query.log.findFirst({
+		where: (log, { eq, and }) => and(eq(log.userId, userId), eq(log.id, logId)),
 		with: {
 			singularTimes: true,
 			cumulatedTimes: true,

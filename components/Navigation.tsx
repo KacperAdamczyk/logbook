@@ -1,4 +1,4 @@
-import { auth, signOut } from "@/auth";
+import { auth } from "@/lib/auth";
 import { Button } from "@nextui-org/button";
 import {
 	Navbar,
@@ -10,6 +10,7 @@ import {
 	NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import { User } from "@nextui-org/user";
+import { headers } from "next/headers";
 
 import Link from "next/link";
 
@@ -21,9 +22,8 @@ const links = [
 ] as const;
 
 export async function Navigation() {
-	const session = await auth();
-	const userName = session?.user?.name ?? undefined;
-
+	const session = await auth.api.getSession({ headers: await headers() });
+	const userName = session?.user.name;
 	return (
 		<Navbar maxWidth="xl">
 			<NavbarContent>
@@ -53,7 +53,7 @@ export async function Navigation() {
 					<form
 						action={async () => {
 							"use server";
-							await signOut();
+							await auth.api.signOut({ headers: await headers() });
 						}}
 					>
 						<Button type="submit" color="primary" variant="flat">

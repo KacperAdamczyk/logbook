@@ -8,8 +8,13 @@ export const env = createEnv({
 		// biome-ignore lint/style/useNamingConvention: <explanation>
 		DATABASE_TOKEN: z.string(),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
-		AUTH_SECRET: z.string(),
+		BETTER_AUTH_SECRET: z.string(),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
+		GITHUB_CLIENT_ID: z.string(),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
+		GITHUB_CLIENT_SECRET: z.string(),
 	},
 	// biome-ignore lint/style/useNamingConvention: <explanation>
 	experimental__runtimeEnv: {},
+	skipValidation: !!process.env.CI,
 });

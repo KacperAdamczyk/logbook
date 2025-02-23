@@ -1,72 +1,55 @@
-import { aircraft } from "@/db/schema/aircraft";
-import { logs } from "@/db/schema/logs";
-import { pilots } from "@/db/schema/pilots";
-import { places } from "@/db/schema/places";
-import { simulators } from "@/db/schema/simulators";
-import { relations } from "drizzle-orm";
-import {
-	integer,
-	primaryKey,
-	sqliteTable,
-	text,
-} from "drizzle-orm/sqlite-core";
-import type { AdapterAccountType } from "next-auth/adapters";
-import { v7 } from "uuid";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const users = sqliteTable("users", {
-	id: text().primaryKey().$defaultFn(v7),
-	name: text(),
-	email: text().notNull(),
-	emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
-	image: text(),
+export const user = sqliteTable("user", {
+	id: text("id").primaryKey(),
+	name: text("name").notNull(),
+	email: text("email").notNull().unique(),
+	emailVerified: integer("email_verified", { mode: "boolean" }).notNull(),
+	image: text("image"),
+	createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+	updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
 
-export const accounts = sqliteTable(
-	"accounts",
-	{
-		userId: text("userId")
-			.notNull()
-			.references(() => users.id, { onDelete: "cascade" }),
-		type: text().$type<AdapterAccountType>().notNull(),
-		provider: text().notNull(),
-		providerAccountId: text("providerAccountId").notNull(),
-		// biome-ignore lint/style/useNamingConvention: <explanation>
-		refresh_token: text("refresh_token"),
-		// biome-ignore lint/style/useNamingConvention: <explanation>
-		access_token: text("access_token"),
-		// biome-ignore lint/style/useNamingConvention: <explanation>
-		expires_at: integer("expires_at"),
-		// biome-ignore lint/style/useNamingConvention: <explanation>
-		token_type: text("token_type"),
-		scope: text("scope"),
-		// biome-ignore lint/style/useNamingConvention: <explanation>
-		id_token: text("id_token"),
-		// biome-ignore lint/style/useNamingConvention: <explanation>
-		session_state: text("session_state"),
-	},
-	(account) => [
-		primaryKey({
-			columns: [account.provider, account.providerAccountId],
-		}),
-	],
-);
-
-export const sessions = sqliteTable("sessions", {
-	sessionToken: text("sessionToken").primaryKey(),
-	userId: text("userId")
+export const session = sqliteTable("session", {
+	id: text("id").primaryKey(),
+	expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+	token: text("token").notNull().unique(),
+	createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+	updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+	ipAddress: text("ip_address"),
+	userAgent: text("user_agent"),
+	userId: text("user_id")
 		.notNull()
-		.references(() => users.id, { onDelete: "cascade" }),
-	expires: integer({ mode: "timestamp_ms" }).notNull(),
+		.references(() => user.id),
 });
 
-export const allowedUsers = sqliteTable("allowed_users", {
-	email: text().primaryKey(),
+export const account = sqliteTable("account", {
+	id: text("id").primaryKey(),
+	accountId: text("account_id").notNull(),
+	providerId: text("provider_id").notNull(),
+	userId: text("user_id")
+		.notNull()
+		.references(() => user.id),
+	accessToken: text("access_token"),
+	refreshToken: text("refresh_token"),
+	idToken: text("id_token"),
+	accessTokenExpiresAt: integer("access_token_expires_at", {
+		mode: "timestamp",
+	}),
+	refreshTokenExpiresAt: integer("refresh_token_expires_at", {
+		mode: "timestamp",
+	}),
+	scope: text("scope"),
+	password: text("password"),
+	createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+	updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
-	aircraft: many(aircraft),
-	logs: many(logs),
-	pilots: many(pilots),
-	places: many(places),
-	simulators: many(simulators),
-}));
+export const verification = sqliteTable("verification", {
+	id: text("id").primaryKey(),
+	identifier: text("identifier").notNull(),
+	value: text("value").notNull(),
+	expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+	createdAt: integer("created_at", { mode: "timestamp" }),
+	updatedAt: integer("updated_at", { mode: "timestamp" }),
+});

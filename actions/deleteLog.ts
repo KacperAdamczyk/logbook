@@ -2,7 +2,7 @@
 import { actionClient } from "@/actions/safe-action";
 import { db } from "@/db";
 import { recalculateLogs } from "@/db/actions/recalculateLogs";
-import { logs } from "@/db/schema";
+import { log } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { returnValidationErrors } from "next-safe-action";
 import { z } from "zod";
@@ -17,8 +17,8 @@ export const deleteLogAction = actionClient
 		db.transaction(async (tx) => {
 			const deletedLog = (
 				await tx
-					.delete(logs)
-					.where(and(eq(logs.userId, userId), eq(logs.id, logId)))
+					.delete(log)
+					.where(and(eq(log.userId, userId), eq(log.id, logId)))
 					.returning()
 			).at(0);
 

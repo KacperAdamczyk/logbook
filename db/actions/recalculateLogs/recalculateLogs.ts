@@ -1,4 +1,4 @@
-import { type Time, times } from "@/db/schema";
+import { type Time, time } from "@/db/schema";
 import { createDbAction } from "@/db/utils";
 import { eq } from "drizzle-orm";
 
@@ -22,20 +22,20 @@ interface RecalculateLogsArgs {
 
 export const recalculateLogs = createDbAction<RecalculateLogsArgs, Time[]>(
 	async (tx, { userId, since }) => {
-		const logsToUpdate = await tx.query.logs.findMany({
-			where: (logs, { eq, gte, and }) =>
-				and(eq(logs.userId, userId), gte(logs.departureAt, since)),
-			orderBy: (logs, { asc }) => [asc(logs.departureAt)],
+		const logsToUpdate = await tx.query.log.findMany({
+			where: (log, { eq, gte, and }) =>
+				and(eq(log.userId, userId), gte(log.departureAt, since)),
+			orderBy: (log, { asc }) => [asc(log.departureAt)],
 			with: {
 				singularTimes: true,
 				cumulatedTimes: true,
 			},
 		});
 
-		const startLog = await tx.query.logs.findFirst({
-			where: (logs, { eq, lte, and }) =>
-				and(eq(logs.userId, userId), lte(logs.arrivalAt, since)),
-			orderBy: (logs, { desc }) => [desc(logs.arrivalAt)],
+		const startLog = await tx.query.log.findFirst({
+			where: (log, { eq, lte, and }) =>
+				and(eq(log.userId, userId), lte(log.arrivalAt, since)),
+			orderBy: (log, { desc }) => [desc(log.arrivalAt)],
 			with: {
 				cumulatedTimes: true,
 			},
@@ -71,9 +71,9 @@ export const recalculateLogs = createDbAction<RecalculateLogsArgs, Time[]>(
 			} satisfies Omit<Time, "id">;
 
 			const [updatedTime] = await tx
-				.update(times)
+				.update(time)
 				.set(updatedTimeValues)
-				.where(eq(times.id, cumulatedTimes.id))
+				.where(eq(time.id, cumulatedTimes.id))
 				.returning();
 
 			lastTimes = updatedTime;

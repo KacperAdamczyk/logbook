@@ -1,16 +1,19 @@
 import type { CreateAircraft } from "@/db/schema/aircraft";
-import type { CreateLog } from "@/db/schema/logs";
-import type { CreatePilot } from "@/db/schema/pilots";
-import type { CreatePlace } from "@/db/schema/places";
-import type { CreateTime } from "@/db/schema/times";
-import type { User } from "next-auth";
+import type { CreateLog } from "@/db/schema/log";
+import type { CreatePilot } from "@/db/schema/pilot";
+import type { CreatePlace } from "@/db/schema/place";
+import type { CreateTime } from "@/db/schema/time";
+import type { User } from "better-auth";
 import { v7 } from "uuid";
 
 export const user1 = {
 	id: v7(),
 	name: "Test User1",
 	email: "test-user",
-	image: undefined,
+	createdAt: new Date(),
+	emailVerified: true,
+	updatedAt: new Date(),
+	image: "",
 } satisfies User;
 
 export const place1 = {

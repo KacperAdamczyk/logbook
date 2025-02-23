@@ -1,4 +1,4 @@
-import { type Place, places } from "@/db/schema";
+import { type Place, place } from "@/db/schema";
 import { createDbAction } from "@/db/utils";
 
 export interface GetOrCreatePlaceArgs {
@@ -8,17 +8,17 @@ export interface GetOrCreatePlaceArgs {
 
 export const getOrCreatePlace = createDbAction<GetOrCreatePlaceArgs, Place>(
 	async (tx, { userId, name }) => {
-		const place = await tx.query.places.findFirst({
-			where: (places, { and, eq }) =>
-				and(eq(places.userId, userId), eq(places.name, name)),
+		const placeFound = await tx.query.place.findFirst({
+			where: (place, { and, eq }) =>
+				and(eq(place.userId, userId), eq(place.name, name)),
 		});
 
-		if (place) {
-			return place;
+		if (placeFound) {
+			return placeFound;
 		}
 
 		const [newPlace] = await tx
-			.insert(places)
+			.insert(place)
 			.values({
 				userId,
 				name,

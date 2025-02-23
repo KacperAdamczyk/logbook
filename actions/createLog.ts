@@ -8,7 +8,7 @@ import { getOrCreatePilot } from "@/db/actions/getOrCreatePilot";
 import { getOrCreatePlace } from "@/db/actions/getOrCreatePlace";
 import { recalculateLogs } from "@/db/actions/recalculateLogs";
 import { getOverlappingLogs } from "@/db/queries/getOverlappingLogs";
-import { logs, times } from "@/db/schema";
+import { log, time } from "@/db/schema";
 import { getFlightDates } from "@/helpers/getFlightDates";
 import { getParsedTimes } from "@/helpers/getParsedTimes";
 import { returnValidationErrors } from "next-safe-action";
@@ -64,7 +64,7 @@ export const createLogAction = actionClient
 			);
 
 			const [singularTimes, cumulatedTimes] = await tx
-				.insert(times)
+				.insert(time)
 				.values([getParsedTimes(parsedInput), {}])
 				.returning();
 
@@ -76,8 +76,8 @@ export const createLogAction = actionClient
 				remarks,
 			} = parsedInput;
 
-			const [log] = await tx
-				.insert(logs)
+			const [newLog] = await tx
+				.insert(log)
 				.values({
 					userId,
 					departureAt: departure,
@@ -97,10 +97,10 @@ export const createLogAction = actionClient
 				.returning();
 
 			const recalculatedLogs = await recalculateLogs(
-				{ userId, since: log.departureAt },
+				{ userId, since: newLog.departureAt },
 				tx,
 			);
 
-			return { log, recalculatedLogsCount: recalculatedLogs.length };
+			return { log: newLog, recalculatedLogsCount: recalculatedLogs.length };
 		}),
 	);
