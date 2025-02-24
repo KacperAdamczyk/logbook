@@ -13,6 +13,8 @@ export const env = createEnv({
 		GITHUB_CLIENT_ID: z.string(),
 		// biome-ignore lint/style/useNamingConvention: <explanation>
 		GITHUB_CLIENT_SECRET: z.string(),
+		// biome-ignore lint/style/useNamingConvention: <explanation>
+		GITHUB_REDIRECT_URI: z.union([z.string().url(), z.undefined()]),
 	},
 	// biome-ignore lint/style/useNamingConvention: <explanation>
 	experimental__runtimeEnv: {},
