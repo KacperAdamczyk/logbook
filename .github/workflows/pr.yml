@@ -33,4 +33,5 @@ jobs:
         env:
           DATABASE_URL: ":memory:"
           DATABASE_TOKEN: ""
-          AUTH_SECRET: "secret"
+          BETTER_AUTH_SECRET: "secret"
+          BETTER_AUTH_URL: "${{ vars.BETTER_AUTH_URL }}"
