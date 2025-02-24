@@ -16,7 +16,7 @@ importers:
         version: 4.0.0(react-hook-form@7.54.2(react@19.0.0))
       '@internationalized/date':
         specifier: ^3.5.5
-        version: 3.6.0
+        version: 3.7.0
       '@libsql/client':
         specifier: ^0.14.0
         version: 0.14.0
@@ -1090,6 +1090,9 @@ packages:
 
   '@internationalized/date@3.6.0':
     resolution: {integrity: sha512-+z6ti+CcJnRlLHok/emGEsWQhe7kfSmEW+/6qCzvKY67YPh7YOBfvc7+/+NXq+zJlbArg30tYpqLjNgcAYv2YQ==}
+
+  '@internationalized/date@3.7.0':
+    resolution: {integrity: sha512-VJ5WS3fcVx0bejE/YHfbDKR/yawZgKqn/if+oEeLqNwBtPzVB06olkfcnojTmEMX+gTpH+FlQ69SHNitJ8/erQ==}
 
   '@internationalized/message@3.1.6':
     resolution: {integrity: sha512-JxbK3iAcTIeNr1p0WIFg/wQJjIzJt9l/2KNY/48vXV7GRGZSv3zMxJsce008fZclk2cDC8y0Ig3odceHO7EfNQ==}
@@ -5837,6 +5840,10 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.15
 
+  '@internationalized/date@3.7.0':
+    dependencies:
+      '@swc/helpers': 0.5.15
+
   '@internationalized/message@3.1.6':
     dependencies:
       '@swc/helpers': 0.5.15
@@ -7115,7 +7122,7 @@ snapshots:
 
   '@react-aria/calendar@3.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@react-aria/i18n': 3.12.4(react@19.0.0)
       '@react-aria/interactions': 3.22.5(react@19.0.0)
       '@react-aria/live-announcer': 3.4.1
@@ -7165,7 +7172,7 @@ snapshots:
 
   '@react-aria/datepicker@3.12.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@internationalized/number': 3.6.0
       '@internationalized/string': 3.2.5
       '@react-aria/focus': 3.19.0(react@19.0.0)
@@ -7235,7 +7242,7 @@ snapshots:
 
   '@react-aria/i18n@3.12.4(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@internationalized/message': 3.1.6
       '@internationalized/number': 3.6.0
       '@internationalized/string': 3.2.5
@@ -7493,7 +7500,7 @@ snapshots:
 
   '@react-stately/calendar@3.6.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@react-stately/utils': 3.10.5(react@19.0.0)
       '@react-types/calendar': 3.5.0(react@19.0.0)
       '@react-types/shared': 3.26.0(react@19.0.0)
@@ -7530,7 +7537,7 @@ snapshots:
 
   '@react-stately/datepicker@3.11.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@internationalized/string': 3.2.5
       '@react-stately/form': 3.1.0(react@19.0.0)
       '@react-stately/overlays': 3.6.12(react@19.0.0)
@@ -7693,7 +7700,7 @@ snapshots:
 
   '@react-types/calendar@3.5.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@react-types/shared': 3.26.0(react@19.0.0)
       react: 19.0.0
 
@@ -7709,7 +7716,7 @@ snapshots:
 
   '@react-types/datepicker@3.9.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.6.0
+      '@internationalized/date': 3.7.0
       '@react-types/calendar': 3.5.0(react@19.0.0)
       '@react-types/overlays': 3.8.11(react@19.0.0)
       '@react-types/shared': 3.26.0(react@19.0.0)
