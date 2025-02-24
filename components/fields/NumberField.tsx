@@ -2,7 +2,7 @@ import type {
 	BaseFieldValues,
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
-import { Input, type InputProps } from "@heroui/react";
+import { Input, type InputProps } from "@heroui/input";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 

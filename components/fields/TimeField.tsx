@@ -3,7 +3,9 @@ import type {
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
 import type { TimeValue } from "@/types/TimeValue";
-import { Button, TimeInput, type TimeInputProps, cn } from "@heroui/react";
+import { TimeInput, type TimeInputProps } from "@heroui/date-input";
+import { cn } from "@heroui/react";
+import { Button } from "@heroui/button";
 import { Time } from "@internationalized/date";
 import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";

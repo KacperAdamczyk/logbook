@@ -3,7 +3,7 @@ import type {
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
 import type { EngineType } from "@/components/forms/LogForm";
-import { Radio, RadioGroup, type RadioGroupProps } from "@heroui/react";
+import { Radio, RadioGroup, type RadioGroupProps } from "@heroui/radio";
 import { useController } from "react-hook-form";
 
 export interface RadioFieldOption {

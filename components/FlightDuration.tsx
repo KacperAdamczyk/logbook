@@ -1,5 +1,5 @@
 import type { TimeValue } from "@/types/TimeValue";
-import { TimeInput } from "@heroui/react";
+import { TimeInput } from "@heroui/date-input";
 import { Time } from "@internationalized/date";
 import { IconClockHour1 } from "@tabler/icons-react";
 import type { FC } from "react";

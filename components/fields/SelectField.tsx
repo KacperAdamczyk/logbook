@@ -6,7 +6,7 @@ import {
 	Autocomplete,
 	AutocompleteItem,
 	type AutocompleteProps,
-} from "@heroui/react";
+} from "@heroui/autocomplete";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 

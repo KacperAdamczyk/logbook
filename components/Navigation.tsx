@@ -24,6 +24,7 @@ const links = [
 export async function Navigation() {
 	const session = await auth.api.getSession({ headers: await headers() });
 	const userName = session?.user.name;
+
 	return (
 		<Navbar maxWidth="xl">
 			<NavbarContent>
