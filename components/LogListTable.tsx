@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
 	Table,
 	TableBody,
@@ -8,7 +8,7 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
-} from "@nextui-org/table";
+} from "@heroui/table";
 import { IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import type { FC } from "react";

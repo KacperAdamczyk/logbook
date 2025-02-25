@@ -1,6 +1,6 @@
 import { CreateLog } from "@/components/CreateLog";
 import { InterceptModal } from "@/components/InterceptModal";
-import { Spinner } from "@nextui-org/spinner";
+import { Spinner } from "@heroui/spinner";
 import { Suspense } from "react";
 
 export default function CreatePage() {
