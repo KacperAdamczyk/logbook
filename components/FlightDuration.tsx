@@ -1,6 +1,6 @@
 import type { TimeValue } from "@/types/TimeValue";
+import { TimeInput } from "@heroui/date-input";
 import { Time } from "@internationalized/date";
-import { TimeInput } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
 import type { FC } from "react";
 

@@ -4,7 +4,7 @@ import { deleteLogAction } from "@/actions/deleteLog";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { actionToast } from "@/helpers/actionToast";
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { IconTrash } from "@tabler/icons-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";

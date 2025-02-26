@@ -1,12 +1,12 @@
 "use client";
 
-import { Button, ButtonGroup, type ButtonGroupProps } from "@nextui-org/button";
+import { Button, ButtonGroup, type ButtonGroupProps } from "@heroui/button";
 import {
 	Dropdown,
 	DropdownItem,
 	DropdownMenu,
 	DropdownTrigger,
-} from "@nextui-org/dropdown";
+} from "@heroui/dropdown";
 import { IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
 import type { FC } from "react";

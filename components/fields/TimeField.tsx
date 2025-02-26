@@ -3,8 +3,10 @@ import type {
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
 import type { TimeValue } from "@/types/TimeValue";
+import { TimeInput, type TimeInputProps } from "@heroui/date-input";
+import { cn } from "@heroui/react";
+import { Button } from "@heroui/button";
 import { Time } from "@internationalized/date";
-import { Button, TimeInput, type TimeInputProps, cn } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
