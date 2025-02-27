@@ -22,7 +22,7 @@ export const RecalculateLogsButton: FC = () => {
 				color="primary"
 				variant="flat"
 				isLoading={isExecuting}
-				onClick={() => execute()}
+				onPress={() => execute()}
 			>
 				<IconRefresh />
 			</Button>
