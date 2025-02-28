@@ -2,9 +2,9 @@ import { db } from "@/db";
 import type { Time } from "@/db/schema";
 import { formatMinutes } from "@/helpers/formatMinutes";
 import { getUserId } from "@/helpers/getUserId";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { cn } from "@heroui/react";
 import { fromDate, toCalendarDate, toTime } from "@internationalized/date";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { cn } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 

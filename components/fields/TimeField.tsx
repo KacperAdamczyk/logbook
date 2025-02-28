@@ -3,8 +3,10 @@ import type {
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
 import type { TimeValue } from "@/types/TimeValue";
+import { Button } from "@heroui/button";
+import { TimeInput, type TimeInputProps } from "@heroui/date-input";
+import { cn } from "@heroui/react";
 import { Time } from "@internationalized/date";
-import { Button, TimeInput, type TimeInputProps, cn } from "@nextui-org/react";
 import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
@@ -65,7 +67,7 @@ export function TimeField<FieldValues extends BaseFieldValues>({
 					isIconOnly
 					size="sm"
 					variant="bordered"
-					onClick={onFill}
+					onPress={onFill}
 					isDisabled={!fillValue}
 				>
 					<IconClockHour1 size={20} />

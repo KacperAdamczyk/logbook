@@ -2,7 +2,7 @@ import type {
 	BaseFieldValues,
 	FieldBaseProps,
 } from "@/components/fields/fieldBase";
-import { type TextAreaProps, Textarea } from "@nextui-org/react";
+import { type TextAreaProps, Textarea } from "@heroui/input";
 import { useCallback } from "react";
 import { useController } from "react-hook-form";
 
