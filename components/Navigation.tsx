@@ -13,6 +13,7 @@ import { User } from "@heroui/user";
 import { headers } from "next/headers";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const links = [
 	{ name: "Logs", href: "/" },
@@ -55,6 +56,7 @@ export async function Navigation() {
 						action={async () => {
 							"use server";
 							await auth.api.signOut({ headers: await headers() });
+							redirect("/login");
 						}}
 					>
 						<Button type="submit" color="primary" variant="flat">
