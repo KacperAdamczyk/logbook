@@ -67,8 +67,8 @@ importers:
         version: 3.24.2
     devDependencies:
       '@better-auth/cli':
-        specifier: 1.2.1
-        version: 1.2.1(@babel/core@7.26.7)(@libsql/client@0.14.0)(@types/pg@8.11.8)(@types/react@19.0.10)(bun-types@1.2.4)(kysely@0.27.5)(react@19.0.0)(typescript@5.8.2)
+        specifier: 1.2.2
+        version: 1.2.2(@babel/core@7.26.7)(@libsql/client@0.14.0)(@types/pg@8.11.8)(@types/react@19.0.10)(bun-types@1.2.4)(kysely@0.27.5)(react@19.0.0)(typescript@5.8.2)
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
@@ -320,8 +320,8 @@ packages:
     resolution: {integrity: sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==}
     engines: {node: '>=6.9.0'}
 
-  '@better-auth/cli@1.2.1':
-    resolution: {integrity: sha512-5r4lB8x37y76bUQQfWcsyltauJYLBYIHDML9w+Gf8TcH8hYI0iIfX1HOkEyezNz5ctMthWOu9inI9obTqYel1A==}
+  '@better-auth/cli@1.2.2':
+    resolution: {integrity: sha512-ptIb5eO33bJBFw3dVlxcRzqOniGLiat93Q82XfpG2jfeHFEVIJnsu2zSU4n1Zk8VwejhDa7mbSSofxd5DJtjyA==}
     hasBin: true
 
   '@better-auth/utils@0.2.3':
@@ -2727,11 +2727,11 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  better-auth@1.2.0:
-    resolution: {integrity: sha512-eIRGOXfix25bh4fgs8jslZAZssufpIkxfEeEokQu5G4wICoDee1wPctkFb8v80PvhtI4dPm28SuAoZaAdRc6Wg==}
-
   better-auth@1.2.1:
     resolution: {integrity: sha512-ehECh654Y32pseRiAwHiDdqemCX5oM/B/N52heqVcRbgiVKC61FgdrBwBkQb9jV2jBk7E+C8iDZ5Nqshck3O1g==}
+
+  better-auth@1.2.2:
+    resolution: {integrity: sha512-zsynKwkMKeuKq1QQy80zLV9UehcM8yG0fjJSlGsb7oXWwgfgek5RVBptBFckZcq7z1e84WIqDvtypcgXx0xmlg==}
 
   better-call@1.0.3:
     resolution: {integrity: sha512-DUKImKoDIy5UtCvQbHTg0wuBRse6gu1Yvznn7+1B3I5TeY8sclRPFce0HI+4WF2bcb+9PqmkET8nXZubrHQh9A==}
@@ -5272,7 +5272,7 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@better-auth/cli@1.2.1(@babel/core@7.26.7)(@libsql/client@0.14.0)(@types/pg@8.11.8)(@types/react@19.0.10)(bun-types@1.2.4)(kysely@0.27.5)(react@19.0.0)(typescript@5.8.2)':
+  '@better-auth/cli@1.2.2(@babel/core@7.26.7)(@libsql/client@0.14.0)(@types/pg@8.11.8)(@types/react@19.0.10)(bun-types@1.2.4)(kysely@0.27.5)(react@19.0.0)(typescript@5.8.2)':
     dependencies:
       '@babel/preset-react': 7.26.3(@babel/core@7.26.7)
       '@babel/preset-typescript': 7.26.0(@babel/core@7.26.7)
@@ -5281,7 +5281,7 @@ snapshots:
       '@prisma/client': 5.22.0(prisma@5.22.0)
       '@types/better-sqlite3': 7.6.12
       '@types/prompts': 2.4.9
-      better-auth: 1.2.1(typescript@5.8.2)
+      better-auth: 1.2.2(typescript@5.8.2)
       better-sqlite3: 11.8.1
       c12: 2.0.1
       chalk: 5.4.1
@@ -8429,7 +8429,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-auth@1.2.0(typescript@5.8.2):
+  better-auth@1.2.1(typescript@5.8.2):
     dependencies:
       '@better-auth/utils': 0.2.3
       '@better-fetch/fetch': 1.1.15
@@ -8447,7 +8447,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  better-auth@1.2.1(typescript@5.8.2):
+  better-auth@1.2.2(typescript@5.8.2):
     dependencies:
       '@better-auth/utils': 0.2.3
       '@better-fetch/fetch': 1.1.15
