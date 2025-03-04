@@ -1,35 +1,29 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
+import { useFieldContext } from "@/form";
 import { Input, type InputProps } from "@heroui/input";
-import { useController } from "react-hook-form";
 
-interface InputFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | undefined>,
-		Pick<InputProps, "className" | "label" | "isRequired" | "type"> {}
+interface InputFieldProps
+	extends Pick<InputProps, "className" | "label" | "isRequired" | "type"> {}
 
-export function InputField<FieldValues extends BaseFieldValues>({
-	name,
-	...inputProps
-}: InputFieldProps<FieldValues>) {
+export function InputField(props: InputFieldProps) {
 	const {
-		field,
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
-
-	const value = field.value ?? "";
+		name,
+		state: {
+			value,
+			meta: { errors },
+		},
+		handleChange,
+		handleBlur,
+	} = useFieldContext<string>();
 
 	return (
 		<Input
-			name={field.name}
-			ref={field.ref}
+			name={name}
 			value={value}
-			onValueChange={field.onChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
-			{...inputProps}
+			onValueChange={handleChange}
+			onBlur={handleBlur}
+			isInvalid={!!errors.length}
+			errorMessage={errors.join(", ")}
+			{...props}
 		/>
 	);
 }

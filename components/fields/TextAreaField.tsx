@@ -1,44 +1,32 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
+import { useFieldContext } from "@/form";
 import { type TextAreaProps, Textarea } from "@heroui/input";
-import { useCallback } from "react";
-import { useController } from "react-hook-form";
 
-interface TextAreaFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | null>,
-		Pick<
-			TextAreaProps,
-			"className" | "label" | "isRequired" | "minRows" | "maxRows"
-		> {}
+interface TextAreaFieldProps
+	extends Pick<
+		TextAreaProps,
+		"className" | "label" | "isRequired" | "minRows" | "maxRows"
+	> {}
 
-export function TextAreaField<FieldValues extends BaseFieldValues>({
-	name,
-	...textareaProps
-}: TextAreaFieldProps<FieldValues>) {
+export function TextAreaField(props: TextAreaFieldProps) {
 	const {
-		field,
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
-
-	const handleChange = useCallback(
-		(value: string) => {
-			field.onChange(value !== "" ? value : null);
+		name,
+		state: {
+			value,
+			meta: { errors },
 		},
-		[field],
-	);
+		handleChange,
+		handleBlur,
+	} = useFieldContext<string>();
 
 	return (
 		<Textarea
-			name={field.name}
-			ref={field.ref}
-			value={field.value ?? ""}
+			name={name}
+			value={value}
 			onValueChange={handleChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
-			{...textareaProps}
+			onBlur={handleBlur}
+			isInvalid={!!errors.length}
+			errorMessage={errors.join(", ")}
+			{...props}
 		/>
 	);
 }

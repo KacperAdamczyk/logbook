@@ -1,45 +1,50 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
-import type { EngineType } from "@/components/forms/LogForm";
+import { useFieldContext } from "@/form";
 import { Radio, RadioGroup, type RadioGroupProps } from "@heroui/radio";
-import { useController } from "react-hook-form";
+import { useCallback } from "react";
 
-export interface RadioFieldOption {
+export interface RadioFieldOption<Value extends string> {
 	label: string;
-	value: string;
+	value: Value;
 }
 
-interface RadioFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, EngineType>,
-		Pick<
-			RadioGroupProps,
-			"className" | "label" | "isRequired" | "orientation"
-		> {
-	options: RadioFieldOption[];
+interface RadioFieldProps<Value extends string>
+	extends Pick<
+		RadioGroupProps,
+		"className" | "label" | "isRequired" | "orientation"
+	> {
+	options: RadioFieldOption<Value>[];
 }
 
-export function RadioField<FieldValues extends BaseFieldValues>({
-	name,
+export function RadioField<Value extends string>({
 	options,
-	...radioGroupProps
-}: RadioFieldProps<FieldValues>) {
+	...props
+}: RadioFieldProps<Value>) {
 	const {
-		field,
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
+		name,
+		state: {
+			value,
+			meta: { errors },
+		},
+		handleChange,
+		handleBlur,
+	} = useFieldContext<Value>();
+
+	const onValueChange = useCallback(
+		(newValue: string) => {
+			handleChange(newValue as Value);
+		},
+		[handleChange],
+	);
 
 	return (
 		<RadioGroup
-			name={field.name}
-			ref={field.ref}
-			value={field.value}
-			onValueChange={field.onChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
-			{...radioGroupProps}
+			name={name}
+			value={value}
+			onValueChange={onValueChange}
+			onBlur={handleBlur}
+			isInvalid={!!errors.length}
+			errorMessage={errors.join(", ")}
+			{...props}
 		>
 			{options.map(({ label, value }) => (
 				<Radio key={value} value={value}>

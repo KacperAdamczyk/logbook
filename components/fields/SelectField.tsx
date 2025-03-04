@@ -1,75 +1,61 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
+import { useFieldContext } from "@/form";
 import {
 	Autocomplete,
 	AutocompleteItem,
 	type AutocompleteProps,
 } from "@heroui/autocomplete";
 import { useCallback } from "react";
-import { useController } from "react-hook-form";
 
 export interface SelectFieldItem {
 	label: string;
 	value: string;
 }
 
-interface SelectFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, string | null>,
-		Pick<
-			AutocompleteProps,
-			"className" | "label" | "isRequired" | "isDisabled"
-		> {
+interface SelectFieldProps
+	extends Pick<
+		AutocompleteProps,
+		"className" | "label" | "isRequired" | "isDisabled"
+	> {
 	items: SelectFieldItem[];
 }
 
-export function SelectField<FieldValues extends BaseFieldValues>({
-	name,
-	items,
-	...autocompleteProps
-}: SelectFieldProps<FieldValues>) {
+export function SelectField({ items, ...props }: SelectFieldProps) {
 	const {
-		field,
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
-
-	const onInputChange = useCallback<
-		NonNullable<AutocompleteProps["onInputChange"]>
-	>(
-		(value) => {
-			field.onChange(value);
+		name,
+		state: {
+			value,
+			meta: { errors },
 		},
-		[field],
-	);
+		handleChange,
+		handleBlur,
+	} = useFieldContext<string | null>();
 
 	const onSelectionChange = useCallback<
 		NonNullable<AutocompleteProps["onSelectionChange"]>
 	>(
 		(value) => {
-			field.onChange(value);
+			handleChange(value ? value.toString() : null);
 		},
-		[field],
+		[handleChange],
 	);
 
-	const currentItem = items.find((item) => item.value === field.value);
+	const currentItem = items.find((item) => item.value === value);
 	const selectedKey = currentItem?.value ?? null;
 
 	return (
 		<Autocomplete
-			name={field.name}
-			wrapperRef={field.ref}
-			inputValue={field.value ?? ""}
+			name={name}
+			inputValue={value ?? ""}
 			selectedKey={selectedKey}
-			onInputChange={onInputChange}
+			onInputChange={handleChange}
 			onSelectionChange={onSelectionChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
+			onBlur={handleBlur}
+			isInvalid={!!errors.length}
+			errorMessage={errors.join(", ")}
 			items={items}
 			allowsCustomValue
 			isClearable
-			{...autocompleteProps}
+			{...props}
 		>
 			{(item) => (
 				<AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>

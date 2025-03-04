@@ -2,7 +2,7 @@ import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { timeToMinutes } from "@/helpers/timeToMinutes";
 import { z } from "zod";
 
-const landingsTakeoffsSchema = z.coerce.number().int().nonnegative().nullable();
+const landingsTakeoffsSchema = z.coerce.number().int().nonnegative();
 const timeSchema = z.object(
 	{
 		hour: z.number().int().min(0).max(23),
@@ -46,7 +46,7 @@ export const logFormSchema = z
 		functionTimeCoPilot: optionalTimeSchema,
 		functionTimeDual: optionalTimeSchema,
 		functionTimeInstructor: optionalTimeSchema,
-		remarks: z.string().max(255).nullable(),
+		remarks: z.string().max(255),
 	})
 	.superRefine(
 		(

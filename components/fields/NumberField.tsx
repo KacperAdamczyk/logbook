@@ -1,42 +1,29 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
-import { Input, type InputProps } from "@heroui/input";
-import { useCallback } from "react";
-import { useController } from "react-hook-form";
+import { useFieldContext } from "@/form";
+import { NumberInput, type NumberInputProps } from "@heroui/number-input";
 
-interface NumberFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, number | null>,
-		Pick<InputProps, "className" | "label" | "isRequired"> {}
+interface NumberFieldProps
+	extends Pick<NumberInputProps, "className" | "label" | "isRequired"> {}
 
-export function NumberField<FieldValues extends BaseFieldValues>({
-	name,
-	...inputProps
-}: NumberFieldProps<FieldValues>) {
+export function NumberField(props: NumberFieldProps) {
 	const {
-		field,
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
-
-	const handleChange = useCallback(
-		(value: string) => {
-			field.onChange(value !== "" ? Number.parseInt(value) : null);
+		name,
+		state: {
+			value,
+			meta: { errors },
 		},
-		[field],
-	);
+		handleChange,
+		handleBlur,
+	} = useFieldContext<number>();
 
 	return (
-		<Input
-			type="number"
-			name={field.name}
-			ref={field.ref}
-			value={field.value ?? ""}
+		<NumberInput
+			name={name}
+			value={value}
 			onValueChange={handleChange}
-			onBlur={field.onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
-			{...inputProps}
+			onBlur={handleBlur}
+			isInvalid={!!errors.length}
+			errorMessage={errors.join(", ")}
+			{...props}
 		/>
 	);
 }

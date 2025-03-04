@@ -72,10 +72,10 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		multiPilotTime: minutesToTime(log.singularTimes.multiPilot),
 		totalFlightTime: minutesToTime(log.singularTimes.totalFlight),
 		pilotInCommand: log.pilotInCommand.name,
-		takeoffsDay: log.takeoffsDay,
-		takeoffsNight: log.takeoffsNight,
-		landingsDay: log.landingsDay,
-		landingsNight: log.landingsNight,
+		takeoffsDay: log.takeoffsDay ?? Number.NaN,
+		takeoffsNight: log.takeoffsNight ?? Number.NaN,
+		landingsDay: log.landingsDay ?? Number.NaN,
+		landingsNight: log.landingsNight ?? Number.NaN,
 		operationalConditionTimeNight: minutesToTime(
 			log.singularTimes.operationalConditionNight,
 		),
@@ -88,7 +88,7 @@ export const UpdateLog: FC<Props> = async ({ logId, onSuccessRedirect }) => {
 		functionTimeCoPilot: minutesToTime(log.singularTimes.functionCoPilot),
 		functionTimeDual: minutesToTime(log.singularTimes.functionDual),
 		functionTimeInstructor: minutesToTime(log.singularTimes.functionInstructor),
-		remarks: log.remarks,
+		remarks: log.remarks ?? "",
 	} satisfies LogFormProps["initialValues"];
 
 	return (

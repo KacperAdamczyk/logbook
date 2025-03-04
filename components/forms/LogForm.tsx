@@ -6,32 +6,22 @@ import {
 	logFormSchema,
 } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
-import { DateField } from "@/components/fields/DateField";
-import { NumberField } from "@/components/fields/NumberField";
-import {
-	RadioField,
-	type RadioFieldOption,
-} from "@/components/fields/RadioField";
-import {
-	SelectField,
-	type SelectFieldItem,
-} from "@/components/fields/SelectField";
-import { TextAreaField } from "@/components/fields/TextAreaField";
-import { TimeField, type TimeFieldProps } from "@/components/fields/TimeField";
+import type { RadioFieldOption } from "@/components/fields/RadioField";
+import type { SelectFieldItem } from "@/components/fields/SelectField";
+import type { TimeFieldProps } from "@/components/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
+import { useAppForm } from "@/form";
 import { actionToast } from "@/helpers/actionToast";
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { minutesToTime } from "@/helpers/minutesToTime";
 import type { TimeValue } from "@/types/TimeValue";
-import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormActionErrorMapper } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useStore } from "@tanstack/react-form";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { type FC, useMemo } from "react";
-import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export type EngineType = "single" | "multi";
@@ -49,17 +39,17 @@ export interface LogFormFieldValues {
 	multiPilotTime: TimeValue | null;
 	totalFlightTime: TimeValue | null;
 	pilotInCommand: string | null;
-	takeoffsDay: number | null;
-	takeoffsNight: number | null;
-	landingsDay: number | null;
-	landingsNight: number | null;
+	takeoffsDay: number;
+	takeoffsNight: number;
+	landingsDay: number;
+	landingsNight: number;
 	operationalConditionTimeNight: TimeValue | null;
 	operationalConditionTimeIfr: TimeValue | null;
 	functionTimePilotInCommand: TimeValue | null;
 	functionTimeCoPilot: TimeValue | null;
 	functionTimeDual: TimeValue | null;
 	functionTimeInstructor: TimeValue | null;
-	remarks: string | null;
+	remarks: string;
 }
 
 export interface LogFormProps {
@@ -76,7 +66,7 @@ export interface LogFormProps {
 const engineOptions = [
 	{ label: "Single", value: "single" },
 	{ label: "Multi", value: "multi" },
-] satisfies RadioFieldOption[];
+] satisfies RadioFieldOption<EngineType>[];
 
 export const LogForm: FC<LogFormProps> = ({
 	initialValues,
@@ -122,18 +112,20 @@ export const LogForm: FC<LogFormProps> = ({
 	});
 	const { hookFormValidationErrors } =
 		useHookFormActionErrorMapper(validationErrors);
-	const form = useForm<LogFormFieldValues, void, LogFormValues>({
+
+	const form = useAppForm({
+		onSubmit: ({ value }) => console.log("onSubmit", value),
 		defaultValues: initialValues,
-		resolver: zodResolver(logFormSchema),
-		errors: hookFormValidationErrors,
+		validators: { onChange: logFormSchema },
 	});
 
-	const [planeModel, engineType, departureTime, arrivalTime] = form.watch([
-		"planeModel",
-		"engineType",
-		"departureTime",
-		"arrivalTime",
-	]);
+	const planeModel = useStore(form.store, (state) => state.values.planeModel);
+	const engineType = useStore(form.store, (state) => state.values.engineType);
+	const departureTime = useStore(
+		form.store,
+		(state) => state.values.departureTime,
+	);
+	const arrivalTime = useStore(form.store, (state) => state.values.arrivalTime);
 
 	const flightDuration = useMemo(() => {
 		if (!departureTime || !arrivalTime) {
@@ -148,10 +140,7 @@ export const LogForm: FC<LogFormProps> = ({
 			({
 				fillable: true,
 				fillValue: flightDuration,
-			}) satisfies Pick<
-				TimeFieldProps<LogFormFieldValues>,
-				"fillable" | "fillValue"
-			>,
+			}) satisfies Pick<TimeFieldProps, "fillable" | "fillValue">,
 		[flightDuration],
 	);
 
@@ -205,188 +194,262 @@ export const LogForm: FC<LogFormProps> = ({
 	);
 
 	return (
-		<FormProvider {...form}>
-			<form
-				className="grid grid-cols-4 gap-2 max-w-5xl mx-auto"
-				onSubmit={form.handleSubmit(executeAsync)}
-			>
-				<DateField<LogFormFieldValues>
-					className="col-span-4"
-					name="date"
-					label="Date"
-					isRequired
-				/>
-				<SelectField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="departurePlace"
-					label="Departure Place"
-					items={placesItems}
-					isRequired
-				/>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="departureTime"
-					label="Departure Time"
-					isRequired
-				/>
-				<SelectField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="arrivalPlace"
-					label="Arrival Place"
-					items={placesItems}
-					isRequired
-				/>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="arrivalTime"
-					label="Arrival Time"
-					isRequired
-				/>
+		<form
+			className="grid grid-cols-4 gap-2 max-w-5xl mx-auto"
+			onSubmit={(event) => {
+				event.preventDefault();
+				event.stopPropagation();
+
+				return form.handleSubmit();
+			}}
+		>
+			<form.AppForm>
+				<form.AppField name="date">
+					{(field) => (
+						<field.DateField className="col-span-4" label="Date" isRequired />
+					)}
+				</form.AppField>
+				<form.AppField name="departurePlace">
+					{(field) => (
+						<field.SelectField
+							className="col-span-2 md:col-span-1"
+							label="Departure Place"
+							items={placesItems}
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="departureTime">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2 md:col-span-1"
+							label="Departure Time"
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="arrivalPlace">
+					{(field) => (
+						<field.SelectField
+							className="col-span-2 md:col-span-1"
+							label="Arrival Place"
+							items={placesItems}
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="arrivalTime">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2 md:col-span-1"
+							label="Arrival Time"
+							isRequired
+						/>
+					)}
+				</form.AppField>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Plane</h2>
-				<SelectField<LogFormFieldValues>
-					className="col-span-2"
-					name="planeModel"
-					label="Model"
-					items={aircraftModelItems}
-					isRequired
-				/>
-				<SelectField<LogFormFieldValues>
-					className="col-span-2"
-					name="planeRegistration"
-					label="Registration"
-					items={aircraftRegistrationItems}
-					isDisabled={!planeModel}
-					isRequired
-				/>
+				<form.AppField name="planeModel">
+					{(field) => (
+						<field.SelectField
+							className="col-span-2"
+							label="Model"
+							items={aircraftModelItems}
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="planeRegistration">
+					{(field) => (
+						<field.SelectField
+							className="col-span-2"
+							label="Registration"
+							items={aircraftRegistrationItems}
+							isDisabled={!planeModel}
+							isRequired
+						/>
+					)}
+				</form.AppField>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Pilot Time</h2>
 				<FlightDuration className="col-span-4" duration={flightDuration} />
-				<TimeField<LogFormFieldValues>
-					className="col-span-2"
-					name="totalFlightTime"
-					label="Total Time Of Flight"
-					isRequired
-					{...fillProps}
-				/>
-				<SelectField<LogFormFieldValues>
-					className="col-span-2"
-					name="pilotInCommand"
-					label="Pilot In Command"
-					items={pilotsItems}
-					isRequired
-					{...fillProps}
-				/>
-				<RadioField<LogFormFieldValues>
-					className="col-span-4 md:col-span-2"
-					label="Engine Type"
-					name="engineType"
-					orientation="horizontal"
-					options={engineOptions}
-				/>
+				<form.AppField name="totalFlightTime">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2"
+							label="Total Time Of Flight"
+							isRequired
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="pilotInCommand">
+					{(field) => (
+						<field.SelectField
+							className="col-span-2"
+							label="Pilot In Command"
+							items={pilotsItems}
+							isRequired
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="engineType">
+					{(field) => (
+						<field.RadioField
+							className="col-span-4 md:col-span-2"
+							label="Engine Type"
+							options={engineOptions}
+						/>
+					)}
+				</form.AppField>
 				{engineType === "single" && (
 					<>
-						<TimeField<LogFormFieldValues>
-							className="col-span-2 md:col-span-1"
-							name="singlePilotTimeSingleEngine"
-							label="Single Engine Time"
-							isRequired
-							{...fillProps}
-						/>
-						<TimeField<LogFormFieldValues>
-							className="col-span-2 md:col-span-1"
-							name="singlePilotTimeMultiEngine"
-							label="Multi Engine Time"
-							isRequired
-							{...fillProps}
-						/>
+						<form.AppField name="singlePilotTimeSingleEngine">
+							{(field) => (
+								<field.TimeField
+									className="col-span-2 md:col-span-1"
+									label="Single Engine Time"
+									isRequired
+									{...fillProps}
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="singlePilotTimeMultiEngine">
+							{(field) => (
+								<field.TimeField
+									className="col-span-2 md:col-span-1"
+									label="Multi Engine Time"
+									isRequired
+									{...fillProps}
+								/>
+							)}
+						</form.AppField>
 					</>
 				)}
 				{engineType === "multi" && (
-					<TimeField<LogFormFieldValues>
-						className="col-span-4 md:col-span-2"
-						name="multiPilotTime"
-						label="Multi Pilot Time"
-						isRequired
-						{...fillProps}
-					/>
+					<form.AppField name="multiPilotTime">
+						{(field) => (
+							<field.TimeField
+								className="col-span-4 md:col-span-2"
+								label="Multi Pilot Time"
+								isRequired
+								{...fillProps}
+							/>
+						)}
+					</form.AppField>
 				)}
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Takeoffs & Landings</h2>
-				<NumberField<LogFormFieldValues>
-					name="takeoffsDay"
-					label="Takeoffs Day"
-				/>
-				<NumberField<LogFormFieldValues>
-					name="takeoffsNight"
-					label="Takeoffs Night"
-				/>
-				<NumberField<LogFormFieldValues>
-					name="landingsDay"
-					label="Landings Day"
-				/>
-				<NumberField<LogFormFieldValues>
-					name="landingsNight"
-					label="Landings Night"
-				/>
+				<form.AppField name="takeoffsDay">
+					{(field) => (
+						<field.NumberField
+							className="col-span-2"
+							label="Takeoffs Day"
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="takeoffsNight">
+					{(field) => (
+						<field.NumberField
+							className="col-span-2"
+							label="Takeoffs Night"
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="landingsDay">
+					{(field) => (
+						<field.NumberField
+							className="col-span-2"
+							label="Landings Day"
+							isRequired
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="landingsNight">
+					{(field) => (
+						<field.NumberField
+							className="col-span-2"
+							label="Landings Night"
+							isRequired
+						/>
+					)}
+				</form.AppField>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">
 					Operational Condition Time
 				</h2>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2"
-					name="operationalConditionTimeNight"
-					label="Night"
-					{...fillProps}
-				/>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2"
-					name="operationalConditionTimeIfr"
-					label="IFR"
-					{...fillProps}
-				/>
+				<form.AppField name="operationalConditionTimeNight">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2"
+							label="Night"
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="operationalConditionTimeIfr">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2"
+							label="IFR"
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
 				<Divider className="col-span-4" />
 				<h2 className="col-span-4 text-sm text-center">Function Time</h2>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="functionTimePilotInCommand"
-					label="Pilot In Command"
-					{...fillProps}
-				/>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="functionTimeCoPilot"
-					label="Co-Pilot"
-					{...fillProps}
-				/>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="functionTimeDual"
-					label="Dual"
-					{...fillProps}
-				/>
-				<TimeField<LogFormFieldValues>
-					className="col-span-2 md:col-span-1"
-					name="functionTimeInstructor"
-					label="Instructor"
-					{...fillProps}
-				/>
-				<TextAreaField<LogFormFieldValues>
-					className="col-span-4"
-					name="remarks"
-					label="Remarks"
-					minRows={2}
-				/>
-				<Button
-					className="col-span-4 mt-2"
-					type="submit"
-					color="primary"
-					isLoading={isPending}
-				>
+				<form.AppField name="functionTimePilotInCommand">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2 md:col-span-1"
+							label="Pilot In Command"
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="functionTimeCoPilot">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2 md:col-span-1"
+							label="Co-Pilot"
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="functionTimeDual">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2 md:col-span-1"
+							label="Dual"
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="functionTimeInstructor">
+					{(field) => (
+						<field.TimeField
+							className="col-span-2 md:col-span-1"
+							label="Instructor"
+							{...fillProps}
+						/>
+					)}
+				</form.AppField>
+				<form.AppField name="remarks">
+					{(field) => (
+						<field.TextAreaField
+							className="col-span-4"
+							label="Remarks"
+							minRows={2}
+						/>
+					)}
+				</form.AppField>
+				<form.SubmitButton className="col-span-4 mt-2">
 					{submitLabel}
-				</Button>
-				<DevTool control={form.control} />
-			</form>
-		</FormProvider>
+				</form.SubmitButton>
+			</form.AppForm>
+		</form>
 	);
 };

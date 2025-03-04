@@ -1,7 +1,4 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
+import { useFieldContext } from "@/form";
 import type { TimeValue } from "@/types/TimeValue";
 import { Button } from "@heroui/button";
 import { TimeInput, type TimeInputProps } from "@heroui/date-input";
@@ -9,57 +6,58 @@ import { cn } from "@heroui/react";
 import { Time } from "@internationalized/date";
 import { IconClockHour1 } from "@tabler/icons-react";
 import { useCallback } from "react";
-import { useController } from "react-hook-form";
 
-export interface TimeFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, TimeValue | null>,
-		Pick<TimeInputProps, "className" | "label" | "isRequired"> {
+export interface TimeFieldProps
+	extends Pick<TimeInputProps, "className" | "label" | "isRequired"> {
 	fillable?: boolean;
 	fillValue?: TimeValue;
 }
 
-export function TimeField<FieldValues extends BaseFieldValues>({
-	name,
+export function TimeField({
 	className,
 	fillable,
 	fillValue,
-	...timeInputProps
-}: TimeFieldProps<FieldValues>) {
+	...props
+}: TimeFieldProps) {
 	const {
-		field: { name: fieldName, ref, value, onChange, onBlur, disabled },
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
+		name,
+		state: {
+			value,
+			meta: { errors, errorMap },
+		},
+		handleChange,
+		handleBlur,
+	} = useFieldContext<TimeValue | null>();
+	console.log(errors, errorMap);
 
-	const handleChange = useCallback(
+	const onChange = useCallback(
 		(time: Time | null) => {
-			onChange(
+			handleChange(
 				time && ({ hour: time.hour, minute: time.minute } satisfies TimeValue),
 			);
 		},
-		[onChange],
+		[handleChange],
 	);
 
 	const onFill = useCallback(() => {
 		if (!fillValue) return;
 
-		onChange(fillValue);
-	}, [fillValue, onChange]);
+		handleChange(fillValue);
+	}, [fillValue, handleChange]);
 
 	const timeValue = value && new Time(value.hour, value.minute);
 
 	return (
 		<div className={cn("flex gap-1", className)}>
 			<TimeInput<Time>
-				name={fieldName}
-				inputRef={ref}
+				name={name}
 				value={timeValue}
-				onChange={handleChange}
-				onBlur={onBlur}
-				isInvalid={invalid}
-				errorMessage={error?.message}
+				onChange={onChange}
+				onBlur={handleBlur}
+				isInvalid={!!errors.length}
+				errorMessage={errors.join(", ")}
 				hourCycle={24}
-				isDisabled={disabled}
-				{...timeInputProps}
+				{...props}
 			/>
 			{fillable && (
 				<Button

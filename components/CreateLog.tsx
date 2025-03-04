@@ -23,17 +23,17 @@ const initialValues = {
 	multiPilotTime: null,
 	totalFlightTime: null,
 	pilotInCommand: "",
-	takeoffsDay: null,
-	takeoffsNight: null,
-	landingsDay: null,
-	landingsNight: null,
+	takeoffsDay: Number.NaN,
+	takeoffsNight: Number.NaN,
+	landingsDay: Number.NaN,
+	landingsNight: Number.NaN,
 	operationalConditionTimeNight: null,
 	operationalConditionTimeIfr: null,
 	functionTimePilotInCommand: null,
 	functionTimeCoPilot: null,
 	functionTimeDual: null,
 	functionTimeInstructor: null,
-	remarks: null,
+	remarks: "",
 } satisfies LogFormFieldValues;
 
 interface Props extends Pick<LogFormProps, "onSuccessRedirect"> {}

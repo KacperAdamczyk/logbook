@@ -1,30 +1,27 @@
-import type {
-	BaseFieldValues,
-	FieldBaseProps,
-} from "@/components/fields/fieldBase";
+import { useFieldContext } from "@/form";
 import { DatePicker, type DatePickerProps } from "@heroui/date-picker";
 import { CalendarDate } from "@internationalized/date";
 import { useCallback } from "react";
-import { useController } from "react-hook-form";
 
-interface DateFieldProps<FieldValues extends BaseFieldValues>
-	extends FieldBaseProps<FieldValues, Date | null>,
-		Pick<DatePickerProps, "className" | "label" | "isRequired"> {}
+interface DateFieldProps
+	extends Pick<DatePickerProps, "className" | "label" | "isRequired"> {}
 
-export function DateField<FieldValues extends BaseFieldValues>({
-	name,
-	...datePickerProps
-}: DateFieldProps<FieldValues>) {
+export function DateField(props: DateFieldProps) {
 	const {
-		field: { ref, name: fieldName, value, onChange, onBlur, disabled },
-		fieldState: { invalid, error },
-	} = useController<FieldValues, typeof name>({ name });
-
-	const handleChange = useCallback(
-		(date: CalendarDate | null) => {
-			onChange(date ? date.toDate("utc") : null);
+		name,
+		state: {
+			value,
+			meta: { errors },
 		},
-		[onChange],
+		handleChange,
+		handleBlur,
+	} = useFieldContext<Date | null>();
+
+	const onChange = useCallback(
+		(date: CalendarDate | null) => {
+			handleChange(date ? date.toDate("utc") : null);
+		},
+		[handleChange],
 	);
 
 	const dateValue =
@@ -37,16 +34,14 @@ export function DateField<FieldValues extends BaseFieldValues>({
 
 	return (
 		<DatePicker
-			name={fieldName}
-			inputRef={ref}
+			name={name}
 			value={dateValue}
-			onChange={handleChange}
-			onBlur={onBlur}
-			isInvalid={invalid}
-			errorMessage={error?.message}
-			isDisabled={disabled}
+			onChange={onChange}
+			onBlur={handleBlur}
+			isInvalid={!!errors.length}
+			errorMessage={errors.join(", ")}
 			showMonthAndYearPickers
-			{...datePickerProps}
+			{...props}
 		/>
 	);
 }
