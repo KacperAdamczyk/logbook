@@ -2,13 +2,12 @@
 import { createLogAction } from "@/actions/createLog";
 import { updateLogAction } from "@/actions/updateLog";
 import {
-	type LogFormValues,
 	logFormSchema,
 } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
-import type { RadioFieldOption } from "@/components/fields/RadioField";
-import type { SelectFieldItem } from "@/components/fields/SelectField";
-import type { TimeFieldProps } from "@/components/fields/TimeField";
+import type { RadioFieldOption } from "@/form/fields/RadioField";
+import type { SelectFieldItem } from "@/form/fields/SelectField";
+import type { TimeFieldProps } from "@/form/fields/TimeField";
 import type { Aircraft, Pilot, Place } from "@/db/schema";
 import { useAppForm } from "@/form";
 import { actionToast } from "@/helpers/actionToast";
@@ -16,7 +15,6 @@ import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { minutesToTime } from "@/helpers/minutesToTime";
 import type { TimeValue } from "@/types/TimeValue";
 import { Divider } from "@heroui/divider";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormActionErrorMapper } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useStore } from "@tanstack/react-form";
 import { useAction } from "next-safe-action/hooks";

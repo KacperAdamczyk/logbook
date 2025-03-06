@@ -23,12 +23,11 @@ export function TimeField({
 		name,
 		state: {
 			value,
-			meta: { errors, errorMap },
+			meta: { errors },
 		},
 		handleChange,
 		handleBlur,
 	} = useFieldContext<TimeValue | null>();
-	console.log(errors, errorMap);
 
 	const onChange = useCallback(
 		(time: Time | null) => {
