@@ -1,6 +1,7 @@
 import { calculateFlightTime } from "@/helpers/calculateFlightTime";
 import { timeToMinutes } from "@/helpers/timeToMinutes";
 import { z } from "zod";
+import * as v from "valibot";
 
 const landingsTakeoffsSchema = z.coerce.number().int().nonnegative();
 const timeSchema = z.object(
@@ -236,3 +237,41 @@ export const logFormSchema = z
 	);
 
 export type LogFormValues = z.infer<typeof logFormSchema>;
+
+const timeSchemaV = v.object({
+	hour: v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(23)),
+	minute: v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(59)),
+});
+
+const logFormSchemaV = v.object({
+	date: v.pipe(
+		v.date(),
+		v.minValue(new Date("1900-01-01")),
+		v.maxValue(new Date("2100-01-01")),
+	),
+	departurePlace: v.pipe(v.string(), v.trim(), v.minLength(1)),
+	departureTime: timeSchemaV,
+	arrivalPlace: v.pipe(v.string(), v.trim(), v.minLength(1)),
+	arrivalTime: timeSchemaV,
+	planeModel: v.pipe(v.string(), v.trim(), v.minLength(1)),
+	planeRegistration: v.pipe(v.string(), v.trim(), v.minLength(1)),
+	engineType: v.picklist(["single", "multi"]),
+	singlePilotTimeSingleEngine: v.nullable(timeSchemaV),
+	singlePilotTimeMultiEngine: v.nullable(timeSchemaV),
+	multiPilotTime: v.nullable(timeSchemaV),
+	totalFlightTime: timeSchemaV,
+	pilotInCommand: v.pipe(v.string(), v.trim(), v.minLength(1)),
+	takeoffsDay: v.pipe(v.number(), v.integer(), v.minValue(0)),
+	takeoffsNight: v.pipe(v.number(), v.integer(), v.minValue(0)),
+	landingsDay: v.pipe(v.number(), v.integer(), v.minValue(0)),
+	landingsNight: v.pipe(v.number(), v.integer(), v.minValue(0)),
+	operationalConditionTimeNight: v.nullable(timeSchemaV),
+	operationalConditionTimeIfr: v.nullable(timeSchemaV),
+	functionTimePilotInCommand: v.nullable(timeSchemaV),
+	functionTimeCoPilot: v.nullable(timeSchemaV),
+	functionTimeDual: v.nullable(timeSchemaV),
+	functionTimeInstructor: v.nullable(timeSchemaV),
+	remarks: v.pipe(v.string(), v.maxLength(255)),
+});
+
+export type LogFormValuesV = v.InferInput<typeof logFormSchemaV>;

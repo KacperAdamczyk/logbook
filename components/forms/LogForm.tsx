@@ -3,6 +3,7 @@ import { createLogAction } from "@/actions/createLog";
 import { updateLogAction } from "@/actions/updateLog";
 import {
 	logFormSchema,
+	logFormSchemaV,
 } from "@/actions/validation/logFormSchema";
 import { FlightDuration } from "@/components/FlightDuration";
 import type { RadioFieldOption } from "@/form/fields/RadioField";
@@ -112,9 +113,11 @@ export const LogForm: FC<LogFormProps> = ({
 		useHookFormActionErrorMapper(validationErrors);
 
 	const form = useAppForm({
-		onSubmit: ({ value }) => console.log("onSubmit", value),
+		onSubmit: ({ value }) => {
+			console.log("onSubmit", value);
+		},
 		defaultValues: initialValues,
-		validators: { onChange: logFormSchema },
+		validators: { onChange: logFormSchemaV },
 	});
 
 	const planeModel = useStore(form.store, (state) => state.values.planeModel);
