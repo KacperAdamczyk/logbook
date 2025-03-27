@@ -82,8 +82,8 @@ importers:
         specifier: 4.3.3
         version: 4.3.3(@types/react@19.0.12)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@types/bun':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@types/node':
         specifier: 22.13.14
         version: 22.13.14
@@ -2516,8 +2516,8 @@ packages:
   '@types/better-sqlite3@7.6.12':
     resolution: {integrity: sha512-fnQmj8lELIj7BSrZQAdBMHEHX8OZLYIHXqAKT1O7tDfLxaINzf00PMjw22r3N/xXh0w/sGHlO6SVaCQ2mj78lg==}
 
-  '@types/bun@1.2.7':
-    resolution: {integrity: sha512-Xf/nkx1V03GvWEzWrYsOGB1VUvWVtU5p6jHalCxixhhfLgsJN59iT7CRvfBXyEBnYoGCa2orzWj6car/QfTjxw==}
+  '@types/bun@1.2.8':
+    resolution: {integrity: sha512-t8L1RvJVUghW5V+M/fL3Thbxcs0HwNsXsnTEBEfEVqGteiJToOlZ/fyOEaR1kZsNqnu+3XA4RI/qmnX4w6+S+w==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -8208,7 +8208,7 @@ snapshots:
     dependencies:
       '@types/node': 22.13.14
 
-  '@types/bun@1.2.7':
+  '@types/bun@1.2.8':
     dependencies:
       bun-types: 1.2.7
 
