@@ -38,7 +38,7 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@better-auth/cli": "1.2.6",
+		"@better-auth/cli": "1.2.7",
 		"@biomejs/biome": "1.9.4",
 		"@eslint/eslintrc": "3.3.1",
 		"@eslint/js": "9.24.0",
