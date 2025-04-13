@@ -34,7 +34,7 @@ importers:
         version: 3.31.0(react@19.1.0)
       better-auth:
         specifier: ^1.1.17
-        version: 1.2.6
+        version: 1.2.7
       drizzle-orm:
         specifier: ^0.41.0
         version: 0.41.0(@libsql/client-wasm@0.14.0)(@libsql/client@0.15.3)(@prisma/client@5.22.0(prisma@5.22.0))(@types/better-sqlite3@7.6.12)(@types/pg@8.11.8)(better-sqlite3@11.8.1)(bun-types@1.2.9)(gel@2.0.0)(kysely@0.27.6)(prisma@5.22.0)
