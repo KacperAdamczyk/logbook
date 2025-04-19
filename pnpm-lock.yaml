@@ -16,7 +16,7 @@ importers:
         version: 2.7.6(@types/react@19.1.2)(framer-motion@12.7.4(@emotion/is-prop-valid@1.3.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@3.4.17)
       '@hookform/resolvers':
         specifier: ^4.0.0
-        version: 4.0.0(react-hook-form@7.55.0(react@19.1.0))
+        version: 4.1.3(react-hook-form@7.55.0(react@19.1.0))
       '@internationalized/date':
         specifier: ^3.7.0
         version: 3.7.0
@@ -25,7 +25,7 @@ importers:
         version: 0.15.4
       '@next-safe-action/adapter-react-hook-form':
         specifier: ^1.0.13
-        version: 1.0.14(@hookform/resolvers@4.0.0(react-hook-form@7.55.0(react@19.1.0)))(next-safe-action@7.10.5(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(valibot@1.0.0-beta.15(typescript@5.8.3))(zod@3.24.3))(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react@19.1.0)
+        version: 1.0.14(@hookform/resolvers@4.1.3(react-hook-form@7.55.0(react@19.1.0)))(next-safe-action@7.10.5(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(valibot@1.0.0-beta.15(typescript@5.8.3))(zod@3.24.3))(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react@19.1.0)
       '@t3-oss/env-nextjs':
         specifier: ^0.12.0
         version: 0.12.0(typescript@5.8.3)(valibot@1.0.0-beta.15(typescript@5.8.3))(zod@3.24.3)
@@ -1346,8 +1346,8 @@ packages:
       react: ^16.8.0 || ^17 || ^18 || ^19
       react-dom: ^16.8.0 || ^17 || ^18 || ^19
 
-  '@hookform/resolvers@4.0.0':
-    resolution: {integrity: sha512-93ZueVlTaeMF0pRbrLbcnzrxeb2mGA/xyO3RgfrsKs5OCtcfjoWcdjBJm+N7096Jfg/JYlGPjuyQCgqVEodSTg==}
+  '@hookform/resolvers@4.1.3':
+    resolution: {integrity: sha512-Jsv6UOWYTrEFJ/01ZrnwVXs7KDvP8XIo115i++5PWvNkNvkrsTfGiLS6w+eJ57CYtUtDQalUWovCZDHFJ8u1VQ==}
     peerDependencies:
       react-hook-form: ^7.0.0
 
@@ -2293,6 +2293,9 @@ packages:
     resolution: {integrity: sha512-1hsLpRHfSuMB9ee2aAdh0Htza/X3f4djhYISrggqGe3xopNjOcePiSDkDDoPzDYaaMCrbqGP1H2TYU7bgL9PmA==}
     engines: {node: '>=20.0.0'}
 
+  '@standard-schema/utils@0.3.0':
+    resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
+
   '@swc/counter@0.1.3':
     resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
 
@@ -3073,8 +3076,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.5.137:
-    resolution: {integrity: sha512-/QSJaU2JyIuTbbABAo/crOs+SuAZLS+fVVS10PVrIT9hrRkmZl8Hb0xPSkKRUUWHQtYzXHpQUW3Dy5hwMzGZkA==}
+  electron-to-chromium@1.5.139:
+    resolution: {integrity: sha512-GGnRYOTdN5LYpwbIr0rwP/ZHOQSvAF6TG0LSzp28uCBb9JiXHJGmaaKw29qjNJc5bGnnp6kXJqRnGMQoELwi5w==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -6665,8 +6668,9 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@hookform/resolvers@4.0.0(react-hook-form@7.55.0(react@19.1.0))':
+  '@hookform/resolvers@4.1.3(react-hook-form@7.55.0(react@19.1.0))':
     dependencies:
+      '@standard-schema/utils': 0.3.0
       react-hook-form: 7.55.0(react@19.1.0)
 
   '@humanfs/core@0.19.1': {}
@@ -6879,9 +6883,9 @@ snapshots:
 
   '@neon-rs/load@0.0.4': {}
 
-  '@next-safe-action/adapter-react-hook-form@1.0.14(@hookform/resolvers@4.0.0(react-hook-form@7.55.0(react@19.1.0)))(next-safe-action@7.10.5(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(valibot@1.0.0-beta.15(typescript@5.8.3))(zod@3.24.3))(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react@19.1.0)':
+  '@next-safe-action/adapter-react-hook-form@1.0.14(@hookform/resolvers@4.1.3(react-hook-form@7.55.0(react@19.1.0)))(next-safe-action@7.10.5(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(valibot@1.0.0-beta.15(typescript@5.8.3))(zod@3.24.3))(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@hookform/resolvers': 4.0.0(react-hook-form@7.55.0(react@19.1.0))
+      '@hookform/resolvers': 4.1.3(react-hook-form@7.55.0(react@19.1.0))
       next: 15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-safe-action: 7.10.5(next@15.3.1(@babel/core@7.26.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(valibot@1.0.0-beta.15(typescript@5.8.3))(zod@3.24.3)
       react: 19.1.0
@@ -7868,6 +7872,8 @@ snapshots:
       '@peculiar/asn1-schema': 2.3.15
       '@peculiar/asn1-x509': 2.3.15
 
+  '@standard-schema/utils@0.3.0': {}
+
   '@swc/counter@0.1.3': {}
 
   '@swc/helpers@0.5.15':
@@ -8282,7 +8288,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001714
-      electron-to-chromium: 1.5.137
+      electron-to-chromium: 1.5.139
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -8578,7 +8584,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.137: {}
+  electron-to-chromium@1.5.139: {}
 
   emoji-regex@8.0.0: {}
 
