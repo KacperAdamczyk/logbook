@@ -1,5 +1,5 @@
 import { resolve } from '$app/paths';
-import { command, form, getRequestEvent } from '$app/server';
+import { form, getRequestEvent } from '$app/server';
 import { auth } from '$lib/auth';
 import { signInSchema, signUpSchema } from '$lib/remotes/auth/auth.schema';
 import { redirect } from '@sveltejs/kit';
@@ -12,6 +12,7 @@ export const signUp = form(signUpSchema, async ({ name, email, _password: passwo
 
 		await auth.api.signUpEmail({
 			body: { name, email, password },
+			request,
 			headers: request.headers
 		});
 
@@ -31,6 +32,7 @@ export const signIn = form(signInSchema, async ({ email, _password: password }, 
 
 		await auth.api.signInEmail({
 			body: { email, password },
+			request,
 			headers: request.headers
 		});
 
@@ -48,6 +50,7 @@ export const signOut = form(z.object(), async () => {
 	const { request } = getRequestEvent();
 
 	await auth.api.signOut({
+		request,
 		headers: request.headers
 	});
 
