@@ -1,9 +1,10 @@
 import { resolve } from '$app/paths';
-import { form, getRequestEvent } from '$app/server';
+import { command, form, getRequestEvent } from '$app/server';
 import { auth } from '$lib/auth';
 import { signInSchema, signUpSchema } from '$lib/remotes/auth/auth.schema';
 import { redirect } from '@sveltejs/kit';
 import { APIError } from 'better-auth';
+import { z } from 'zod';
 
 export const signUp = form(signUpSchema, async ({ name, email, _password: password }, invalid) => {
 	try {
@@ -41,4 +42,14 @@ export const signIn = form(signInSchema, async ({ email, _password: password }, 
 
 		throw error;
 	}
+});
+
+export const signOut = form(z.object(), async () => {
+	const { request } = getRequestEvent();
+
+	await auth.api.signOut({
+		headers: request.headers
+	});
+
+	redirect(303, resolve('/sign-in'));
 });

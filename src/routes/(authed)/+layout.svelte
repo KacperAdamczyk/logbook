@@ -10,12 +10,13 @@
 	} from '$lib/components/ui/breadcrumb';
 	import { Separator } from '$lib/components/ui/separator';
 	import { SidebarProvider, SidebarInset, SidebarTrigger } from '$lib/components/ui/sidebar';
+	import type { LayoutProps } from './$types';
 
-	const { children } = $props();
+	const { data, children }: LayoutProps = $props();
 </script>
 
 <SidebarProvider>
-	<AppSidebar />
+	<AppSidebar user={data.user} />
 	<SidebarInset>
 		<header
 			class="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear"
