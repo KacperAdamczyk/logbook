@@ -1,10 +1,15 @@
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/libsql';
 import * as schema from './schema';
+import * as authSchema from './auth-schema';
+
 import { env } from '$env/dynamic/private';
 
 if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
-const client = neon(env.DATABASE_URL);
-
-export const db = drizzle(client, { schema });
+export const db = drizzle({
+	connection: {
+		url: env.DATABASE_URL,
+		authToken: env.DATABASE_AUTH_TOKEN
+	},
+	schema: { ...schema, ...authSchema }
+});

@@ -1,17 +1,16 @@
 <script lang="ts">
-	import * as Avatar from "$lib/components/ui/avatar/index.js";
-	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-	import { useSidebar } from "$lib/components/ui/sidebar/index.js";
-	import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
-	import BellIcon from "@lucide/svelte/icons/bell";
-	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
-	import CreditCardIcon from "@lucide/svelte/icons/credit-card";
-	import LogOutIcon from "@lucide/svelte/icons/log-out";
-	import SparklesIcon from "@lucide/svelte/icons/sparkles";
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { useSidebar } from '$lib/components/ui/sidebar/index.js';
+	import BadgeCheckIcon from '@lucide/svelte/icons/badge-check';
+	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
+	import LogOutIcon from '@lucide/svelte/icons/log-out';
+	import { signOut } from '$lib/remotes/auth/auth.remote';
 
-	let { user }: { user: { name: string; email: string; avatar: string } } = $props();
+	const { user }: { user: { name: string; email: string; } } = $props();
 	const sidebar = useSidebar();
+	const initials = $derived(user.name.split(' ').map((n) => n.at(0)?.toUpperCase()).join(''));
 </script>
 
 <Sidebar.Menu>
@@ -25,8 +24,8 @@
 						{...props}
 					>
 						<Avatar.Root class="size-8 rounded-lg">
-							<Avatar.Image src={user.avatar} alt={user.name} />
-							<Avatar.Fallback class="rounded-lg">CN</Avatar.Fallback>
+							<Avatar.Image alt={user.name} />
+							<Avatar.Fallback class="rounded-lg">{initials}</Avatar.Fallback>
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
 							<span class="truncate font-medium">{user.name}</span>
@@ -45,8 +44,8 @@
 				<DropdownMenu.Label class="p-0 font-normal">
 					<div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 						<Avatar.Root class="size-8 rounded-lg">
-							<Avatar.Image src={user.avatar} alt={user.name} />
-							<Avatar.Fallback class="rounded-lg">CN</Avatar.Fallback>
+							<Avatar.Image alt={user.name} />
+							<Avatar.Fallback class="rounded-lg">{initials}</Avatar.Fallback>
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
 							<span class="truncate font-medium">{user.name}</span>
@@ -57,29 +56,18 @@
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
 					<DropdownMenu.Item>
-						<SparklesIcon />
-						Upgrade to Pro
-					</DropdownMenu.Item>
-				</DropdownMenu.Group>
-				<DropdownMenu.Separator />
-				<DropdownMenu.Group>
-					<DropdownMenu.Item>
 						<BadgeCheckIcon />
-						Account
-					</DropdownMenu.Item>
-					<DropdownMenu.Item>
-						<CreditCardIcon />
-						Billing
-					</DropdownMenu.Item>
-					<DropdownMenu.Item>
-						<BellIcon />
-						Notifications
+						Settings
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item>
-					<LogOutIcon />
-					Log out
+					<form {...signOut}>
+						<button class="flex gap-2 items-center">
+							<LogOutIcon />
+							Log out
+						</button>
+					</form>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
