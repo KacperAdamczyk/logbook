@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { cn } from '$lib/utils.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import * as Field from '$lib/components/ui/field/index.js';
+	import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '$lib/components/ui/card/index.js';
+	import { FieldGroup, Field, FieldLabel, FieldDescription, FieldError } from '$lib/components/ui/field/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { signUp } from '$lib/remotes/auth/auth.remote';
@@ -14,58 +14,58 @@
 </script>
 
 <div class={cn('flex flex-col gap-6', className)} {...restProps}>
-	<Card.Root>
-		<Card.Header class="text-center">
-			<Card.Title class="text-xl">Create your account</Card.Title>
-			<Card.Description>Enter your email below to create your account</Card.Description>
-		</Card.Header>
-		<Card.Content>
+	<Card>
+		<CardHeader class="text-center">
+			<CardTitle class="text-xl">Create your account</CardTitle>
+			<CardDescription>Enter your email below to create your account</CardDescription>
+		</CardHeader>
+		<CardContent>
 			<form {...signUp.preflight(signUpSchema)}>
-				<Field.Group>
-					<Field.Field>
-						<Field.Label for="name">Full Name</Field.Label>
+				<FieldGroup>
+					<Field>
+						<FieldLabel for="name">Full Name</FieldLabel>
 						<Input id="name" placeholder="John Doe" {...name.as('text')} />
 						{#each name.issues() ?? [] as issue (issue)}
-							<Field.Error>{issue.message}</Field.Error>
+							<FieldError>{issue.message}</FieldError>
 						{/each}
-					</Field.Field>
-					<Field.Field>
-						<Field.Label for="email">Email</Field.Label>
+					</Field>
+					<Field>
+						<FieldLabel for="email">Email</FieldLabel>
 						<Input id="email" placeholder="m@example.com" {...email.as('email')} />
 						{#each email.issues() ?? [] as issue (issue)}
-							<Field.Error>{issue.message}</Field.Error>
+							<FieldError>{issue.message}</FieldError>
 						{/each}
-					</Field.Field>
-					<Field.Field>
-						<Field.Field class="grid grid-cols-2 gap-4">
-							<Field.Field>
-								<Field.Label for="password">Password</Field.Label>
+					</Field>
+					<Field>
+						<Field class="grid grid-cols-2 gap-4">
+							<Field>
+								<FieldLabel for="password">Password</FieldLabel>
 								<Input id="password" {..._password.as('password')} />
 								{#each _password.issues() ?? [] as issue (issue)}
-									<Field.Error>{issue.message}</Field.Error>
+									<FieldError>{issue.message}</FieldError>
 								{/each}
-							</Field.Field>
-							<Field.Field>
-								<Field.Label for="confirm-password">Confirm Password</Field.Label>
+							</Field>
+							<Field>
+								<FieldLabel for="confirm-password">Confirm Password</FieldLabel>
 								<Input id="confirm-password" {..._confirmPassword.as('password')} />
 								{#each _confirmPassword.issues() ?? [] as issue (issue)}
-									<Field.Error>{issue.message}</Field.Error>
+									<FieldError>{issue.message}</FieldError>
 								{/each}
-							</Field.Field>
-						</Field.Field>
-						<Field.Description>Must be at least 8 characters long.</Field.Description>
-					</Field.Field>
-					<Field.Field>
+							</Field>
+						</Field>
+						<FieldDescription>Must be at least 8 characters long.</FieldDescription>
+					</Field>
+					<Field>
 						{#each signUp.fields.issues() ?? [] as issue (issue)}
-							<Field.Error>{issue.message}</Field.Error>
+							<FieldError>{issue.message}</FieldError>
 						{/each}
 						<Button type="submit">Create Account</Button>
-						<Field.Description class="text-center">
+						<FieldDescription class="text-center">
 							Already have an account? <a href={resolve('/sign-in')}>Sign in</a>
-						</Field.Description>
-					</Field.Field>
-				</Field.Group>
+						</FieldDescription>
+					</Field>
+				</FieldGroup>
 			</form>
-		</Card.Content>
-	</Card.Root>
+		</CardContent>
+	</Card>
 </div>
