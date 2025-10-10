@@ -1,7 +1,10 @@
 <script lang="ts">
+	import ModeSelector from '$lib/components/mode-selector.svelte';
 
-	let { children } = $props();
+	const { children } = $props();
 </script>
-<main>
-	{@render children?.()}
-</main>
+
+<div class="flex justify-end p-1">
+	<ModeSelector />
+</div>
+{@render children?.()}
