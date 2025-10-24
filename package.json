@@ -21,7 +21,7 @@
 		"db:local": "turso dev --db-file .db/local.db",
 		"shadcn": "pnpm dlx shadcn-svelte@latest",
 		"auth": "pnpm dlx @better-auth/cli",
-		"auth:generate": "pnpm auth generate --output src/lib/server/db/auth-schema.ts"
+		"auth:generate": "pnpm auth generate --output src/lib/server/db/schema/auth.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",

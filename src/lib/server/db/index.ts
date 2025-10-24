@@ -1,6 +1,5 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import * as schema from './schema';
-import * as authSchema from './auth-schema';
 
 import { env } from '$env/dynamic/private';
 
@@ -11,5 +10,5 @@ export const db = drizzle({
 		url: env.DATABASE_URL,
 		authToken: env.DATABASE_AUTH_TOKEN
 	},
-	schema: { ...schema, ...authSchema }
+	schema
 });
