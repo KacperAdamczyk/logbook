@@ -7,6 +7,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
+		alias: {
+			$test: 'src/lib/test'
+		},
 		experimental: {
 			remoteFunctions: true
 		},
