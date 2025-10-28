@@ -6,7 +6,7 @@ import { place } from '$lib/server/db/schema/place';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const flightLog = sqliteTable('flightLog', {
+export const flightLog = sqliteTable('flight_log', {
 	...commonFields,
 	userId: text()
 		.notNull()
