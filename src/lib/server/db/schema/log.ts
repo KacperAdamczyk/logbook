@@ -1,7 +1,10 @@
-import { flightLog } from '$lib/server/db/schema/flight-log';
-import { simulatorLog } from '$lib/server/db/schema/simulator-log';
+import { flightLog } from './flight-log';
+import { simulatorLog } from './simulator-log';
 import { sqliteView, unionAll } from 'drizzle-orm/sqlite-core';
 
 export const logView = sqliteView('log_view').as((qb) =>
-	unionAll(qb.select({}).from(flightLog), qb.select({}).from(simulatorLog))
+	unionAll(
+		qb.select({ id: flightLog.id }).from(flightLog),
+		qb.select({ id: simulatorLog.id }).from(simulatorLog)
+	)
 );

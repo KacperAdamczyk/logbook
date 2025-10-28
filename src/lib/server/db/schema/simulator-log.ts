@@ -1,5 +1,5 @@
-import { user } from '$lib/server/db/schema/auth';
-import { commonFields } from '$lib/server/db/helpers';
+import { user } from './auth';
+import { commonFields } from '../helpers';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 

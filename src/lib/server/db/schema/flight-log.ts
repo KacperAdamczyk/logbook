@@ -1,8 +1,8 @@
-import { aircraft } from '$lib/server/db/schema/aircraft';
-import { user } from '$lib/server/db/schema/auth';
-import { commonFields } from '$lib/server/db/helpers';
-import { pilot } from '$lib/server/db/schema/pilot';
-import { place } from '$lib/server/db/schema/place';
+import { aircraft } from './aircraft';
+import { user } from './auth';
+import { commonFields } from '../helpers';
+import { pilot } from './pilot';
+import { place } from './place';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
