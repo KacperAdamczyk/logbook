@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "3efdae2a-5c65-4a4c-b11d-01008fe39959",
+  "id": "2ce557c8-c7d1-486d-8653-978a74eb45df",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "aircraft": {
@@ -838,22 +838,7 @@
       "checkConstraints": {}
     }
   },
-  "views": {
-    "log_view": {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "name": "log_view",
-      "isExisting": false,
-      "definition": "select \"id\" from \"flight_log\" union all select \"id\" from \"simulator_log\""
-    }
-  },
+  "views": {},
   "enums": {},
   "_meta": {
     "schemas": {},

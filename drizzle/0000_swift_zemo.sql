@@ -117,5 +117,3 @@ CREATE TABLE `simulator_log` (
 	`date` integer NOT NULL,
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
---> statement-breakpoint
-CREATE VIEW `log_view` AS select "id" from "flight_log" union all select "id" from "simulator_log";
