@@ -13,10 +13,6 @@ export const aircraft = sqliteTable('aircraft', {
 	registration: text().notNull()
 });
 
-export const aircraftRelations = relations(aircraft, ({ one, many }) => ({
-	user: one(user, {
-		fields: [aircraft.userId],
-		references: [user.id]
-	}),
+export const aircraftRelations = relations(aircraft, ({ many }) => ({
 	flightLogs: many(flightLog)
 }));

@@ -1,4 +1,4 @@
-import type { LayoutServerLoad } from '../../../.svelte-kit/types/src/routes';
+import type { LayoutServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { auth } from '$lib/auth';
 

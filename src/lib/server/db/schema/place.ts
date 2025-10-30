@@ -12,10 +12,6 @@ export const place = sqliteTable('place', {
 	name: text().notNull()
 });
 
-export const placeRelations = relations(place, ({ one, many }) => ({
-	user: one(user, {
-		fields: [place.userId],
-		references: [user.id]
-	}),
+export const placeRelations = relations(place, ({ many }) => ({
 	flightLogs: many(flightLog)
 }));
