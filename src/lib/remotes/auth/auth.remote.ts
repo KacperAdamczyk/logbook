@@ -1,10 +1,22 @@
 import { resolve } from '$app/paths';
-import { form, getRequestEvent } from '$app/server';
+import { form, query, getRequestEvent } from '$app/server';
 import { auth } from '$lib/auth';
 import { signInSchema, signUpSchema } from '$lib/remotes/auth/auth.schema';
 import { redirect } from '@sveltejs/kit';
 import { APIError } from 'better-auth';
 import { z } from 'zod';
+
+export const getUser = query(async () => {
+	const { request } = getRequestEvent();
+
+	const session = await auth.api.getSession({ headers: request.headers });
+
+	if (!session) {
+		redirect(303, resolve('/sign-in'));
+	}
+
+	return session;
+});
 
 export const signUp = form(signUpSchema, async ({ name, email, _password: password }, invalid) => {
 	try {
