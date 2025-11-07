@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '$lib/components/ui/card/index.js';
+	import {
+		Card,
+		CardHeader,
+		CardTitle,
+		CardDescription,
+		CardContent
+	} from '$lib/components/ui/card/index.js';
 	import {
 		FieldGroup,
 		Field,
@@ -18,22 +24,24 @@
 	let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 
 	const id = $props.id();
-	const { fields: { email, _password } } = signIn;
+	const {
+		fields: { email, _password }
+	} = signIn;
 </script>
 
-<div class={cn("flex flex-col gap-6", className)} {...restProps}>
+<div class={cn('flex flex-col gap-6', className)} {...restProps}>
 	<Card>
 		<CardHeader class="text-center">
 			<CardTitle class="text-xl">Welcome back</CardTitle>
 			<CardDescription>Login with your Apple or Google account</CardDescription>
 		</CardHeader>
 		<CardContent>
-			<form { ...signIn.preflight(signInSchema)}>
+			<form {...signIn.preflight(signInSchema)}>
 				<FieldGroup>
 					<Field>
 						<FieldLabel for="email-{id}">Email</FieldLabel>
-						<Input id="email-{id}" placeholder="m@example.com" {...email.as('email')} />
-						{#each email.issues() ?? [] as issue (issue)}
+						<Input id="email-{id}" placeholder="email@example.com" {...email.as('email')} />
+						{#each email.issues() as issue (issue)}
 							<FieldError>{issue.message}</FieldError>
 						{/each}
 					</Field>
@@ -45,12 +53,12 @@
 							</a>
 						</div>
 						<Input id="password-{id}" {..._password.as('password')} />
-						{#each _password.issues() ?? [] as issue (issue)}
+						{#each _password.issues() as issue (issue)}
 							<FieldError>{issue.message}</FieldError>
 						{/each}
 					</Field>
 					<Field>
-						{#each signIn.fields.issues() ?? [] as issue (issue)}
+						{#each signIn.fields.issues() as issue (issue)}
 							<FieldError>{issue.message}</FieldError>
 						{/each}
 						<Button type="submit">Login</Button>

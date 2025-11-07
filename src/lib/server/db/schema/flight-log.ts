@@ -28,8 +28,8 @@ export const flightLog = sqliteTable('flight_log', {
 		.references(() => pilot.id),
 	// Flight time details
 	totalFlight: integer().notNull().default(0),
-	singlePilotSingleEngine: integer().notNull().default(0),
-	singlePilotMultiEngine: integer().notNull().default(0),
+	singlePilotType: text({ enum: ['single', 'multi'] }),
+	singlePilot: integer().notNull().default(0),
 	multiPilot: integer().notNull().default(0),
 	operationalConditionNight: integer().notNull().default(0),
 	operationalConditionIfr: integer().notNull().default(0),
