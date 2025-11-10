@@ -10,7 +10,6 @@
 	import {
 		FieldGroup,
 		Field,
-		FieldLabel,
 		FieldDescription,
 		FieldError
 	} from '$lib/components/ui/field/index.js';
@@ -20,6 +19,7 @@
 	import { resolve } from '$app/paths';
 	import { signIn } from '$lib/remotes/auth/auth.remote';
 	import { signInSchema } from '$lib/remotes/auth/auth.schema';
+	import FormField from '$lib/components/form-field/form-field.svelte';
 
 	let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 
@@ -38,25 +38,21 @@
 		<CardContent>
 			<form {...signIn.preflight(signInSchema)}>
 				<FieldGroup>
-					<Field>
-						<FieldLabel for="email-{id}">Email</FieldLabel>
-						<Input id="email-{id}" placeholder="email@example.com" {...email.as('email')} />
-						{#each email.issues() as issue (issue)}
-							<FieldError>{issue.message}</FieldError>
-						{/each}
-					</Field>
-					<Field>
-						<div class="flex items-center">
-							<FieldLabel for="password-{id}">Password</FieldLabel>
-							<a href="##" class="ml-auto text-sm underline-offset-4 hover:underline">
-								Forgot your password?
-							</a>
-						</div>
-						<Input id="password-{id}" {..._password.as('password')} />
-						{#each _password.issues() as issue (issue)}
-							<FieldError>{issue.message}</FieldError>
-						{/each}
-					</Field>
+					<FormField label="Email" errors={email.issues()}>
+						{#snippet children(id)}
+							<Input {id} placeholder="email@example.com" {...email.as('email')} />
+						{/snippet}
+					</FormField>
+					<FormField label="Password" errors={_password.issues()}>
+						{#snippet children(id)}
+							<Input {id} {..._password.as('password')} />
+							<div class="flex items-center justify-between">
+								<a href="##" class="text-sm underline-offset-4 hover:underline">
+									Forgot your password?
+								</a>
+							</div>
+						{/snippet}
+					</FormField>
 					<Field>
 						{#each signIn.fields.issues() as issue (issue)}
 							<FieldError>{issue.message}</FieldError>
