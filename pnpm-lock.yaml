@@ -31,8 +31,8 @@ importers:
         specifier: ^3.10.0
         version: 3.10.0
       '@lucide/svelte':
-        specifier: ^0.544.0
-        version: 0.544.0(svelte@5.43.2)
+        specifier: ^0.552.0
+        version: 0.552.0(svelte@5.43.2)
       '@sveltejs/adapter-auto':
         specifier: ^7.0.0
         version: 7.0.0(@sveltejs/kit@2.48.4(@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.43.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)))(svelte@5.43.2)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)))
@@ -615,8 +615,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@lucide/svelte@0.544.0':
-    resolution: {integrity: sha512-9f9O6uxng2pLB01sxNySHduJN3HTl5p0HDu4H26VR51vhZfiMzyOMe9Mhof3XAk4l813eTtl+/DYRvGyoRR+yw==}
+  '@lucide/svelte@0.552.0':
+    resolution: {integrity: sha512-8wQF1YUKgaXiFidPdHM5NKESArKHLrgf8A1EAOjvqRmdVlL2KFsPxTchez/lMUOJKxXeDgrRKfXQuaN1O5KlhQ==}
     peerDependencies:
       svelte: ^5
 
@@ -2708,7 +2708,7 @@ snapshots:
   '@libsql/win32-x64-msvc@0.5.22':
     optional: true
 
-  '@lucide/svelte@0.544.0(svelte@5.43.2)':
+  '@lucide/svelte@0.552.0(svelte@5.43.2)':
     dependencies:
       svelte: 5.43.2
 
