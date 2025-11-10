@@ -43,6 +43,7 @@
 							<Input {id} placeholder="email@example.com" {...email.as('email')} />
 						{/snippet}
 					</FormField>
+
 					<FormField label="Password" errors={_password.issues()}>
 						{#snippet children(id)}
 							<Input {id} {..._password.as('password')} />
@@ -54,9 +55,7 @@
 						{/snippet}
 					</FormField>
 					<Field>
-						{#each signIn.fields.issues() as issue (issue)}
-							<FieldError>{issue.message}</FieldError>
-						{/each}
+						<FieldError errors={signIn.fields.issues()} />
 						<Button type="submit">Login</Button>
 						<FieldDescription class="text-center">
 							Don't have an account? <a href={resolve('/sign-up')}>Sign up</a>

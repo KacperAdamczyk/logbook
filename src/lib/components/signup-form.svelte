@@ -11,7 +11,6 @@
 	import {
 		FieldGroup,
 		Field,
-		FieldLabel,
 		FieldDescription,
 		FieldError
 	} from '$lib/components/ui/field/index.js';
@@ -20,6 +19,7 @@
 	import { signUp } from '$lib/remotes/auth/auth.remote';
 	import { signUpSchema } from '$lib/remotes/auth/auth.schema';
 	import { resolve } from '$app/paths';
+	import FormField from '$lib/components/form-field/form-field.svelte';
 
 	const { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 	const {
@@ -36,43 +36,33 @@
 		<CardContent>
 			<form {...signUp.preflight(signUpSchema)}>
 				<FieldGroup>
+					<FormField label="Full Name" errors={name.issues()}>
+						{#snippet children(id)}
+							<Input {id} placeholder="John Doe" {...name.as('text')} />
+						{/snippet}
+					</FormField>
+					<FormField label="Email" errors={email.issues()}>
+						{#snippet children(id)}
+							<Input {id} placeholder="m@example.com" {...email.as('email')} />
+						{/snippet}
+					</FormField>
 					<Field>
-						<FieldLabel for="name">Full Name</FieldLabel>
-						<Input id="name" placeholder="John Doe" {...name.as('text')} />
-						{#each name.issues() as issue (issue)}
-							<FieldError>{issue.message}</FieldError>
-						{/each}
-					</Field>
-					<Field>
-						<FieldLabel for="email">Email</FieldLabel>
-						<Input id="email" placeholder="m@example.com" {...email.as('email')} />
-						{#each email.issues() as issue (issue)}
-							<FieldError>{issue.message}</FieldError>
-						{/each}
-					</Field>
-					<Field>
-						<Field class="grid grid-cols-2 gap-4">
-							<Field>
-								<FieldLabel for="password">Password</FieldLabel>
-								<Input id="password" {..._password.as('password')} />
-								{#each _password.issues() as issue (issue)}
-									<FieldError>{issue.message}</FieldError>
-								{/each}
-							</Field>
-							<Field>
-								<FieldLabel for="confirm-password">Confirm Password</FieldLabel>
-								<Input id="confirm-password" {..._confirmPassword.as('password')} />
-								{#each _confirmPassword.issues() as issue (issue)}
-									<FieldError>{issue.message}</FieldError>
-								{/each}
-							</Field>
-						</Field>
+						<div class="grid grid-cols-2 gap-4">
+							<FormField label="Password" errors={_password.issues()}>
+								{#snippet children(id)}
+									<Input {id} {..._password.as('password')} />
+								{/snippet}
+							</FormField>
+							<FormField label="Confirm Password" errors={_confirmPassword.issues()}>
+								{#snippet children(id)}
+									<Input {id} {..._confirmPassword.as('password')} />
+								{/snippet}
+							</FormField>
+						</div>
 						<FieldDescription>Must be at least 8 characters long.</FieldDescription>
 					</Field>
 					<Field>
-						{#each signUp.fields.issues() as issue (issue)}
-							<FieldError>{issue.message}</FieldError>
-						{/each}
+						<FieldError errors={signUp.fields.issues()} />
 						<Button type="submit">Create Account</Button>
 						<FieldDescription class="text-center">
 							Already have an account? <a href={resolve('/sign-in')}>Sign in</a>
