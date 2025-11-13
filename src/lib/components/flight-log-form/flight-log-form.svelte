@@ -2,13 +2,15 @@
 	import type { RemoteForm } from '@sveltejs/kit';
 
 	import type { FlightLogSchema } from '$lib/remotes/flight-log/flight-log.schema';
+	import Button from '$lib/components/ui/button/button.svelte';
 
 	interface Props {
-		remote: RemoteForm<FlightLogSchema, void>;
+		remote: RemoteForm<FlightLogSchema, unknown>;
 	}
 
 	const { remote }: Props = $props();
-	let f = $state<string>();
 </script>
 
-<form {...remote}></form>
+<form {...remote}>
+	<Button type="submit" disabled={!!remote.pending}>Add</Button>
+</form>

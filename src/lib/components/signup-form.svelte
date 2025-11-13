@@ -19,7 +19,7 @@
 	import { signUp } from '$lib/remotes/auth/auth.remote';
 	import { signUpSchema } from '$lib/remotes/auth/auth.schema';
 	import { resolve } from '$app/paths';
-	import FormField from '$lib/components/form-field/form-field.svelte';
+	import FieldWrapper from '$lib/components/field-wrapper/field-wrapper.svelte';
 
 	const { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 	const {
@@ -36,28 +36,28 @@
 		<CardContent>
 			<form {...signUp.preflight(signUpSchema)}>
 				<FieldGroup>
-					<FormField label="Full Name" errors={name.issues()}>
+					<FieldWrapper label="Full Name" errors={name.issues()}>
 						{#snippet children(id)}
 							<Input {id} placeholder="John Doe" {...name.as('text')} />
 						{/snippet}
-					</FormField>
-					<FormField label="Email" errors={email.issues()}>
+					</FieldWrapper>
+					<FieldWrapper label="Email" errors={email.issues()}>
 						{#snippet children(id)}
 							<Input {id} placeholder="m@example.com" {...email.as('email')} />
 						{/snippet}
-					</FormField>
+					</FieldWrapper>
 					<Field>
 						<div class="grid grid-cols-2 gap-4">
-							<FormField label="Password" errors={_password.issues()}>
+							<FieldWrapper label="Password" errors={_password.issues()}>
 								{#snippet children(id)}
 									<Input {id} {..._password.as('password')} />
 								{/snippet}
-							</FormField>
-							<FormField label="Confirm Password" errors={_confirmPassword.issues()}>
+							</FieldWrapper>
+							<FieldWrapper label="Confirm Password" errors={_confirmPassword.issues()}>
 								{#snippet children(id)}
 									<Input {id} {..._confirmPassword.as('password')} />
 								{/snippet}
-							</FormField>
+							</FieldWrapper>
 						</div>
 						<FieldDescription>Must be at least 8 characters long.</FieldDescription>
 					</Field>

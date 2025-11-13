@@ -19,7 +19,7 @@
 	import { resolve } from '$app/paths';
 	import { signIn } from '$lib/remotes/auth/auth.remote';
 	import { signInSchema } from '$lib/remotes/auth/auth.schema';
-	import FormField from '$lib/components/form-field/form-field.svelte';
+	import FieldWrapper from '$lib/components/field-wrapper/field-wrapper.svelte';
 
 	let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 
@@ -38,13 +38,13 @@
 		<CardContent>
 			<form {...signIn.preflight(signInSchema)}>
 				<FieldGroup>
-					<FormField label="Email" errors={email.issues()}>
+					<FieldWrapper label="Email" errors={email.issues()}>
 						{#snippet children(id)}
 							<Input {id} placeholder="email@example.com" {...email.as('email')} />
 						{/snippet}
-					</FormField>
+					</FieldWrapper>
 
-					<FormField label="Password" errors={_password.issues()}>
+					<FieldWrapper label="Password" errors={_password.issues()}>
 						{#snippet children(id)}
 							<Input {id} {..._password.as('password')} />
 							<div class="flex items-center justify-between">
@@ -53,7 +53,7 @@
 								</a>
 							</div>
 						{/snippet}
-					</FormField>
+					</FieldWrapper>
 					<Field>
 						<FieldError errors={signIn.fields.issues()} />
 						<Button type="submit">Login</Button>
