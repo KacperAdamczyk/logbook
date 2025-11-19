@@ -19,7 +19,7 @@
 	import { signUp } from '$lib/remotes/auth/auth.remote';
 	import { signUpSchema } from '$lib/remotes/auth/auth.schema';
 	import { resolve } from '$app/paths';
-	import FieldWrapper from '$lib/components/field-wrapper/field-wrapper.svelte';
+	import { FieldWrapper } from '$lib/components/field-wrapper';
 
 	const { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 	const {

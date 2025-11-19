@@ -19,11 +19,10 @@
 	import { resolve } from '$app/paths';
 	import { signIn } from '$lib/remotes/auth/auth.remote';
 	import { signInSchema } from '$lib/remotes/auth/auth.schema';
-	import FieldWrapper from '$lib/components/field-wrapper/field-wrapper.svelte';
+	import { FieldWrapper } from '$lib/components/field-wrapper';
 
 	let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 
-	const id = $props.id();
 	const {
 		fields: { email, _password }
 	} = signIn;

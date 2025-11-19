@@ -10,7 +10,7 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
-<div class="bg-muted h-svh">
+<div class="h-svh bg-muted px-2">
 	<ModeWatcher />
 	<Toaster richColors />
 	{@render children?.()}
