@@ -42,7 +42,6 @@
 							<Input {id} placeholder="email@example.com" {...email.as('email')} />
 						{/snippet}
 					</FieldWrapper>
-
 					<FieldWrapper label="Password" errors={_password.issues()}>
 						{#snippet children(id)}
 							<Input {id} {..._password.as('password')} />

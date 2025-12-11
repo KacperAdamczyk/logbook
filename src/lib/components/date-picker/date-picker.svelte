@@ -13,6 +13,7 @@
 	}
 
 	let { id, name, value = $bindable('') }: Props = $props();
+	let open = $state(false);
 
 	const dateValue = $derived.by(() => {
 		try {
@@ -23,8 +24,7 @@
 	});
 </script>
 
-<input id={`${id}-input`} type="hidden" {name} bind:value />
-<Popover>
+<Popover bind:open>
 	<PopoverTrigger
 		class={cn(
 			buttonVariants({
@@ -35,13 +35,16 @@
 		)}
 	>
 		<CalendarIcon />
-		{dateValue ? dateValue.toString() : 'Pick a date'}
+		<input id={`${id}-input`} {name} bind:value placeholder="Pick a date" />
 	</PopoverTrigger>
 	<PopoverContent class="w-auto p-0">
 		<Calendar
 			{id}
 			type="single"
 			bind:value={() => dateValue, (date) => (value = date ? date.toString() : '')}
+			onValueChange={() => {
+				open = false;
+			}}
 		/>
 	</PopoverContent>
 </Popover>
