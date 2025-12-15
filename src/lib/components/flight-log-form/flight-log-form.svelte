@@ -87,7 +87,15 @@
 			</FieldWrapper>
 			<FieldWrapper label="Single Pilot Type" errors={remote.fields.singlePilotType.issues()}>
 				{#snippet children(id)}
-					<Input {id} {...remote.fields.singlePilotType.as('text')} placeholder="single or multi" />
+					<select
+						{id}
+						{...remote.fields.singlePilotType.as('text')}
+						class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+					>
+						<option value="">Select type</option>
+						<option value="single">Single</option>
+						<option value="multi">Multi</option>
+					</select>
 				{/snippet}
 			</FieldWrapper>
 		</FieldGroup>
