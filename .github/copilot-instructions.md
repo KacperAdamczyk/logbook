@@ -104,7 +104,7 @@ Protected routes use the `(authed)` route group with a layout server load functi
 
 ### Email Verification
 
-Currently logs verification links to console (see `src/lib/auth.ts:16-21`). For production, implement proper email sending via `sendVerificationEmail` callback.
+Currently logs verification links to console (see the `sendVerificationEmail` callback in `src/lib/auth.ts`). For production, implement proper email sending via this callback.
 
 ### Type Safety
 
