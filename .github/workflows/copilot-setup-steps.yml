@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v5
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-      - name: Install turso CLI
-        run: curl -sSfL https://get.tur.so/install.sh | bash
+      - name: Setup Turso CLI
+        uses: turso-extended/setup-turso@v1
       - name: Install dependencies
         run: bun install
