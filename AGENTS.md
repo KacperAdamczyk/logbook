@@ -7,25 +7,25 @@ This is a SvelteKit application using Svelte 5 with TypeScript. It implements an
 - **Authentication**: Better Auth with email/password
 - **UI Components**: shadcn-svelte with TailwindCSS v4
 - **Testing**: Vitest with Playwright browser testing
-- **Package Manager**: pnpm
+- **Package Manager**: bun
 
 ## Development Commands
 
 ### Core Development
 
 ```bash
-pnpm dev              # Start development server
-pnpm build            # Build for production
-pnpm preview          # Preview production build
-pnpm check            # Type-check with svelte-check
-pnpm check:watch      # Type-check in watch mode
+bun dev              # Start development server
+bun build            # Build for production
+bun preview          # Preview production build
+bun check            # Type-check with svelte-check
+bun check:watch      # Type-check in watch mode
 ```
 
 ### Testing
 
 ```bash
-pnpm test             # Run all tests once
-pnpm test:unit        # Run tests in watch mode
+bun test             # Run all tests once
+bun test:unit        # Run tests in watch mode
 ```
 
 The test setup uses two projects:
@@ -36,28 +36,28 @@ The test setup uses two projects:
 ### Database Operations
 
 ```bash
-pnpm db:local         # Start local Turso database (at .db/local.db)
-pnpm db:push          # Push schema changes to database
-pnpm db:generate      # Generate migrations
-pnpm db:migrate       # Apply migrations
-pnpm db:studio        # Open Drizzle Studio
+bun db:local         # Start local Turso database (at .db/local.db)
+bun db:push          # Push schema changes to database
+bun db:generate      # Generate migrations
+bun db:migrate       # Apply migrations
+bun db:studio        # Open Drizzle Studio
 ```
 
-**Important**: Always run `pnpm db:local` first when developing locally. This starts the local Turso database server at `http://127.0.0.1:8080`.
+**Important**: Always run `bun db:local` first when developing locally. This starts the local Turso database server at `http://127.0.0.1:8080`.
 
 ### Code Quality
 
 ```bash
-pnpm lint             # Run ESLint and Prettier checks
-pnpm format           # Format code with Prettier
+bun lint             # Run ESLint and Prettier checks
+bun format           # Format code with Prettier
 ```
 
 ### UI Components
 
 ```bash
-pnpm shadcn           # Add new shadcn-svelte components
-pnpm auth             # Better Auth CLI
-pnpm auth:generate    # Generate auth schema at src/lib/server/db/schema/auth.ts
+bun shadcn           # Add new shadcn-svelte components
+bun auth             # Better Auth CLI
+bun auth:generate    # Generate auth schema at src/lib/server/db/schema/auth.ts
 ```
 
 ## Architecture
@@ -137,9 +137,9 @@ Protected routes use the `(authed)` route group with a layout server load functi
 
 ### Database Workflow
 
-1. Start local Turso: `pnpm db:local`
+1. Start local Turso: `bun db:local`
 2. Modify schema in `src/lib/server/db/schema/`
-3. Push changes: `pnpm db:push` (dev) or `pnpm db:generate` + `pnpm db:migrate` (production)
+3. Push changes: `bun db:push` (dev) or `bun db:generate` + `bun db:migrate` (production)
 4. Access database via `import { db } from '$lib/server/db'`
 
 ### Logbook page
