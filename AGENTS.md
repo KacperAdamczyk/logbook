@@ -137,9 +137,9 @@ Protected routes use the `(authed)` route group with a layout server load functi
 
 ### Database Workflow
 
-1. Start local Turso: `pnpm db:local`
+1. Start local Turso: `bun db:local`
 2. Modify schema in `src/lib/server/db/schema/`
-3. Push changes: `pnpm db:push` (dev) or `pnpm db:generate` + `pnpm db:migrate` (production)
+3. Push changes: `bun db:push` (dev) or `bun db:generate` + `bun db:migrate` (production)
 4. Access database via `import { db } from '$lib/server/db'`
 
 ### Logbook page
