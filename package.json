@@ -21,7 +21,7 @@
 		"db:local": "turso dev --db-file .db/local.db",
 		"shadcn": "bunx shadcn-svelte@latest",
 		"auth": "bunx @better-auth/cli",
-		"auth:generate": "bun run auth generate --output src/lib/server/db/schema/auth.ts"
+		"auth:generate": "bunx @better-auth/cli generate --output src/lib/server/db/schema/auth.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.0",

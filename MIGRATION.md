@@ -35,12 +35,17 @@ Due to environment compatibility issues in the GitHub Actions runner, the `bun.l
 
 ### Known Issues
 
-The GitHub Actions runner environment has compatibility issues with bun (versions tested: 1.1.38, 1.3.4, 1.3.5-canary) that cause crashes during dependency resolution:
+The GitHub Actions runner environment (`ubuntu-latest` / `ubuntu-24.04`) has compatibility issues with bun (versions tested: 1.1.38, 1.3.4, 1.3.5-canary) that cause crashes during dependency resolution:
 - Assertion failures
 - Segmentation faults  
 - Package metadata parsing errors (particularly with `zod` 4.x)
 
 This is a known issue with bun in certain virtualized/CI environments and does not affect local development or production deployments.
+
+**CI Workarounds:**
+- Use the official `oven/bun` Docker container in CI workflows
+- Consider using `setup-bun` GitHub Action with Docker mode
+- For GitHub Actions, you may need to use an older runner image or run bun within Docker
 
 ### Alternative: Using Docker
 
