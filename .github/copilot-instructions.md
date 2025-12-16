@@ -11,37 +11,37 @@ This is a SvelteKit application using Svelte 5 with TypeScript. It implements an
 - **Authentication**: Better Auth with email/password
 - **UI Components**: shadcn-svelte with TailwindCSS v4
 - **Testing**: Vitest with Playwright browser testing
-- **Package Manager**: pnpm (always use `pnpm` commands, not npm or yarn)
+- **Package Manager**: bun (always use `bun` commands, not npm, yarn, or pnpm)
 
 ## Development Commands
 
 ### Core Development
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm preview` - Preview production build
-- `pnpm check` - Type-check with svelte-check
-- `pnpm check:watch` - Type-check in watch mode
+- `bun dev` - Start development server
+- `bun build` - Build for production
+- `bun preview` - Preview production build
+- `bun check` - Type-check with svelte-check
+- `bun check:watch` - Type-check in watch mode
 
 ### Testing
 
-- `pnpm test` - Run all tests once
-- `pnpm test:unit` - Run tests in watch mode
+- `bun test` - Run all tests once
+- `bun test:unit` - Run tests in watch mode
 - Client tests: `.svelte.spec.ts` or `.svelte.test.ts` (browser-based)
 - Server tests: `.spec.ts` or `.test.ts` (Node-based)
 
 ### Database Operations
 
-- `pnpm db:local` - **ALWAYS run this first** when developing locally (starts Turso at http://127.0.0.1:8080)
-- `pnpm db:push` - Push schema changes to database (development)
-- `pnpm db:generate` - Generate migrations
-- `pnpm db:migrate` - Apply migrations (production)
-- `pnpm db:studio` - Open Drizzle Studio
+- `bun db:local` - **ALWAYS run this first** when developing locally (starts Turso at http://127.0.0.1:8080)
+- `bun db:push` - Push schema changes to database (development)
+- `bun db:generate` - Generate migrations
+- `bun db:migrate` - Apply migrations (production)
+- `bun db:studio` - Open Drizzle Studio
 
 ### Code Quality
 
-- `pnpm lint` - Run ESLint and Prettier checks
-- `pnpm format` - Format code with Prettier
+- `bun lint` - Run ESLint and Prettier checks
+- `bun format` - Format code with Prettier
 
 ## Coding Guidelines
 
@@ -79,7 +79,7 @@ This is a SvelteKit application using Svelte 5 with TypeScript. It implements an
 - Custom components go in `$lib/components/`
 - Base color scheme: slate
 - TailwindCSS v4 is configured via Vite plugin (no traditional config file)
-- Add new components with: `pnpm shadcn`
+- Add new components with: `bun shadcn`
 
 ### File Structure
 
@@ -134,8 +134,8 @@ Currently logs verification links to console (see the `sendVerificationEmail` ca
 
 ## Copilot-Specific Instructions
 
-1. **Always use pnpm** - Never suggest npm or yarn commands
-2. **Database first** - Always remind to run `pnpm db:local` before database operations
+1. **Always use bun** - Never suggest npm, yarn, or pnpm commands
+2. **Database first** - Always remind to run `bun db:local` before database operations
 3. **Svelte 5 runes** - Use modern Svelte 5 patterns with runes, not legacy stores
 4. **Type safety** - Maintain strict TypeScript typing throughout
 5. **Minimal changes** - Make surgical, focused changes rather than large refactors

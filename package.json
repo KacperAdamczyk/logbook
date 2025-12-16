@@ -13,15 +13,15 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "pnpm run test:unit -- --run",
+		"test": "bun run test:unit -- --run",
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"db:local": "turso dev --db-file .db/local.db",
-		"shadcn": "pnpm dlx shadcn-svelte@latest",
-		"auth": "pnpm dlx @better-auth/cli",
-		"auth:generate": "pnpm auth generate --output src/lib/server/db/schema/auth.ts"
+		"shadcn": "bunx shadcn-svelte@latest",
+		"auth": "bunx @better-auth/cli",
+		"auth:generate": "bun auth generate --output src/lib/server/db/schema/auth.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.0",
@@ -68,9 +68,8 @@
 		"nanoid": "5.1.6",
 		"zod": "4.1.12"
 	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild"
-		]
-	}
+	"trustedDependencies": [
+		"esbuild",
+		"@sveltejs/kit"
+	]
 }
