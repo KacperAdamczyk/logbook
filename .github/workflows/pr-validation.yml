@@ -41,7 +41,7 @@ jobs:
       - name: Run tests
         run: bun run test
         env:
-          DATABASE_URL: ':memory:'
+          DATABASE_URL: ":memory:"
 
       - name: Build application
         run: bun run build
