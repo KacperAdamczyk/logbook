@@ -1,1 +1,1 @@
-export { default as TimeInput } from './time-input.svelte';
+export { default as TimeInput } from "./time-input.svelte";

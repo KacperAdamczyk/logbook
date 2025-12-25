@@ -1,16 +1,21 @@
 <script lang="ts">
-	import * as Avatar from '$lib/components/ui/avatar/index.js';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { useSidebar } from '$lib/components/ui/sidebar/index.js';
-	import BadgeCheckIcon from '@lucide/svelte/icons/badge-check';
-	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
-	import LogOutIcon from '@lucide/svelte/icons/log-out';
-	import { signOut } from '$lib/remotes/auth/auth.remote';
+	import * as Avatar from "$lib/components/ui/avatar/index.js";
+	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
+	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import { useSidebar } from "$lib/components/ui/sidebar/index.js";
+	import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
+	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
+	import LogOutIcon from "@lucide/svelte/icons/log-out";
+	import { signOut } from "$lib/remotes/auth/auth.remote";
 
-	const { user }: { user: { name: string; email: string; } } = $props();
+	const { user }: { user: { name: string; email: string } } = $props();
 	const sidebar = useSidebar();
-	const initials = $derived(user.name.split(' ').map((n) => n.at(0)?.toUpperCase()).join(''));
+	const initials = $derived(
+		user.name
+			.split(" ")
+			.map((n) => n.at(0)?.toUpperCase())
+			.join(""),
+	);
 </script>
 
 <Sidebar.Menu>
@@ -63,7 +68,7 @@
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item>
 					<form {...signOut}>
-						<button class="flex gap-2 items-center">
+						<button class="flex items-center gap-2">
 							<LogOutIcon />
 							Log out
 						</button>

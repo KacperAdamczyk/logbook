@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { FlightLogForm } from '$lib/components/flight-log-form';
-	import { Button } from '$lib/components/ui/button';
+	import { FlightLogForm } from "$lib/components/flight-log-form";
+	import { Button } from "$lib/components/ui/button";
 	import {
 		Card,
 		CardContent,
 		CardHeader,
 		CardTitle,
 		CardDescription,
-		CardFooter
-	} from '$lib/components/ui/card';
-	import { createFlightLog } from '$lib/remotes/flight-log/create-flight-log/create-flight-log.remote';
+		CardFooter,
+	} from "$lib/components/ui/card";
+	import { createFlightLog } from "$lib/remotes/flight-log/create-flight-log/create-flight-log.remote";
 </script>
 
 <form {...createFlightLog}>

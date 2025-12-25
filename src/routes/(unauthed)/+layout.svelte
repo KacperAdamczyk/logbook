@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModeSelector from '$lib/components/mode-selector.svelte';
+	import ModeSelector from "$lib/components/mode-selector.svelte";
 
 	const { children } = $props();
 </script>

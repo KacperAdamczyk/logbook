@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as InputOTP from '$lib/components/ui/input-otp/index.js';
-	import { REGEXP_ONLY_DIGITS } from 'bits-ui';
+	import * as InputOTP from "$lib/components/ui/input-otp/index.js";
+	import { REGEXP_ONLY_DIGITS } from "bits-ui";
 
 	interface Props {
 		id: string;
