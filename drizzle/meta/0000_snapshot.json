@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2ce557c8-c7d1-486d-8653-978a74eb45df",
+  "id": "4b832394-5e42-4cd6-a2fd-9ce1c367dea9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "aircraft": {
@@ -472,85 +472,75 @@
           "notNull": true,
           "autoincrement": false
         },
-        "totalFlight": {
-          "name": "totalFlight",
+        "totalFlightTime": {
+          "name": "totalFlightTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "singlePilotSingleEngine": {
-          "name": "singlePilotSingleEngine",
-          "type": "integer",
+        "singlePilotType": {
+          "name": "singlePilotType",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "notNull": false,
+          "autoincrement": false
         },
-        "singlePilotMultiEngine": {
-          "name": "singlePilotMultiEngine",
+        "singlePilotTime": {
+          "name": "singlePilotTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "multiPilot": {
-          "name": "multiPilot",
+        "multiPilotTime": {
+          "name": "multiPilotTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "operationalConditionNight": {
-          "name": "operationalConditionNight",
+        "operationalConditionNightTime": {
+          "name": "operationalConditionNightTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "operationalConditionIfr": {
-          "name": "operationalConditionIfr",
+        "operationalConditionIfrTime": {
+          "name": "operationalConditionIfrTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "functionPilotInCommand": {
-          "name": "functionPilotInCommand",
+        "functionPilotInCommandTime": {
+          "name": "functionPilotInCommandTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "functionCoPilot": {
-          "name": "functionCoPilot",
+        "functionCoPilotTime": {
+          "name": "functionCoPilotTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "functionDual": {
-          "name": "functionDual",
+        "functionDualTime": {
+          "name": "functionDualTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
-        "functionInstructor": {
-          "name": "functionInstructor",
+        "functionInstructorTime": {
+          "name": "functionInstructorTime",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         },
         "takeoffsDay": {
           "name": "takeoffsDay",
