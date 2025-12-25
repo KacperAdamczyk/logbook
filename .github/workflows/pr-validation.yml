@@ -45,4 +45,4 @@ jobs:
         run: bun run test
 
       - name: Build application
-        run: bun run build
+        run: bun --bun run build
