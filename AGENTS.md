@@ -3,7 +3,7 @@
 This is a SvelteKit application using Svelte 5 with TypeScript. It implements an authenticated web application with a logbook/tracking system. The tech stack includes:
 
 - **Framework**: SvelteKit with Svelte 5 (using runes and experimental features)
-- **Database**: Turso (libSQL) via Drizzle ORM
+- **Database**: libSQL (local file) via Drizzle ORM
 - **Authentication**: Better Auth with email/password
 - **UI Components**: shadcn-svelte with TailwindCSS v4
 - **Testing**: Vitest with Playwright browser testing
@@ -36,14 +36,13 @@ The test setup uses two projects:
 ### Database Operations
 
 ```bash
-bun db:local         # Start local Turso database (at .db/local.db)
 bun db:push          # Push schema changes to database
 bun db:generate      # Generate migrations
 bun db:migrate       # Apply migrations
 bun db:studio        # Open Drizzle Studio
 ```
 
-**Important**: Always run `bun db:local` first when developing locally. This starts the local Turso database server at `http://127.0.0.1:8080`.
+The database uses a local libSQL file at `.db/local.db`. No additional setup is required - the database file will be created automatically when the application runs.
 
 ### Code Quality
 
@@ -87,9 +86,9 @@ The database connection is initialized in `src/lib/server/db/index.ts` using Dri
 
 **Schema Configuration** (`drizzle.config.ts`):
 
-- Uses Turso dialect
-- Schema files: Currently points to old paths that should be updated to `./src/lib/server/db/schema/*.ts`
-- Requires `DATABASE_URL` environment variable
+- Uses libSQL dialect with local file
+- Schema files: `./src/lib/server/db/schema/*.ts`
+- Database location: `file:.db/local.db` (configured via `DATABASE_URL` environment variable)
 
 ### SvelteKit Configuration
 
@@ -115,8 +114,8 @@ Required (see `.env.example`):
 ```
 BETTER_AUTH_SECRET=          # Generate with: openssl rand -base64 32
 BETTER_AUTH_URL=             # App URL (http://localhost:5173 for dev)
-DATABASE_URL=                # http://127.0.0.1:8080 for local dev
-DATABASE_AUTH_TOKEN=         # Empty for local dev
+DATABASE_URL=                # file:.db/local.db for local dev
+DATABASE_AUTH_TOKEN=         # Empty for local file database
 ```
 
 ## Key Implementation Details
@@ -137,10 +136,11 @@ Protected routes use the `(authed)` route group with a layout server load functi
 
 ### Database Workflow
 
-1. Start local Turso: `bun db:local`
-2. Modify schema in `src/lib/server/db/schema/`
-3. Push changes: `bun db:push` (dev) or `bun db:generate` + `bun db:migrate` (production)
-4. Access database via `import { db } from '$lib/server/db'`
+1. Modify schema in `src/lib/server/db/schema/`
+2. Push changes: `bun db:push` (dev) or `bun db:generate` + `bun db:migrate` (production)
+3. Access database via `import { db } from '$lib/server/db'`
+
+The local database file (`.db/local.db`) is automatically created when the application first runs. For production, configure `DATABASE_URL` to point to your production database.
 
 ### Logbook page
 
