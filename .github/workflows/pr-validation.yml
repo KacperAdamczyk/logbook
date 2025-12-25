@@ -19,6 +19,7 @@ jobs:
 
     env:
       DATABASE_URL: ":memory:"
+      BETTER_AUTH_SECRET: "dev"
 
     steps:
       - name: Checkout code
