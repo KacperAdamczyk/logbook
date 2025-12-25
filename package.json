@@ -25,7 +25,7 @@
 	"devDependencies": {
 		"@eslint/compat": "2.0.0",
 		"@eslint/js": "9.39.2",
-		"@internationalized/date": "3.10.0",
+		"@internationalized/date": "3.10.1",
 		"@lucide/svelte": "0.562.0",
 		"@sveltejs/adapter-auto": "7.0.0",
 		"@sveltejs/kit": "2.49.2",
