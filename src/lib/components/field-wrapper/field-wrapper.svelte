@@ -4,9 +4,9 @@
 		FieldContent,
 		FieldLabel,
 		FieldError,
-		FieldDescription
-	} from '$lib/components/ui/field';
-	import type { Snippet } from 'svelte';
+		FieldDescription,
+	} from "$lib/components/ui/field";
+	import type { Snippet } from "svelte";
 
 	interface Props {
 		label?: string;

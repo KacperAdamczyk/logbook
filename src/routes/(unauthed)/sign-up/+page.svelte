@@ -1,6 +1,6 @@
 <script>
-	import GalleryVerticalEndIcon from '@lucide/svelte/icons/gallery-vertical-end';
-	import SignupForm from '$lib/components/signup-form.svelte';
+	import GalleryVerticalEndIcon from "@lucide/svelte/icons/gallery-vertical-end";
+	import SignupForm from "$lib/components/signup-form.svelte";
 </script>
 
 <div class="flex flex-col items-center justify-center gap-6 p-6 md:p-10">

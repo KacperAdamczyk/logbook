@@ -1,33 +1,33 @@
 <script lang="ts">
-	import { cn } from '$lib/utils.js';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { cn } from "$lib/utils.js";
+	import { Button } from "$lib/components/ui/button/index.js";
 	import {
 		Card,
 		CardHeader,
 		CardTitle,
 		CardDescription,
-		CardContent
-	} from '$lib/components/ui/card/index.js';
+		CardContent,
+	} from "$lib/components/ui/card/index.js";
 	import {
 		FieldGroup,
 		Field,
 		FieldDescription,
-		FieldError
-	} from '$lib/components/ui/field/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import type { HTMLAttributes } from 'svelte/elements';
-	import { signUp } from '$lib/remotes/auth/auth.remote';
-	import { signUpSchema } from '$lib/remotes/auth/auth.schema';
-	import { resolve } from '$app/paths';
-	import { FieldWrapper } from '$lib/components/field-wrapper';
+		FieldError,
+	} from "$lib/components/ui/field/index.js";
+	import { Input } from "$lib/components/ui/input/index.js";
+	import type { HTMLAttributes } from "svelte/elements";
+	import { signUp } from "$lib/remotes/auth/auth.remote";
+	import { signUpSchema } from "$lib/remotes/auth/auth.schema";
+	import { resolve } from "$app/paths";
+	import { FieldWrapper } from "$lib/components/field-wrapper";
 
 	const { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 	const {
-		fields: { name, email, _password, _confirmPassword }
+		fields: { name, email, _password, _confirmPassword },
 	} = signUp;
 </script>
 
-<div class={cn('flex flex-col gap-6', className)} {...restProps}>
+<div class={cn("flex flex-col gap-6", className)} {...restProps}>
 	<Card>
 		<CardHeader class="text-center">
 			<CardTitle class="text-xl">Create your account</CardTitle>
@@ -38,24 +38,24 @@
 				<FieldGroup>
 					<FieldWrapper label="Full Name" errors={name.issues()}>
 						{#snippet children(id)}
-							<Input {id} placeholder="John Doe" {...name.as('text')} />
+							<Input {id} placeholder="John Doe" {...name.as("text")} />
 						{/snippet}
 					</FieldWrapper>
 					<FieldWrapper label="Email" errors={email.issues()}>
 						{#snippet children(id)}
-							<Input {id} placeholder="m@example.com" {...email.as('email')} />
+							<Input {id} placeholder="m@example.com" {...email.as("email")} />
 						{/snippet}
 					</FieldWrapper>
 					<Field>
 						<div class="grid grid-cols-2 gap-4">
 							<FieldWrapper label="Password" errors={_password.issues()}>
 								{#snippet children(id)}
-									<Input {id} {..._password.as('password')} />
+									<Input {id} {..._password.as("password")} />
 								{/snippet}
 							</FieldWrapper>
 							<FieldWrapper label="Confirm Password" errors={_confirmPassword.issues()}>
 								{#snippet children(id)}
-									<Input {id} {..._confirmPassword.as('password')} />
+									<Input {id} {..._confirmPassword.as("password")} />
 								{/snippet}
 							</FieldWrapper>
 						</div>
@@ -65,7 +65,7 @@
 						<FieldError errors={signUp.fields.issues()} />
 						<Button type="submit">Create Account</Button>
 						<FieldDescription class="text-center">
-							Already have an account? <a href={resolve('/sign-in')}>Sign in</a>
+							Already have an account? <a href={resolve("/sign-in")}>Sign in</a>
 						</FieldDescription>
 					</Field>
 				</FieldGroup>

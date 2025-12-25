@@ -1,10 +1,10 @@
-import { resolve } from '$app/paths';
-import { form, query, getRequestEvent } from '$app/server';
-import { auth } from '$lib/auth';
-import { signInSchema, signUpSchema } from '$lib/remotes/auth/auth.schema';
-import { redirect } from '@sveltejs/kit';
-import { APIError } from 'better-auth';
-import { z } from 'zod';
+import { resolve } from "$app/paths";
+import { form, query, getRequestEvent } from "$app/server";
+import { auth } from "$lib/auth";
+import { signInSchema, signUpSchema } from "$lib/remotes/auth/auth.schema";
+import { redirect } from "@sveltejs/kit";
+import { APIError } from "better-auth";
+import { z } from "zod";
 
 export const getUser = query(async () => {
 	const { request } = getRequestEvent();
@@ -12,7 +12,7 @@ export const getUser = query(async () => {
 	const session = await auth.api.getSession({ headers: request.headers });
 
 	if (!session) {
-		redirect(303, resolve('/sign-in'));
+		redirect(303, resolve("/sign-in"));
 	}
 
 	return session;
@@ -25,10 +25,10 @@ export const signUp = form(signUpSchema, async ({ name, email, _password: passwo
 		await auth.api.signUpEmail({
 			body: { name, email, password },
 			request,
-			headers: request.headers
+			headers: request.headers,
 		});
 
-		redirect(303, resolve('/sign-in'));
+		redirect(303, resolve("/sign-in"));
 	} catch (error) {
 		if (error instanceof APIError) {
 			invalid(error.message);
@@ -45,10 +45,10 @@ export const signIn = form(signInSchema, async ({ email, _password: password }, 
 		await auth.api.signInEmail({
 			body: { email, password },
 			request,
-			headers: request.headers
+			headers: request.headers,
 		});
 
-		redirect(303, resolve('/'));
+		redirect(303, resolve("/"));
 	} catch (error) {
 		if (error instanceof APIError) {
 			invalid(error.message);
@@ -63,8 +63,8 @@ export const signOut = form(z.object(), async () => {
 
 	await auth.api.signOut({
 		request,
-		headers: request.headers
+		headers: request.headers,
 	});
 
-	redirect(303, resolve('/sign-in'));
+	redirect(303, resolve("/sign-in"));
 });

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import CalendarIcon from '@lucide/svelte/icons/calendar';
-	import { parseDate } from '@internationalized/date';
-	import { cn } from '$lib/utils.js';
-	import { buttonVariants } from '$lib/components/ui/button/index.js';
-	import { Calendar } from '$lib/components/ui/calendar/index.js';
-	import { Popover, PopoverTrigger, PopoverContent } from '$lib/components/ui/popover/index.js';
+	import CalendarIcon from "@lucide/svelte/icons/calendar";
+	import { parseDate } from "@internationalized/date";
+	import { cn } from "$lib/utils.js";
+	import { buttonVariants } from "$lib/components/ui/button/index.js";
+	import { Calendar } from "$lib/components/ui/calendar/index.js";
+	import { Popover, PopoverTrigger, PopoverContent } from "$lib/components/ui/popover/index.js";
 
 	interface Props {
 		id?: string;
@@ -12,7 +12,7 @@
 		value: string | number;
 	}
 
-	let { id, name, value = $bindable('') }: Props = $props();
+	let { id, name, value = $bindable("") }: Props = $props();
 	let open = $state(false);
 
 	const dateValue = $derived.by(() => {
@@ -28,10 +28,10 @@
 	<PopoverTrigger
 		class={cn(
 			buttonVariants({
-				variant: 'outline',
-				class: 'w-[280px] justify-start text-left font-normal'
+				variant: "outline",
+				class: "w-[280px] justify-start text-left font-normal",
 			}),
-			!value && 'text-muted-foreground'
+			!value && "text-muted-foreground",
 		)}
 	>
 		<CalendarIcon />
@@ -41,7 +41,7 @@
 		<Calendar
 			{id}
 			type="single"
-			bind:value={() => dateValue, (date) => (value = date ? date.toString() : '')}
+			bind:value={() => dateValue, (date) => (value = date ? date.toString() : "")}
 			onValueChange={() => {
 				open = false;
 			}}

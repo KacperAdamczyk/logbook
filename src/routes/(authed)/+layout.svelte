@@ -1,17 +1,17 @@
 <script lang="ts">
-	import AppSidebar from '$lib/components/app-sidebar.svelte';
+	import AppSidebar from "$lib/components/app-sidebar.svelte";
 	import {
 		Breadcrumb,
 		BreadcrumbList,
 		BreadcrumbItem,
 		BreadcrumbLink,
 		BreadcrumbSeparator,
-		BreadcrumbPage
-	} from '$lib/components/ui/breadcrumb';
-	import { Separator } from '$lib/components/ui/separator';
-	import { SidebarProvider, SidebarInset, SidebarTrigger } from '$lib/components/ui/sidebar';
-	import { getUser } from '$lib/remotes/auth/auth.remote';
-	import type { LayoutProps } from './$types';
+		BreadcrumbPage,
+	} from "$lib/components/ui/breadcrumb";
+	import { Separator } from "$lib/components/ui/separator";
+	import { SidebarProvider, SidebarInset, SidebarTrigger } from "$lib/components/ui/sidebar";
+	import { getUser } from "$lib/remotes/auth/auth.remote";
+	import type { LayoutProps } from "./$types";
 
 	const { children }: LayoutProps = $props();
 	const { user } = await getUser();

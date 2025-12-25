@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getUser } from '$lib/remotes/auth/auth.remote';
+	import { getUser } from "$lib/remotes/auth/auth.remote";
 
 	const { user } = await getUser();
 </script>
