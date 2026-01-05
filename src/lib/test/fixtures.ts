@@ -4,9 +4,10 @@ import { drizzle } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { seed } from "drizzle-seed";
 import * as schema from "$lib/server/db/schema";
+import { relations } from "$lib/server/db/schema/relations";
 import type { TX } from "$lib/server/db";
 
-const db = drizzle({ connection: { url: ":memory:" }, schema });
+const db = drizzle({ connection: { url: ":memory:" }, schema, relations });
 await migrate(db, { migrationsFolder: "drizzle" });
 // @ts-expect-error - This is going to be fixed in the next drizzle-orm release
 await seed(db, schema);

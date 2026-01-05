@@ -1,8 +1,7 @@
-import { drizzle, type LibSQLTransaction } from "drizzle-orm/libsql";
+import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "$lib/server/db/schema";
-
+import { relations } from "$lib/server/db/schema/relations";
 import { env } from "$env/dynamic/private";
-import type { ExtractTablesWithRelations } from "drizzle-orm";
 
 if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 
@@ -12,7 +11,8 @@ export const db = drizzle({
 		authToken: env.DATABASE_AUTH_TOKEN,
 	},
 	schema,
+	relations,
 });
 
 export type DB = typeof db;
-export type TX = LibSQLTransaction<typeof schema, ExtractTablesWithRelations<typeof schema>>;
+export type TX = Parameters<Parameters<DB["transaction"]>[0]>[0];
