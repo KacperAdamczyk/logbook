@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 const timeSchema = z.stringFormat("time", /^(?:[01]\d|2[0-3])[0-5]\d$/);
-const durationSchema = z.stringFormat("duration", /^\d\d[0-5]\d$/);
+const durationSchema = z
+	.stringFormat("duration", /^\d\d[0-5]\d$/)
+	.transform((value) => Number.parseInt(value, 10));
 
 export const flightLogSchema = z.object({
 	date: z.iso.date(),
@@ -33,4 +35,4 @@ export const flightLogSchema = z.object({
 	remarks: z.string().optional(),
 });
 
-export type FlightLogSchema = z.infer<typeof flightLogSchema>;
+export type FlightLogSchemaInput = z.input<typeof flightLogSchema>;

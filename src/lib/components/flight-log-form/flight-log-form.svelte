@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { RemoteForm } from "@sveltejs/kit";
 
-	import type { FlightLogSchema } from "$lib/remotes/flight-log/flight-log.schema";
+	import type { FlightLogSchemaInput } from "$lib/remotes/flight-log/flight-log.schema";
 	import { FieldSet, FieldGroup, FieldError } from "$lib/components/ui/field";
 	import { FieldWrapper } from "$lib/components/field-wrapper";
 	import { DatePicker } from "$lib/components/date-picker";
@@ -10,7 +10,7 @@
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
 
 	interface Props {
-		remote: RemoteForm<FlightLogSchema, unknown>;
+		remote: RemoteForm<FlightLogSchemaInput, unknown>;
 	}
 
 	const { remote }: Props = $props();
