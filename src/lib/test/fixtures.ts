@@ -9,7 +9,6 @@ import type { TX } from "$lib/server/db";
 
 const db = drizzle({ connection: { url: ":memory:" }, schema, relations });
 await migrate(db, { migrationsFolder: "drizzle" });
-// @ts-expect-error - This is going to be fixed in the next drizzle-orm release
 await seed(db, schema);
 
 export const dbTest = test.extend<{ tx: TX }>({
