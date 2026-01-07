@@ -11,5 +11,5 @@ export const pilot = sqliteTable(
 			.references(() => user.id),
 		name: text().notNull(),
 	},
-	(t) => [unique().on(t.userId, t.name)]
+	(t) => [unique().on(t.userId, t.name)],
 );

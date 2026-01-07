@@ -4,6 +4,12 @@ import { z } from "zod";
 const timeSchema = z.stringFormat("time", /^(?:[01]\d|2[0-3])[0-5]\d$/);
 const durationSchema = z.stringFormat("duration", /^\d\d[0-5]\d$/).transform(splitDuration);
 
+export const flightLogConfigurations = [
+	"single-pilot-single-engine",
+	"single-pilot-multi-engine",
+	"multi-pilot",
+] as const;
+
 export const flightLogSchema = z.object({
 	date: z.iso.date(),
 	departurePlace: z.string().length(4),
@@ -17,7 +23,7 @@ export const flightLogSchema = z.object({
 	pilotInCommandName: z.string().min(1),
 	// Flight time details
 	totalFlightTime: durationSchema,
-	singlePilotType: z.enum(["single", "multi"]).optional(),
+	configuration: z.enum(flightLogConfigurations),
 	singlePilotTime: durationSchema.optional(),
 	multiPilotTime: durationSchema.optional(),
 	operationalConditionNightTime: durationSchema.optional(),

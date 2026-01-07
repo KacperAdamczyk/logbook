@@ -28,7 +28,7 @@ export const flightLog = sqliteTable("flight_log", {
 		.references(() => pilot.id),
 	// Flight time details
 	totalFlightTime: integer().notNull(),
-	singlePilotType: text({ enum: ["single", "multi"] }),
+	singlePilotEngineType: text({ enum: ["single", "multi"] }),
 	singlePilotTime: integer().notNull(),
 	multiPilotTime: integer().notNull(),
 	operationalConditionNightTime: integer().notNull(),
