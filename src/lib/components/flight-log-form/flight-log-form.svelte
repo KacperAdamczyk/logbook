@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { RemoteForm } from "@sveltejs/kit";
 
-	import type {
+	import {
 		flightLogConfigurations,
-		FlightLogSchemaInput,
+		type FlightLogSchemaInput,
 	} from "$lib/remotes/flight-log/flight-log.schema";
 	import { FieldSet, FieldGroup, FieldError } from "$lib/components/ui/field";
 	import { FieldWrapper } from "$lib/components/field-wrapper";
@@ -11,7 +11,9 @@
 	import Input from "$lib/components/ui/input/input.svelte";
 	import TimeInput from "$lib/components/time-input/time-input.svelte";
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
-	import * as Tabs from "$lib/components/ui/tabs";
+	import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
+	import Label from "$lib/components/ui/label/label.svelte";
+	import z from "zod";
 
 	interface Props {
 		remote: RemoteForm<FlightLogSchemaInput, unknown>;
@@ -77,48 +79,42 @@
 		<FieldGroup>
 			<FieldWrapper label="Configuration" errors={remote.fields.configuration.issues()}>
 				{#snippet children(id)}
-					<input type="hidden" {...remote.fields.configuration.as("text")} />
-					<Tabs.Root
-						id={`${id}-tabs`}
+					<RadioGroup.Root
+						{id}
 						value={remote.fields.configuration.value()}
 						onValueChange={(value) =>
-							remote.fields.configuration.set(value as (typeof flightLogConfigurations)[number])}
+							remote.fields.configuration.set(z.enum(flightLogConfigurations).parse(value))}
+						class="flex flex-row gap-4"
 					>
-						<Tabs.List>
-							<Tabs.Trigger value="single-pilot-single-engine">SP SE</Tabs.Trigger>
-							<Tabs.Trigger value="single-pilot-multi-engine">SP ME</Tabs.Trigger>
-							<Tabs.Trigger value="multi-pilot">MP</Tabs.Trigger>
-						</Tabs.List>
-						<Tabs.Content value="single-pilot-single-engine">
-							<FieldWrapper
-								label="Single Pilot Time"
-								errors={remote.fields.singlePilotTime.issues()}
-							>
-								{#snippet children(id)}
-									<TimeInput {id} {...remote.fields.singlePilotTime.as("text")} />
-								{/snippet}
-							</FieldWrapper>
-						</Tabs.Content>
-						<Tabs.Content value="single-pilot-multi-engine">
-							<FieldWrapper
-								label="Single Pilot Time"
-								errors={remote.fields.singlePilotTime.issues()}
-							>
-								{#snippet children(id)}
-									<TimeInput {id} {...remote.fields.singlePilotTime.as("text")} />
-								{/snippet}
-							</FieldWrapper>
-						</Tabs.Content>
-						<Tabs.Content value="multi-pilot">
-							<FieldWrapper label="Multi Pilot Time" errors={remote.fields.multiPilotTime.issues()}>
-								{#snippet children(id)}
-									<TimeInput {id} {...remote.fields.multiPilotTime.as("text")} />
-								{/snippet}
-							</FieldWrapper>
-						</Tabs.Content>
-					</Tabs.Root>
+						<div class="flex items-center gap-2">
+							<RadioGroup.Item id="single-pilot-single-engine" value="single-pilot-single-engine" />
+							<Label for="single-pilot-single-engine" class="font-normal">Single Pilot Single Engine</Label>
+						</div>
+						<div class="flex items-center gap-2">
+							<RadioGroup.Item id="single-pilot-multi-engine" value="single-pilot-multi-engine" />
+							<Label for="single-pilot-multi-engine" class="font-normal">Single Pilot Multi Engine</Label>
+						</div>
+						<div class="flex items-center gap-2">
+							<RadioGroup.Item id="multi-pilot" value="multi-pilot" />
+							<Label for="multi-pilot" class="font-normal">Multi Pilot</Label>
+						</div>
+					</RadioGroup.Root>
 				{/snippet}
 			</FieldWrapper>
+			{@const configuration = remote.fields.configuration.value()}
+			{#if remote.fields.configuration.value() === "single-pilot-single-engine" || configuration === "single-pilot-multi-engine"}
+				<FieldWrapper label="Single Pilot Time" errors={remote.fields.singlePilotTime.issues()}>
+					{#snippet children(id)}
+						<TimeInput {id} {...remote.fields.singlePilotTime.as("text")} />
+					{/snippet}
+				</FieldWrapper>
+			{:else if configuration === "multi-pilot"}
+				<FieldWrapper label="Multi Pilot Time" errors={remote.fields.multiPilotTime.issues()}>
+					{#snippet children(id)}
+						<TimeInput {id} {...remote.fields.multiPilotTime.as("text")} />
+					{/snippet}
+				</FieldWrapper>
+			{/if}
 		</FieldGroup>
 
 		<!-- Section: Crew -->
