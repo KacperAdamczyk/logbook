@@ -6,9 +6,11 @@
 		id: string;
 		name: string;
 		value: string | number;
+		readonly?: boolean;
+		disabled?: boolean;
 	}
 
-	let { id, name, value = $bindable() }: Props = $props();
+	let { id, name, value = $bindable(), ...rest }: Props = $props();
 </script>
 
 <InputOTP.Root
@@ -17,6 +19,7 @@
 	{name}
 	pattern={REGEXP_ONLY_DIGITS}
 	bind:value={() => value.toString(), (v) => (value = v)}
+	{...rest}
 >
 	{#snippet children({ cells })}
 		<InputOTP.Group>

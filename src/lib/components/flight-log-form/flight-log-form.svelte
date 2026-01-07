@@ -14,12 +14,50 @@
 	import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
 	import Label from "$lib/components/ui/label/label.svelte";
 	import z from "zod";
+	import { timeDifference } from "$lib/utils/time-difference";
+	import { splitDuration } from "$lib/utils/split-duration";
 
 	interface Props {
 		remote: RemoteForm<FlightLogSchemaInput, unknown>;
 	}
 
 	const { remote }: Props = $props();
+
+	$effect(() => {
+		// Ensure that singlePilotTime and multiPilotTime are cleared based on configuration
+		const configuration = remote.fields.configuration.value();
+		if (
+			configuration === "single-pilot-single-engine" ||
+			configuration === "single-pilot-multi-engine"
+		) {
+			remote.fields.multiPilotTime.set("");
+		} else if (configuration === "multi-pilot") {
+			remote.fields.singlePilotTime.set("");
+		}
+	});
+
+	const totalTime = $derived.by(() => {
+		const departureTime = remote.fields.departureTime.value();
+		const arrivalTime = remote.fields.arrivalTime.value();
+
+		if (departureTime?.length !== 4 || arrivalTime?.length !== 4) {
+			return null;
+		}
+
+		return timeDifference(splitDuration(departureTime), splitDuration(arrivalTime));
+	});
+
+	$effect(() => {
+		if (totalTime !== null) {
+			const [hours, minutes] = totalTime;
+
+			remote.fields.totalFlightTime.set(
+				`${hours.toString().padStart(2, "0")}${minutes.toFixed().padStart(2, "0")}`,
+			);
+		} else {
+			remote.fields.totalFlightTime.set("");
+		}
+	});
 </script>
 
 <FieldSet>
@@ -88,11 +126,15 @@
 					>
 						<div class="flex items-center gap-2">
 							<RadioGroup.Item id="single-pilot-single-engine" value="single-pilot-single-engine" />
-							<Label for="single-pilot-single-engine" class="font-normal">Single Pilot Single Engine</Label>
+							<Label for="single-pilot-single-engine" class="font-normal"
+								>Single Pilot Single Engine</Label
+							>
 						</div>
 						<div class="flex items-center gap-2">
 							<RadioGroup.Item id="single-pilot-multi-engine" value="single-pilot-multi-engine" />
-							<Label for="single-pilot-multi-engine" class="font-normal">Single Pilot Multi Engine</Label>
+							<Label for="single-pilot-multi-engine" class="font-normal"
+								>Single Pilot Multi Engine</Label
+							>
 						</div>
 						<div class="flex items-center gap-2">
 							<RadioGroup.Item id="multi-pilot" value="multi-pilot" />
@@ -130,7 +172,7 @@
 		<FieldGroup>
 			<FieldWrapper label="Total Flight Time" errors={remote.fields.totalFlightTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.totalFlightTime.as("text")} />
+					<TimeInput {id} {...remote.fields.totalFlightTime.as("text")} disabled />
 				{/snippet}
 			</FieldWrapper>
 		</FieldGroup>
