@@ -1,9 +1,8 @@
+import { splitDuration } from "$lib/utils/split-duration";
 import { z } from "zod";
 
 const timeSchema = z.stringFormat("time", /^(?:[01]\d|2[0-3])[0-5]\d$/);
-const durationSchema = z
-	.stringFormat("duration", /^\d\d[0-5]\d$/)
-	.transform((value) => Number.parseInt(value, 10));
+const durationSchema = z.stringFormat("duration", /^\d\d[0-5]\d$/).transform(splitDuration);
 
 export const flightLogSchema = z.object({
 	date: z.iso.date(),
