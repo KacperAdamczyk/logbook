@@ -1,6 +1,6 @@
 import { user } from "./auth";
 import { commonFields } from "../helpers";
-import { sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const place = sqliteTable(
 	"place",
@@ -11,5 +11,5 @@ export const place = sqliteTable(
 			.references(() => user.id),
 		name: text().notNull(),
 	},
-	(t) => [unique().on(t.userId, t.name)]
+	(t) => [uniqueIndex("place_user_name_idx").on(t.userId, t.name)],
 );

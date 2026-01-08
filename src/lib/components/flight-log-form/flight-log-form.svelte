@@ -5,7 +5,7 @@
 		flightLogConfigurations,
 		type FlightLogSchemaInput,
 	} from "$lib/remotes/flight-log/flight-log.schema";
-	import { FieldSet, FieldGroup, FieldError } from "$lib/components/ui/field";
+	import * as Field from "$lib/components/ui/field";
 	import { FieldWrapper } from "$lib/components/field-wrapper";
 	import { DatePicker } from "$lib/components/date-picker";
 	import Input from "$lib/components/ui/input/input.svelte";
@@ -16,6 +16,7 @@
 	import z from "zod";
 	import { timeDifference } from "$lib/utils/time-difference";
 	import { splitDuration } from "$lib/utils/split-duration";
+	import { joinDuration } from "$lib/utils/join-duration";
 
 	interface Props {
 		remote: RemoteForm<FlightLogSchemaInput, unknown>;
@@ -49,30 +50,28 @@
 
 	$effect(() => {
 		if (totalTime !== null) {
-			const [hours, minutes] = totalTime;
-
-			remote.fields.totalFlightTime.set(
-				`${hours.toString().padStart(2, "0")}${minutes.toFixed().padStart(2, "0")}`,
-			);
+			remote.fields.totalFlightTime.set(joinDuration(totalTime));
 		} else {
 			remote.fields.totalFlightTime.set("");
 		}
 	});
 </script>
 
-<FieldSet>
-	<FieldGroup>
+<Field.Set>
+	<Field.Legend>Flight Log Entry</Field.Legend>
+	<Field.Description>Flight log entry form</Field.Description>
+	<Field.Group>
 		<!-- Date: Full width -->
-		<FieldGroup>
+		<Field.Group>
 			<FieldWrapper label="Date" errors={remote.fields.date.issues()}>
 				{#snippet children(id)}
 					<DatePicker {id} {...remote.fields.date.as("text")}></DatePicker>
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Departure/Arrival: 2x2 grid on desktop, single column on mobile -->
-		<FieldGroup class="grid grid-cols-1 md:grid-cols-2">
+		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
 			<FieldWrapper label="Departure Place" errors={remote.fields.departurePlace.issues()}>
 				{#snippet children(id)}
 					<Input {id} {...remote.fields.departurePlace.as("text")} placeholder="ICAO" />
@@ -93,25 +92,28 @@
 					<TimeInput {id} {...remote.fields.arrivalTime.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Aircraft: Model and Registration in same row -->
-		<FieldGroup class="grid grid-cols-1 md:grid-cols-2">
+		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
 			<FieldWrapper label="Aircraft Model" errors={remote.fields.aircraftModel.issues()}>
 				{#snippet children(id)}
 					<Input {id} {...remote.fields.aircraftModel.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-			<FieldWrapper label="Aircraft Registration" errors={remote.fields.aircraftRegistration.issues()}>
+			<FieldWrapper
+				label="Aircraft Registration"
+				errors={remote.fields.aircraftRegistration.issues()}
+			>
 				{#snippet children(id)}
 					<Input {id} {...remote.fields.aircraftRegistration.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Configuration: Radio on one side, time input on other -->
 		{@const configuration = remote.fields.configuration.value()}
-		<FieldGroup class="grid grid-cols-1 md:grid-cols-[1fr_auto]">
+		<Field.Group class="grid grid-cols-1 md:grid-cols-[1fr_auto]">
 			<FieldWrapper label="Configuration" errors={remote.fields.configuration.issues()}>
 				{#snippet children(id)}
 					<RadioGroup.Root
@@ -149,29 +151,32 @@
 					{/snippet}
 				</FieldWrapper>
 			{/if}
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Pilot in Command -->
-		<FieldGroup>
+		<Field.Group>
 			<FieldWrapper label="Pilot in Command" errors={remote.fields.pilotInCommandName.issues()}>
 				{#snippet children(id)}
 					<Input {id} {...remote.fields.pilotInCommandName.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Total Flight Time: Centered -->
-		<FieldGroup class="mx-auto w-full max-w-xs">
+		<Field.Group class="mx-auto w-full max-w-xs">
 			<FieldWrapper label="Total Flight Time" errors={remote.fields.totalFlightTime.issues()}>
 				{#snippet children(id)}
 					<TimeInput {id} {...remote.fields.totalFlightTime.as("text")} disabled />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Operational Conditions: Night and IFR in same row -->
-		<FieldGroup class="grid grid-cols-1 md:grid-cols-2">
-			<FieldWrapper label="Night Time" errors={remote.fields.operationalConditionNightTime.issues()}>
+		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
+			<FieldWrapper
+				label="Night Time"
+				errors={remote.fields.operationalConditionNightTime.issues()}
+			>
 				{#snippet children(id)}
 					<TimeInput {id} {...remote.fields.operationalConditionNightTime.as("text")} />
 				{/snippet}
@@ -181,13 +186,17 @@
 					<TimeInput {id} {...remote.fields.operationalConditionIfrTime.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Function Times: 2x2 grid -->
-		<FieldGroup class="grid grid-cols-1 md:grid-cols-2">
+		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
 			<FieldWrapper label="PIC Time" errors={remote.fields.functionPilotInCommandTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.functionPilotInCommandTime.as("text")} />
+					<TimeInput
+						{id}
+						{...remote.fields.functionPilotInCommandTime.as("text")}
+						fill={totalTime}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Co-Pilot Time" errors={remote.fields.functionCoPilotTime.issues()}>
@@ -205,10 +214,10 @@
 					<TimeInput {id} {...remote.fields.functionInstructorTime.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Takeoffs & Landings: 2x2 grid -->
-		<FieldGroup class="grid grid-cols-1 md:grid-cols-2">
+		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
 			<FieldWrapper label="Takeoffs Day" errors={remote.fields.takeoffsDay.issues()}>
 				{#snippet children(id)}
 					<Input {id} {...remote.fields.takeoffsDay.as("number")} type="number" min="0" />
@@ -229,16 +238,16 @@
 					<Input {id} {...remote.fields.landingsNight.as("number")} type="number" min="0" />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
+		</Field.Group>
 
 		<!-- Remarks -->
-		<FieldGroup>
+		<Field.Group>
 			<FieldWrapper label="Remarks" errors={remote.fields.remarks.issues()}>
 				{#snippet children(id)}
 					<Textarea {id} {...remote.fields.remarks.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</FieldGroup>
-	</FieldGroup>
-	<FieldError errors={remote.fields.allIssues()} />
-</FieldSet>
+		</Field.Group>
+	</Field.Group>
+	<Field.Error errors={remote.fields.allIssues()} />
+</Field.Set>

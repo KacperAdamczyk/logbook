@@ -1,4 +1,4 @@
-import { getLogs } from "$lib/server/db/actions/getLogs/getLogs";
+import { getLogs } from "$lib/server/db/actions/get-logs/get-logs";
 import { dbTest } from "$test/fixtures";
 
 dbTest("getLogs excludes logs from other users", async ({ tx, expect }) => {

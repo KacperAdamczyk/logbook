@@ -1,6 +1,6 @@
 import { user } from "./auth";
 import { commonFields } from "../helpers";
-import { sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const aircraft = sqliteTable(
 	"aircraft",
@@ -12,5 +12,5 @@ export const aircraft = sqliteTable(
 		model: text().notNull(),
 		registration: text().notNull(),
 	},
-	(t) => [unique().on(t.userId, t.registration)],
+	(t) => [uniqueIndex("aircraft_user_registration_idx").on(t.userId, t.registration)],
 );

@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		Field,
-		FieldContent,
-		FieldLabel,
-		FieldError,
-		FieldDescription,
-	} from "$lib/components/ui/field";
+	import * as Field from "$lib/components/ui/field/index.js";
 	import type { Snippet } from "svelte";
 
 	interface Props {
@@ -19,15 +13,15 @@
 	const id = $props.id();
 </script>
 
-<Field data-invalid={errors?.length}>
-	<FieldContent>
+<Field.Field data-invalid={errors?.length}>
+	<Field.Content>
 		{#if label}
-			<FieldLabel for={id}>{label}</FieldLabel>
+			<Field.Label for={id}>{label}</Field.Label>
 		{/if}
 		{@render children?.(id)}
 		{#if description}
-			<FieldDescription>{description}</FieldDescription>
+			<Field.Description>{description}</Field.Description>
 		{/if}
-		<FieldError {errors} />
-	</FieldContent>
-</Field>
+		<Field.Error {errors} />
+	</Field.Content>
+</Field.Field>

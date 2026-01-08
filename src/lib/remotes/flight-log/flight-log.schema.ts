@@ -41,3 +41,4 @@ export const flightLogSchema = z.object({
 });
 
 export type FlightLogSchemaInput = z.input<typeof flightLogSchema>;
+export type FlightLogSchemaOutput = z.output<typeof flightLogSchema>;

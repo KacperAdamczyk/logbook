@@ -9,7 +9,12 @@ import type { TX } from "$lib/server/db";
 
 const db = drizzle({ connection: { url: ":memory:" }, schema, relations });
 await migrate(db, { migrationsFolder: "drizzle" });
-await seed(db, schema);
+await seed(db, schema).refine((f) => ({
+	user: {
+		count: 5,
+		columns: { id: f.uuid() },
+	},
+}));
 
 export const dbTest = test.extend<{ tx: TX }>({
 	tx: async ({ annotate }, use) => {
