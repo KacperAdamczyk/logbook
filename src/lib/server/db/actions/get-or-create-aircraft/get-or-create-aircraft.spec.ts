@@ -1,26 +1,30 @@
 import { getOrCreateAircraft } from "$lib/server/db/actions/get-or-create-aircraft";
-import { dbTest } from "$test/fixtures";
-import { describe, expect } from "vitest";
+import { userTest } from "$test/fixtures";
 
-describe("getOrCreateAircraft", () => {
-	dbTest("creates a new aircraft if it does not exist", async ({ tx }) => {
-		const testUser = await tx.query.user.findFirst();
-
-		if (!testUser) throw new Error("Test user not found");
-
-		const registration = "N12345";
-		const model = "Cessna 172";
-		const aircraftBefore = await tx.query.aircraft.findMany({
-			where: { userId: testUser.id },
-		});
-
-		const foundAircraft = await getOrCreateAircraft(tx, testUser.id, registration, model);
-		const aircraftAfter = await tx.query.aircraft.findMany({
-			where: { userId: testUser.id },
-		});
-
-		expect(foundAircraft.registration).toBe(registration);
-		expect(foundAircraft.model).toBe(model);
-		expect(aircraftAfter).toHaveLength(aircraftBefore.length + 1);
+userTest("creates a new aircraft if one does not exist", async ({ db, testUser, expect }) => {
+	const registration = "N12345";
+	const model = "Cessna 172";
+	const aircraftBefore = await db.query.aircraft.findMany({
+		where: { userId: testUser.id },
 	});
+
+	const aircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
+	const aircraftAfter = await db.query.aircraft.findMany({
+		where: { userId: testUser.id },
+	});
+
+	expect(aircraft.registration).toBe(registration);
+	expect(aircraft.model).toBe(model);
+	expect(aircraftAfter).toHaveLength(aircraftBefore.length + 1);
+});
+
+userTest("returns existing aircraft if one already exists", async ({ db, testUser, expect }) => {
+	const registration = "N67890";
+	const model = "Piper PA-28";
+
+	const firstAircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
+	const secondAircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
+
+	expect(firstAircraft.id).toBe(secondAircraft.id);
+	expect(firstAircraft.registration).toBe(registration);
 });
