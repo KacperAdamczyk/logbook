@@ -6,15 +6,28 @@ import * as schema from "$lib/server/db/schema";
 import { relations } from "$lib/server/db/schema/relations";
 import type { DB } from "$lib/server/db";
 
+/** Known test user with predictable data */
+export const TEST_USER = {
+	id: "test-user-id",
+	name: "Test User",
+	email: "test@example.com",
+} as const;
+
 /**
  * Base database test fixture.
  * Creates a fresh in-memory database for each test with migrations and seed data.
+ * Includes a known test user (TEST_USER) plus additional randomly seeded data.
  */
 export const dbTest = test.extend<{ db: DB }>({
 	// eslint-disable-next-line no-empty-pattern
 	db: async ({}, use) => {
 		const db = drizzle({ connection: { url: ":memory:" }, schema, relations });
 		await migrate(db, { migrationsFolder: "drizzle" });
+
+		// Insert known test user first
+		await db.insert(schema.user).values(TEST_USER);
+
+		// Seed additional random data (won't duplicate the test user due to unique constraints)
 		await seed(db, schema);
 
 		await use(db);
@@ -22,14 +35,16 @@ export const dbTest = test.extend<{ db: DB }>({
 });
 
 /**
- * Database test fixture with a test user pre-selected.
+ * Database test fixture with the known test user.
  */
 export const userTest = dbTest.extend<{
 	testUser: typeof schema.user.$inferSelect;
 }>({
 	testUser: async ({ db }, use) => {
-		const user = await db.query.user.findFirst();
-		if (!user) throw new Error("No test user found");
+		const user = await db.query.user.findFirst({
+			where: { id: TEST_USER.id },
+		});
+		if (!user) throw new Error("Test user not found");
 		await use(user);
 	},
 });
