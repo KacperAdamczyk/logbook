@@ -1,8 +1,8 @@
-import { splitDuration } from "$lib/utils/split-duration";
+import { parseDuration } from "$lib/utils/parse-duration";
 import { z } from "zod";
 
 const timeSchema = z.stringFormat("time", /^(?:[01]\d|2[0-3])[0-5]\d$/);
-const durationSchema = z.stringFormat("duration", /^\d\d[0-5]\d$/).transform(splitDuration);
+const durationSchema = z.stringFormat("duration", /^\d\d[0-5]\d$/).transform(parseDuration);
 
 export const flightLogConfigurations = [
 	"single-pilot-single-engine",

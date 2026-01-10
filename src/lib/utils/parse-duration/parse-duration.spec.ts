@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { splitDuration } from "./split-duration";
+import { parseDuration } from "./parse-duration";
+import { Temporal } from "@js-temporal/polyfill";
 
-describe("splitDuration", () => {
+describe("parseDuration", () => {
 	describe("valid inputs", () => {
 		it.each([
 			{ input: "1230", expected: [12, 30], description: "typical duration" },
@@ -10,9 +11,12 @@ describe("splitDuration", () => {
 			{ input: "0100", expected: [1, 0], description: "leading zeros in hours" },
 			{ input: "0001", expected: [0, 1], description: "leading zeros in minutes" },
 			{ input: "9999", expected: [99, 99], description: "all nines" },
-		])("should handle $description: $input -> $expected", ({ input, expected }) => {
-			expect(splitDuration(input)).toEqual(expected);
-		});
+		])(
+			"should handle $description: $input -> $expected",
+			({ input, expected: [hours, minutes] }) => {
+				expect(parseDuration(input)).toEqual(Temporal.Duration.from({ hours, minutes }));
+			},
+		);
 	});
 
 	describe("invalid format - wrong length", () => {
@@ -21,7 +25,7 @@ describe("splitDuration", () => {
 			{ input: "12345", length: 5, description: "5-digit string" },
 			{ input: "", length: 0, description: "empty string" },
 		])("should throw error for $description", ({ input, length }) => {
-			expect(() => splitDuration(input)).toThrow(
+			expect(() => parseDuration(input)).toThrow(
 				`Duration must be exactly 4 digits, received: "${input}" (length: ${length})`,
 			);
 		});
@@ -50,7 +54,7 @@ describe("splitDuration", () => {
 				description: "spaces",
 			},
 		])("should throw error for string with $description", ({ input, error }) => {
-			expect(() => splitDuration(input)).toThrow(error);
+			expect(() => parseDuration(input)).toThrow(error);
 		});
 	});
 });

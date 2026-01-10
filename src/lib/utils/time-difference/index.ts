@@ -1,1 +1,1 @@
-export { timeDifference, type Time, type Duration } from './time-difference';
+export { timeDifference } from './time-difference';

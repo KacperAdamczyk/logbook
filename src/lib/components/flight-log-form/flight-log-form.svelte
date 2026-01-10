@@ -15,7 +15,7 @@
 	import Label from "$lib/components/ui/label/label.svelte";
 	import z from "zod";
 	import { timeDifference } from "$lib/utils/time-difference";
-	import { splitDuration } from "$lib/utils/split-duration";
+	import { parseTime } from "$lib/utils/parse-time";
 	import { joinDuration } from "$lib/utils/join-duration";
 
 	interface Props {
@@ -45,7 +45,7 @@
 			return null;
 		}
 
-		return timeDifference(splitDuration(departureTime), splitDuration(arrivalTime));
+		return timeDifference(parseTime(departureTime), parseTime(arrivalTime));
 	});
 
 	$effect(() => {

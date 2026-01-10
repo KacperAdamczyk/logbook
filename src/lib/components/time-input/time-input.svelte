@@ -5,6 +5,7 @@
 	import ClockIcon from "@lucide/svelte/icons/clock-arrow-up";
 	import { REGEXP_ONLY_DIGITS } from "bits-ui";
 	import { joinDuration } from "$lib/utils/join-duration";
+	import { Temporal } from "@js-temporal/polyfill";
 
 	interface Props {
 		id: string;
@@ -12,7 +13,7 @@
 		value: string | number;
 		readonly?: boolean;
 		disabled?: boolean;
-		fill?: readonly [number, number] | null;
+		fill?: Temporal.Duration | null;
 	}
 
 	let { id, name, value = $bindable(), fill, ...rest }: Props = $props();

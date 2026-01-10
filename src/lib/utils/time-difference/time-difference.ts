@@ -1,42 +1,41 @@
-/**
- * Represents a time of day as [hours, minutes].
- * Hours should be 0-23, minutes should be 0-59.
- */
-export type Time = readonly [hours: number, minutes: number];
-
-/**
- * Represents a duration as [hours, minutes].
- * Hours can be any non-negative number, minutes should be 0-59.
- */
-export type Duration = readonly [hours: number, minutes: number];
+import { Temporal } from "@js-temporal/polyfill";
 
 /**
  * Calculates the time difference between two times.
  * If the end time is earlier than the start time, it assumes the times cross midnight
  * and adds 24 hours to the calculation.
  *
- * @param start - The start time as [hours, minutes]
- * @param end - The end time as [hours, minutes]
- * @returns The duration between the two times as [hours, minutes]
+ * @param start - The start time as Temporal.PlainTime
+ * @param end - The end time as Temporal.PlainTime
+ * @returns The duration between the two times as Temporal.Duration
  *
  * @example
  * // Same day: 10:30 to 14:45 = 4 hours 15 minutes
- * timeDifference([10, 30], [14, 45]) // Returns [4, 15]
+ * timeDifference(
+ *   Temporal.PlainTime.from({ hour: 10, minute: 30 }),
+ *   Temporal.PlainTime.from({ hour: 14, minute: 45 })
+ * ) // Returns Temporal.Duration of 4 hours 15 minutes
  *
  * @example
  * // Crossing midnight: 22:00 to 02:30 = 4 hours 30 minutes
- * timeDifference([22, 0], [2, 30]) // Returns [4, 30]
+ * timeDifference(
+ *   Temporal.PlainTime.from({ hour: 22, minute: 0 }),
+ *   Temporal.PlainTime.from({ hour: 2, minute: 30 })
+ * ) // Returns Temporal.Duration of 4 hours 30 minutes
  *
  * @example
  * // Same time returns zero duration
- * timeDifference([12, 0], [12, 0]) // Returns [0, 0]
+ * timeDifference(
+ *   Temporal.PlainTime.from({ hour: 12, minute: 0 }),
+ *   Temporal.PlainTime.from({ hour: 12, minute: 0 })
+ * ) // Returns Temporal.Duration of 0
  */
-export function timeDifference(start: Time, end: Time): Duration {
-	const [startHours, startMinutes] = start;
-	const [endHours, endMinutes] = end;
-
-	const startTotalMinutes = startHours * 60 + startMinutes;
-	let endTotalMinutes = endHours * 60 + endMinutes;
+export function timeDifference(
+	start: Temporal.PlainTime,
+	end: Temporal.PlainTime,
+): Temporal.Duration {
+	const startTotalMinutes = start.hour * 60 + start.minute;
+	let endTotalMinutes = end.hour * 60 + end.minute;
 
 	// If end is earlier than start, we crossed midnight
 	if (endTotalMinutes < startTotalMinutes) {
@@ -48,5 +47,5 @@ export function timeDifference(start: Time, end: Time): Duration {
 	const hours = Math.floor(diffMinutes / 60);
 	const minutes = diffMinutes % 60;
 
-	return [hours, minutes];
+	return Temporal.Duration.from({ hours, minutes });
 }
