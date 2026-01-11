@@ -1,18 +1,7 @@
 <script lang="ts">
 	import { Button } from "$lib/components/ui/button/index.js";
-	import {
-		Card,
-		CardHeader,
-		CardTitle,
-		CardDescription,
-		CardContent,
-	} from "$lib/components/ui/card/index.js";
-	import {
-		FieldGroup,
-		Field,
-		FieldDescription,
-		FieldError,
-	} from "$lib/components/ui/field/index.js";
+	import * as Card from "$lib/components/ui/card/index.js";
+	import * as Field from "$lib/components/ui/field/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { cn } from "$lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
@@ -24,19 +13,19 @@
 	let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 
 	const {
-		fields: { email, _password },
+		fields: { email, _password, issues },
 	} = signIn;
 </script>
 
 <div class={cn("flex flex-col gap-6", className)} {...restProps}>
-	<Card>
-		<CardHeader class="text-center">
-			<CardTitle class="text-xl">Welcome back</CardTitle>
-			<CardDescription>Login with your Apple or Google account</CardDescription>
-		</CardHeader>
-		<CardContent>
+	<Card.Root>
+		<Card.Header class="text-center">
+			<Card.Title class="text-xl">Welcome back</Card.Title>
+			<Card.Description>Login with your Apple or Google account</Card.Description>
+		</Card.Header>
+		<Card.Content>
 			<form {...signIn.preflight(signInSchema)}>
-				<FieldGroup>
+				<Field.Group>
 					<FieldWrapper label="Email" errors={email.issues()}>
 						{#snippet children(id)}
 							<Input {id} placeholder="email@example.com" {...email.as("email")} />
@@ -52,15 +41,15 @@
 							</div>
 						{/snippet}
 					</FieldWrapper>
-					<Field>
-						<FieldError errors={signIn.fields.issues()} />
+					<Field.Field>
+						<Field.Error errors={issues()} />
 						<Button type="submit">Login</Button>
-						<FieldDescription class="text-center">
+						<Field.Description class="text-center">
 							Don't have an account? <a href={resolve("/sign-up")}>Sign up</a>
-						</FieldDescription>
-					</Field>
-				</FieldGroup>
+						</Field.Description>
+					</Field.Field>
+				</Field.Group>
 			</form>
-		</CardContent>
-	</Card>
+		</Card.Content>
+	</Card.Root>
 </div>

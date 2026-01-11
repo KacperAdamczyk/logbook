@@ -2,7 +2,7 @@ import { resolve } from "$app/paths";
 import { form, query, getRequestEvent } from "$app/server";
 import { auth } from "$lib/auth";
 import { signInSchema, signUpSchema } from "$lib/remotes/auth/auth.schema";
-import { redirect } from "@sveltejs/kit";
+import { redirect, invalid } from "@sveltejs/kit";
 import { APIError } from "better-auth";
 import { z } from "zod";
 
@@ -18,7 +18,7 @@ export const getUser = query(async () => {
 	return session;
 });
 
-export const signUp = form(signUpSchema, async ({ name, email, _password: password }, invalid) => {
+export const signUp = form(signUpSchema, async ({ name, email, _password: password }, issue) => {
 	try {
 		const { request } = getRequestEvent();
 
@@ -31,14 +31,14 @@ export const signUp = form(signUpSchema, async ({ name, email, _password: passwo
 		redirect(303, resolve("/sign-in"));
 	} catch (error) {
 		if (error instanceof APIError) {
-			invalid(error.message);
+			invalid(issue(error.message));
 		}
 
 		throw error;
 	}
 });
 
-export const signIn = form(signInSchema, async ({ email, _password: password }, invalid) => {
+export const signIn = form(signInSchema, async ({ email, _password: password }, issue) => {
 	try {
 		const { request } = getRequestEvent();
 
@@ -51,7 +51,7 @@ export const signIn = form(signInSchema, async ({ email, _password: password }, 
 		redirect(303, resolve("/"));
 	} catch (error) {
 		if (error instanceof APIError) {
-			invalid(error.message);
+			invalid(issue(error.message));
 		}
 
 		throw error;
