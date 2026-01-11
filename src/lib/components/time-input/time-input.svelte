@@ -3,6 +3,7 @@
 	import * as ButtonGroup from "$lib/components/ui/button-group/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import ClockIcon from "@lucide/svelte/icons/clock-arrow-up";
+	import AlarmClockOffIcon from "@lucide/svelte/icons/alarm-clock-off";
 	import { REGEXP_ONLY_DIGITS } from "bits-ui";
 	import { joinDuration } from "$lib/utils/join-duration";
 	import { Temporal } from "@js-temporal/polyfill";
@@ -20,6 +21,16 @@
 </script>
 
 <ButtonGroup.Root class="rounded-md bg-accent">
+	<Button
+		variant="secondary"
+		size="icon"
+		aria-label="Fill in zero time"
+		onclick={() => {
+			value = "0000";
+		}}
+	>
+		<AlarmClockOffIcon />
+	</Button>
 	<InputOTP.Root
 		{id}
 		maxlength={4}
