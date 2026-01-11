@@ -20,8 +20,8 @@ flightLogTest(
 		// Check for overlap: 12:00 - 13:00 (no overlap)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T12:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T13:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T12:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T13:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(0);
@@ -45,8 +45,8 @@ flightLogTest(
 		// Check for overlap: 11:00 - 13:00 (starts during existing)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T11:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T13:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T11:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T13:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(1);
@@ -71,8 +71,8 @@ flightLogTest(
 		// Check for overlap: 09:00 - 11:00 (ends during existing)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T09:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T11:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T09:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T11:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(1);
@@ -89,16 +89,16 @@ flightLogTest(
 		const existingLog = await createTestFlightLog(
 			db,
 			testUser.id,
-			new Date("2024-01-01T10:00:00Z"),
-			new Date("2024-01-01T11:00:00Z"),
+			new Date("2024-01-01T10:00:00"),
+			new Date("2024-01-01T11:00:00"),
 			deps,
 		);
 
 		// Check for overlap: 09:00 - 12:00 (contains existing)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T09:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T12:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T09:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T12:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(1);
@@ -123,8 +123,8 @@ flightLogTest(
 		// Check for overlap: 10:00 - 11:00 (within existing)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T10:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T11:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T10:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T11:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(1);
@@ -149,8 +149,8 @@ flightLogTest(
 		// Check for overlap: 11:00 - 12:00 (adjacent, no overlap)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T11:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T12:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T11:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T12:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(0);
@@ -218,8 +218,8 @@ dbTest("only returns logs for the specified user", async ({ db, expect }) => {
 	// Check for User 1's overlaps only
 	const overlaps = await findOverlappingLogs(db, {
 		userId: user1.id,
-		departureAt: Temporal.PlainDateTime.from("2024-01-01T11:00:00"),
-		arrivalAt: Temporal.PlainDateTime.from("2024-01-01T13:00:00"),
+		departureAt: Temporal.ZonedDateTime.from("2024-01-01T11:00:00Z[UTC]"),
+		arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T13:00:00Z[UTC]"),
 	});
 
 	expect(overlaps).toHaveLength(1);
@@ -243,8 +243,8 @@ flightLogTest(
 		// Check for overlap with same time range, but excluding the log itself
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T10:00:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T12:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T10:00:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T12:00:00Z[UTC]"),
 			excludeLogId: existingLog.id,
 		});
 
@@ -287,8 +287,8 @@ flightLogTest(
 		// Check for overlap: 09:30 - 11:00 (overlaps with logs 1 and 2)
 		const overlaps = await findOverlappingLogs(db, {
 			userId: testUser.id,
-			departureAt: Temporal.PlainDateTime.from("2024-01-01T09:30:00"),
-			arrivalAt: Temporal.PlainDateTime.from("2024-01-01T11:00:00"),
+			departureAt: Temporal.ZonedDateTime.from("2024-01-01T09:30:00Z[UTC]"),
+			arrivalAt: Temporal.ZonedDateTime.from("2024-01-01T11:00:00Z[UTC]"),
 		});
 
 		expect(overlaps).toHaveLength(2);

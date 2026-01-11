@@ -3,8 +3,8 @@ import type { Temporal } from "@js-temporal/polyfill";
 
 interface FindOverlappingLogsArgs {
 	userId: string;
-	departureAt: Temporal.PlainDateTime;
-	arrivalAt: Temporal.PlainDateTime;
+	departureAt: Temporal.ZonedDateTime;
+	arrivalAt: Temporal.ZonedDateTime;
 	excludeLogId?: string;
 }
 
@@ -13,8 +13,8 @@ export const findOverlappingLogs = createDbAction(
 		db.query.flightLog.findMany({
 			where: {
 				userId,
-				departureAt: { lt: new Date(arrivalAt.toString()) },
-				arrivalAt: { gt: new Date(departureAt.toString()) },
+				departureAt: { lt: new Date(arrivalAt.toInstant().epochMilliseconds) },
+				arrivalAt: { gt: new Date(departureAt.toInstant().epochMilliseconds) },
 				...(excludeLogId ? { id: { ne: excludeLogId } } : {}),
 			},
 		}),
