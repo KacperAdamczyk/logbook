@@ -11,6 +11,14 @@ export const getOrCreateAircraft = createDbAction(
 			return existingAircraft;
 		}
 
+		const aircraftWithSameRegistration = await db.query.aircraft.findFirst({
+			where: { userId, registration },
+		});
+
+		if (aircraftWithSameRegistration) {
+			throw new Error("An aircraft with the same registration already exists.");
+		}
+
 		const [newAircraft] = await db
 			.insert(aircraft)
 			.values({ userId, registration, model })

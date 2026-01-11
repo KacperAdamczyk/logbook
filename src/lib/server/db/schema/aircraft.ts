@@ -12,5 +12,7 @@ export const aircraft = sqliteTable(
 		model: text().notNull(),
 		registration: text().notNull(),
 	},
-	(t) => [uniqueIndex("aircraft_user_registration_idx").on(t.userId, t.registration)],
+	(t) => [
+		uniqueIndex("aircraft_user_registration_model_idx").on(t.userId, t.registration, t.model),
+	],
 );

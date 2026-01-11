@@ -28,3 +28,16 @@ userTest("returns existing aircraft if one already exists", async ({ db, testUse
 	expect(firstAircraft.id).toBe(secondAircraft.id);
 	expect(firstAircraft.registration).toBe(registration);
 });
+
+userTest(
+	"throws error when registration already exists with a different model",
+	async ({ db, testUser, expect }) => {
+		const registration = "N11111";
+
+		await getOrCreateAircraft(db, testUser.id, registration, "Cessna 172");
+
+		await expect(
+			getOrCreateAircraft(db, testUser.id, registration, "Piper PA-28"),
+		).rejects.toThrow("An aircraft with the same registration already exists.");
+	},
+);
