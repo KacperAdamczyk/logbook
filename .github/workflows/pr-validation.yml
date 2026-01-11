@@ -30,7 +30,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Copy environment file
-        run: cp ./.env.example ./.env
+        run: cp ./.env.local.example ./.env.local
 
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps

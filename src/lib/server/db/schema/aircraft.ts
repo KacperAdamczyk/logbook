@@ -1,12 +1,18 @@
 import { user } from "./auth";
 import { commonFields } from "../helpers";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
-export const aircraft = sqliteTable("aircraft", {
-	...commonFields,
-	userId: text()
-		.notNull()
-		.references(() => user.id),
-	model: text().notNull(),
-	registration: text().notNull(),
-});
+export const aircraft = sqliteTable(
+	"aircraft",
+	{
+		...commonFields,
+		userId: text()
+			.notNull()
+			.references(() => user.id),
+		model: text().notNull(),
+		registration: text().notNull(),
+	},
+	(t) => [
+		uniqueIndex("aircraft_user_registration_model_idx").on(t.userId, t.registration, t.model),
+	],
+);
