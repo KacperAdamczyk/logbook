@@ -15,9 +15,7 @@ import { Temporal } from "@js-temporal/polyfill";
  */
 export function parseTime(time: string): Temporal.PlainTime {
 	if (time.length !== 4) {
-		throw new Error(
-			`Time must be exactly 4 digits, received: "${time}" (length: ${time.length})`,
-		);
+		throw new Error(`Time must be exactly 4 digits, received: "${time}" (length: ${time.length})`);
 	}
 
 	if (!/^\d{4}$/.test(time)) {

@@ -101,7 +101,8 @@ export async function createTestFlightLog(
 			aircraftId: deps.aircraftId,
 			pilotInCommandId: deps.pilotId,
 			totalFlightTime: 60,
-			singlePilotTime: 60,
+			singlePilotSingleEngineTime: 60,
+			singlePilotMultiEngineTime: 0,
 			multiPilotTime: 0,
 			operationalConditionNightTime: 0,
 			operationalConditionIfrTime: 0,
@@ -109,6 +110,11 @@ export async function createTestFlightLog(
 			functionCoPilotTime: 0,
 			functionDualTime: 0,
 			functionInstructorTime: 0,
+			takeoffsDay: 1,
+			takeoffsNight: 0,
+			landingsDay: 1,
+			landingsNight: 0,
+			remarks: "",
 		})
 		.returning();
 	return log;

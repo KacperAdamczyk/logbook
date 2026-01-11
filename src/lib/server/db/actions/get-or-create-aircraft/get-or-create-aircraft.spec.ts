@@ -36,8 +36,8 @@ userTest(
 
 		await getOrCreateAircraft(db, testUser.id, registration, "Cessna 172");
 
-		await expect(
-			getOrCreateAircraft(db, testUser.id, registration, "Piper PA-28"),
-		).rejects.toThrow("An aircraft with the same registration already exists.");
+		await expect(getOrCreateAircraft(db, testUser.id, registration, "Piper PA-28")).rejects.toThrow(
+			"An aircraft with the same registration already exists.",
+		);
 	},
 );
