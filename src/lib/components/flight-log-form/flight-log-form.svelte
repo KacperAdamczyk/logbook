@@ -1,19 +1,15 @@
 <script lang="ts">
 	import type { RemoteForm } from "@sveltejs/kit";
 
-	import {
-		flightLogConfigurations,
-		type FlightLogSchemaInput,
-	} from "$lib/remotes/flight-log/flight-log.schema";
+	import type { FlightLogSchemaInput } from "$lib/remotes/flight-log/flight-log.schema";
 	import * as Field from "$lib/components/ui/field";
 	import { FieldWrapper } from "$lib/components/field-wrapper";
 	import { DatePicker } from "$lib/components/date-picker";
 	import Input from "$lib/components/ui/input/input.svelte";
 	import TimeInput from "$lib/components/time-input/time-input.svelte";
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
-	import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
-	import Label from "$lib/components/ui/label/label.svelte";
-	import z from "zod";
+	import * as Tabs from "$lib/components/ui/tabs/index.js";
+
 	import { timeDifference } from "$lib/utils/time-difference";
 	import { parseTime } from "$lib/utils/parse-time";
 	import { joinDuration } from "$lib/utils/join-duration";
@@ -23,19 +19,6 @@
 	}
 
 	const { remote }: Props = $props();
-
-	$effect(() => {
-		// Ensure that singlePilotTime and multiPilotTime are cleared based on configuration
-		const configuration = remote.fields.configuration.value();
-		if (
-			configuration === "single-pilot-single-engine" ||
-			configuration === "single-pilot-multi-engine"
-		) {
-			remote.fields.multiPilotTime.set("");
-		} else if (configuration === "multi-pilot") {
-			remote.fields.singlePilotTime.set("");
-		}
-	});
 
 	const totalTime = $derived.by(() => {
 		const departureTime = remote.fields.departureTime.value();
@@ -55,6 +38,8 @@
 			remote.fields.totalFlightTime.set("");
 		}
 	});
+
+	let selectedTab = $state("single-pilot-single-engine");
 </script>
 
 <Field.Set>
@@ -96,11 +81,6 @@
 
 		<!-- Aircraft: Model and Registration in same row -->
 		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
-			<FieldWrapper label="Aircraft Model" errors={remote.fields.aircraftModel.issues()}>
-				{#snippet children(id)}
-					<Input {id} {...remote.fields.aircraftModel.as("text")} />
-				{/snippet}
-			</FieldWrapper>
 			<FieldWrapper
 				label="Aircraft Registration"
 				errors={remote.fields.aircraftRegistration.issues()}
@@ -109,48 +89,11 @@
 					<Input {id} {...remote.fields.aircraftRegistration.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-		</Field.Group>
-
-		<!-- Configuration: Radio on one side, time input on other -->
-		{@const configuration = remote.fields.configuration.value()}
-		<Field.Group class="grid grid-cols-1 md:grid-cols-[1fr_auto]">
-			<FieldWrapper label="Configuration" errors={remote.fields.configuration.issues()}>
+			<FieldWrapper label="Aircraft Model" errors={remote.fields.aircraftModel.issues()}>
 				{#snippet children(id)}
-					<RadioGroup.Root
-						{id}
-						value={configuration}
-						onValueChange={(value) =>
-							remote.fields.configuration.set(z.enum(flightLogConfigurations).parse(value))}
-						class="flex flex-col gap-2 md:flex-row md:gap-4"
-					>
-						<div class="flex items-center gap-2">
-							<RadioGroup.Item id="single-pilot-single-engine" value="single-pilot-single-engine" />
-							<Label for="single-pilot-single-engine" class="font-normal">SP SE</Label>
-						</div>
-						<div class="flex items-center gap-2">
-							<RadioGroup.Item id="single-pilot-multi-engine" value="single-pilot-multi-engine" />
-							<Label for="single-pilot-multi-engine" class="font-normal">SP ME</Label>
-						</div>
-						<div class="flex items-center gap-2">
-							<RadioGroup.Item id="multi-pilot" value="multi-pilot" />
-							<Label for="multi-pilot" class="font-normal">MP</Label>
-						</div>
-					</RadioGroup.Root>
+					<Input {id} {...remote.fields.aircraftModel.as("text")} />
 				{/snippet}
 			</FieldWrapper>
-			{#if configuration === "single-pilot-single-engine" || configuration === "single-pilot-multi-engine"}
-				<FieldWrapper label="SP Time" errors={remote.fields.singlePilotTime.issues()}>
-					{#snippet children(id)}
-						<TimeInput {id} {...remote.fields.singlePilotTime.as("text")} />
-					{/snippet}
-				</FieldWrapper>
-			{:else if configuration === "multi-pilot"}
-				<FieldWrapper label="MP Time" errors={remote.fields.multiPilotTime.issues()}>
-					{#snippet children(id)}
-						<TimeInput {id} {...remote.fields.multiPilotTime.as("text")} />
-					{/snippet}
-				</FieldWrapper>
-			{/if}
 		</Field.Group>
 
 		<!-- Pilot in Command -->
@@ -166,9 +109,62 @@
 		<Field.Group class="mx-auto w-full max-w-xs">
 			<FieldWrapper label="Total Flight Time" errors={remote.fields.totalFlightTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.totalFlightTime.as("text")} disabled />
+					<TimeInput {id} {...remote.fields.totalFlightTime.as("text")} readonly />
 				{/snippet}
 			</FieldWrapper>
+		</Field.Group>
+
+		<!-- Aircraft Configuration Times: Tabs for SP SE / SP ME / MP -->
+		<Field.Group>
+			<Tabs.Root class="w-full" bind:value={selectedTab}>
+				<Tabs.List class="grid w-full grid-cols-3">
+					<Tabs.Trigger value="single-pilot-single-engine">SP SE</Tabs.Trigger>
+					<Tabs.Trigger value="single-pilot-multi-engine">SP ME</Tabs.Trigger>
+					<Tabs.Trigger value="multi-pilot">MP</Tabs.Trigger>
+				</Tabs.List>
+				<Tabs.Content value="single-pilot-single-engine" class="mt-4">
+					<FieldWrapper
+						label="Single Pilot Single Engine Time"
+						errors={remote.fields.singlePilotSingleEngineTime.issues()}
+					>
+						{#snippet children(id)}
+							<TimeInput
+								{id}
+								clearable
+								fillable={totalTime}
+								{...remote.fields.singlePilotSingleEngineTime.as("text")}
+							/>
+						{/snippet}
+					</FieldWrapper>
+				</Tabs.Content>
+				<Tabs.Content value="single-pilot-multi-engine" class="mt-4">
+					<FieldWrapper
+						label="Single Pilot Multi Engine Time"
+						errors={remote.fields.singlePilotMultiEngineTime.issues()}
+					>
+						{#snippet children(id)}
+							<TimeInput
+								{id}
+								clearable
+								fillable={totalTime}
+								{...remote.fields.singlePilotMultiEngineTime.as("text")}
+							/>
+						{/snippet}
+					</FieldWrapper>
+				</Tabs.Content>
+				<Tabs.Content value="multi-pilot" class="mt-4">
+					<FieldWrapper label="Multi Pilot Time" errors={remote.fields.multiPilotTime.issues()}>
+						{#snippet children(id)}
+							<TimeInput
+								{id}
+								clearable
+								fillable={totalTime}
+								{...remote.fields.multiPilotTime.as("text")}
+							/>
+						{/snippet}
+					</FieldWrapper>
+				</Tabs.Content>
+			</Tabs.Root>
 		</Field.Group>
 
 		<!-- Operational Conditions: Night and IFR in same row -->
@@ -178,12 +174,22 @@
 				errors={remote.fields.operationalConditionNightTime.issues()}
 			>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.operationalConditionNightTime.as("text")} />
+					<TimeInput
+						{id}
+						clearable
+						fillable={totalTime}
+						{...remote.fields.operationalConditionNightTime.as("text")}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="IFR Time" errors={remote.fields.operationalConditionIfrTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.operationalConditionIfrTime.as("text")} />
+					<TimeInput
+						clearable
+						fillable={totalTime}
+						{id}
+						{...remote.fields.operationalConditionIfrTime.as("text")}
+					/>
 				{/snippet}
 			</FieldWrapper>
 		</Field.Group>
@@ -194,24 +200,40 @@
 				{#snippet children(id)}
 					<TimeInput
 						{id}
+						clearable
+						fillable={totalTime}
 						{...remote.fields.functionPilotInCommandTime.as("text")}
-						fill={totalTime}
 					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Co-Pilot Time" errors={remote.fields.functionCoPilotTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.functionCoPilotTime.as("text")} />
+					<TimeInput
+						{id}
+						clearable
+						fillable={totalTime}
+						{...remote.fields.functionCoPilotTime.as("text")}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Dual Time" errors={remote.fields.functionDualTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.functionDualTime.as("text")} />
+					<TimeInput
+						{id}
+						clearable
+						fillable={totalTime}
+						{...remote.fields.functionDualTime.as("text")}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Instructor Time" errors={remote.fields.functionInstructorTime.issues()}>
 				{#snippet children(id)}
-					<TimeInput {id} {...remote.fields.functionInstructorTime.as("text")} />
+					<TimeInput
+						{id}
+						clearable
+						fillable={totalTime}
+						{...remote.fields.functionInstructorTime.as("text")}
+					/>
 				{/snippet}
 			</FieldWrapper>
 		</Field.Group>
@@ -249,5 +271,5 @@
 			</FieldWrapper>
 		</Field.Group>
 	</Field.Group>
-	<Field.Error errors={remote.fields.allIssues()} />
+	<Field.Error errors={remote.fields.issues()} />
 </Field.Set>

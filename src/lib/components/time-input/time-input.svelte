@@ -14,30 +14,36 @@
 		value: string | number;
 		readonly?: boolean;
 		disabled?: boolean;
-		fill?: Temporal.Duration | null;
+		clearable?: boolean;
+		fillable?: Temporal.Duration | null;
 	}
 
-	let { id, name, value = $bindable(), fill, ...rest }: Props = $props();
+	let { id, name, value = $bindable(), clearable, fillable, disabled, readonly }: Props = $props();
+	const actionsAvailable = $derived(!disabled && !readonly);
 </script>
 
 <ButtonGroup.Root class="rounded-md bg-accent">
-	<Button
-		variant="secondary"
-		size="icon"
-		aria-label="Fill in zero time"
-		onclick={() => {
-			value = "0000";
-		}}
-	>
-		<AlarmClockOffIcon />
-	</Button>
+	{#if clearable}
+		<Button
+			variant="secondary"
+			size="icon"
+			aria-label="Fill in zero time"
+			onclick={() => {
+				value = "0000";
+			}}
+			disabled={!actionsAvailable}
+		>
+			<AlarmClockOffIcon />
+		</Button>
+	{/if}
 	<InputOTP.Root
 		{id}
 		maxlength={4}
 		{name}
 		pattern={REGEXP_ONLY_DIGITS}
 		bind:value={() => value.toString(), (v) => (value = v)}
-		{...rest}
+		{disabled}
+		{readonly}
 	>
 		{#snippet children({ cells })}
 			<InputOTP.Group>
@@ -47,16 +53,16 @@
 			</InputOTP.Group>
 		{/snippet}
 	</InputOTP.Root>
-	{#if fill !== undefined}
+	{#if fillable !== undefined}
 		<Button
 			variant="secondary"
 			size="icon"
 			aria-label="Fill in total time"
-			disabled={fill === null}
+			disabled={fillable === null || !actionsAvailable}
 			onclick={() => {
-				if (!fill) return;
+				if (!fillable) return;
 
-				value = joinDuration(fill);
+				value = joinDuration(fillable);
 			}}
 		>
 			<ClockIcon />

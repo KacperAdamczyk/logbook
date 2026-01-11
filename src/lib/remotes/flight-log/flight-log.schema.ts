@@ -1,14 +1,13 @@
 import { parseDuration } from "$lib/utils/parse-duration";
+import { Temporal } from "@js-temporal/polyfill";
 import { z } from "zod";
 
 const timeSchema = z.stringFormat("time", /^(?:[01]\d|2[0-3])[0-5]\d$/);
 const durationSchema = z.stringFormat("duration", /^\d\d[0-5]\d$/).transform(parseDuration);
-
-export const flightLogConfigurations = [
-	"single-pilot-single-engine",
-	"single-pilot-multi-engine",
-	"multi-pilot",
-] as const;
+const optionalDurationSchema = z.union([
+	durationSchema,
+	z.literal("").transform(() => Temporal.Duration.from({ minutes: 0 })),
+]);
 
 export const flightLogSchema = z.object({
 	date: z.iso.date(),
@@ -23,15 +22,15 @@ export const flightLogSchema = z.object({
 	pilotInCommandName: z.string().min(1),
 	// Flight time details
 	totalFlightTime: durationSchema,
-	configuration: z.enum(flightLogConfigurations),
-	singlePilotTime: durationSchema.optional(),
-	multiPilotTime: durationSchema.optional(),
-	operationalConditionNightTime: durationSchema.optional(),
-	operationalConditionIfrTime: durationSchema.optional(),
-	functionPilotInCommandTime: durationSchema.optional(),
-	functionCoPilotTime: durationSchema.optional(),
-	functionDualTime: durationSchema.optional(),
-	functionInstructorTime: durationSchema.optional(),
+	singlePilotSingleEngineTime: optionalDurationSchema,
+	singlePilotMultiEngineTime: optionalDurationSchema,
+	multiPilotTime: optionalDurationSchema,
+	operationalConditionNightTime: optionalDurationSchema,
+	operationalConditionIfrTime: optionalDurationSchema,
+	functionPilotInCommandTime: optionalDurationSchema,
+	functionCoPilotTime: optionalDurationSchema,
+	functionDualTime: optionalDurationSchema,
+	functionInstructorTime: optionalDurationSchema,
 	// Additional details
 	takeoffsDay: z.number().int().min(0).optional(),
 	takeoffsNight: z.number().int().min(0).optional(),
