@@ -41,10 +41,10 @@ export const createFlightLog = createDbAction(
 	) => {
 		try {
 			return db.transaction(async (tx) => {
-				const departureDate = Temporal.PlainDateTime.from(date).withPlainTime(
+				const departureDate = Temporal.ZonedDateTime.from(date).withPlainTime(
 					parseTime(departureTime),
 				);
-				const arrivalDate = Temporal.PlainDateTime.from(date).withPlainTime(parseTime(arrivalTime));
+				const arrivalDate = Temporal.ZonedDateTime.from(date).withPlainTime(parseTime(arrivalTime));
 
 				const overlappingLogs = await findOverlappingLogs(tx, {
 					userId,
