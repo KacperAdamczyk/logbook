@@ -10,4 +10,5 @@ export const simulatorLog = sqliteTable("simulator_log", {
 	date: integer({ mode: "timestamp_ms" }).notNull(),
 	type: text().notNull(),
 	totalTime: integer().notNull(),
+	remarks: text().notNull(),
 });

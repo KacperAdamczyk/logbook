@@ -7,6 +7,7 @@
 	import { DatePicker } from "$lib/components/date-picker";
 	import Input from "$lib/components/ui/input/input.svelte";
 	import TimeInput from "$lib/components/time-input/time-input.svelte";
+	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
 
 	interface Props {
 		remote: RemoteForm<SimulatorLogSchemaInput, void>;
@@ -46,6 +47,15 @@
 			<FieldWrapper label="Total Time" errors={remote.fields.totalTime.issues()}>
 				{#snippet children(id)}
 					<TimeInput {id} {...remote.fields.totalTime.as("text")} />
+				{/snippet}
+			</FieldWrapper>
+		</Field.Group>
+
+		<!-- Remarks -->
+		<Field.Group>
+			<FieldWrapper label="Remarks" errors={remote.fields.remarks.issues()}>
+				{#snippet children(id)}
+					<Textarea {id} {...remote.fields.remarks.as("text")} />
 				{/snippet}
 			</FieldWrapper>
 		</Field.Group>

@@ -7,6 +7,7 @@ export const simulatorLogSchema = z.object({
 	date: z.iso.date(),
 	type: z.string().min(1),
 	totalTime: durationSchema,
+	remarks: z.string(),
 });
 
 export type SimulatorLogSchemaInput = z.input<typeof simulatorLogSchema>;
