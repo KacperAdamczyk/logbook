@@ -8,8 +8,26 @@
 		CardTitle,
 	} from "$lib/components/ui/card";
 	import { getFlightLog } from "$lib/remotes/flight-log/get-flight-log/get-flight-log.remote";
+	import { Temporal } from "@js-temporal/polyfill";
+	import { formatMinutesToTime } from "$lib/utils/parse-duration";
 
 	const flightLog = $derived(await getFlightLog(page.params.id!));
+
+	const departureInstant = $derived(
+		Temporal.Instant.fromEpochMilliseconds(flightLog.departureAt.getTime()),
+	);
+	const departureTimeUTC = $derived(departureInstant.toZonedDateTimeISO("UTC").toLocaleString());
+	const departureTimeLocal = $derived(
+		departureInstant.toZonedDateTimeISO(Temporal.Now.timeZoneId()).toLocaleString(),
+	);
+
+	const arrivalInstant = $derived(
+		Temporal.Instant.fromEpochMilliseconds(flightLog.arrivalAt.getTime()),
+	);
+	const arrivalTimeUTC = $derived(arrivalInstant.toZonedDateTimeISO("UTC").toLocaleString());
+	const arrivalTimeLocal = $derived(
+		arrivalInstant.toZonedDateTimeISO(Temporal.Now.timeZoneId()).toLocaleString(),
+	);
 </script>
 
 <div class="p-6">
@@ -26,14 +44,20 @@
 					<p class="text-sm text-muted-foreground">Departure</p>
 					<p class="font-medium">{flightLog.departurePlace?.name}</p>
 					<p class="text-sm text-muted-foreground">
-						{new Date(flightLog.departureAt).toLocaleString()}
+						{departureTimeUTC}
+					</p>
+					<p class="text-xs text-muted-foreground">
+						{departureTimeLocal}
 					</p>
 				</div>
 				<div>
 					<p class="text-sm text-muted-foreground">Arrival</p>
 					<p class="font-medium">{flightLog.arrivalPlace?.name}</p>
 					<p class="text-sm text-muted-foreground">
-						{new Date(flightLog.arrivalAt).toLocaleString()}
+						{arrivalTimeUTC}
+					</p>
+					<p class="text-xs text-muted-foreground">
+						{arrivalTimeLocal}
 					</p>
 				</div>
 			</div>
@@ -55,19 +79,19 @@
 				<div class="grid grid-cols-2 gap-2 text-sm md:grid-cols-4">
 					<div>
 						<p class="text-muted-foreground">Total</p>
-						<p class="font-medium">{flightLog.totalFlightTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.totalFlightTime)}</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">SP/SE</p>
-						<p class="font-medium">{flightLog.singlePilotSingleEngineTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.singlePilotSingleEngineTime)}</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">SP/ME</p>
-						<p class="font-medium">{flightLog.singlePilotMultiEngineTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.singlePilotMultiEngineTime)}</p>
 					</div>
 					<div>
-						<p class="text-muted-foreground">Multi-Pilot</p>
-						<p class="font-medium">{flightLog.multiPilotTime} min</p>
+						<p class="text-muted-foreground">MP</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.multiPilotTime)}</p>
 					</div>
 				</div>
 			</div>
@@ -77,11 +101,13 @@
 				<div class="grid grid-cols-2 gap-2 text-sm">
 					<div>
 						<p class="text-muted-foreground">Night</p>
-						<p class="font-medium">{flightLog.operationalConditionNightTime} min</p>
+						<p class="font-medium">
+							{formatMinutesToTime(flightLog.operationalConditionNightTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">IFR</p>
-						<p class="font-medium">{flightLog.operationalConditionIfrTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.operationalConditionIfrTime)}</p>
 					</div>
 				</div>
 			</div>
@@ -91,19 +117,19 @@
 				<div class="grid grid-cols-2 gap-2 text-sm md:grid-cols-4">
 					<div>
 						<p class="text-muted-foreground">PIC</p>
-						<p class="font-medium">{flightLog.functionPilotInCommandTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.functionPilotInCommandTime)}</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">Co-Pilot</p>
-						<p class="font-medium">{flightLog.functionCoPilotTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.functionCoPilotTime)}</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">Dual</p>
-						<p class="font-medium">{flightLog.functionDualTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.functionDualTime)}</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">Instructor</p>
-						<p class="font-medium">{flightLog.functionInstructorTime} min</p>
+						<p class="font-medium">{formatMinutesToTime(flightLog.functionInstructorTime)}</p>
 					</div>
 				</div>
 			</div>
