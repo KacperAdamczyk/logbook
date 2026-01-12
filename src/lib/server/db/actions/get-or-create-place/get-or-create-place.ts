@@ -2,7 +2,7 @@ import { createDbAction } from "$lib/server/db/actions/createDbAction";
 import { place } from "$lib/server/db/schema";
 
 export const getOrCreatePlace = createDbAction(async (db, userId: string, name: string) => {
-	const uppercaseName = name.toLocaleUpperCase();
+	const uppercaseName = name.toUpperCase();
 
 	const existingPlace = await db.query.place.findFirst({
 		where: { userId, name: uppercaseName },

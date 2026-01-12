@@ -5,4 +5,3 @@ export * from "./pilot";
 export * from "./place";
 export * from "./simulator-log";
 export * from "./log";
-export * from "./relations";

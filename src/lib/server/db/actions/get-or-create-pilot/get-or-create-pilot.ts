@@ -2,7 +2,7 @@ import { createDbAction } from "$lib/server/db/actions/createDbAction";
 import { pilot } from "$lib/server/db/schema";
 
 export const getOrCreatePilot = createDbAction(async (db, userId: string, name: string) => {
-	const uppercaseName = name.toLocaleUpperCase();
+	const uppercaseName = name.toUpperCase();
 
 	const existingPilot = await db.query.pilot.findFirst({
 		where: { userId, name: uppercaseName },

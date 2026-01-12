@@ -38,13 +38,13 @@ import { form, query, getRequestEvent } from "$app/server";
 
 // Query function - fetches data
 export const getUser = query(async () => {
-  const { request } = getRequestEvent();
-  // ...
+	const { request } = getRequestEvent();
+	// ...
 });
 
 // Form function - handles form submissions with Zod validation
 export const signIn = form(signInSchema, async (data, issue) => {
-  // issue() for validation errors, use invalid() to return
+	// issue() for validation errors, use invalid() to return
 });
 ```
 
@@ -54,7 +54,7 @@ Business logic in `src/lib/server/db/actions/`. Each action is wrapped with `cre
 
 ```typescript
 export const getOrCreatePilot = createDbAction(async (db, userId: string, name: string) => {
-  // ...
+	// ...
 });
 ```
 

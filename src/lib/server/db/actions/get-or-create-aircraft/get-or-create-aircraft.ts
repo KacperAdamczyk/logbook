@@ -3,8 +3,8 @@ import { aircraft } from "$lib/server/db/schema";
 
 export const getOrCreateAircraft = createDbAction(
 	async (db, userId: string, registration: string, model: string) => {
-		const uppercaseRegistration = registration.toLocaleUpperCase();
-		const uppercaseModel = model.toLocaleUpperCase();
+		const uppercaseRegistration = registration.toUpperCase();
+		const uppercaseModel = model.toUpperCase();
 
 		const existingAircraft = await db.query.aircraft.findFirst({
 			where: { userId, model: uppercaseModel, registration: uppercaseRegistration },
