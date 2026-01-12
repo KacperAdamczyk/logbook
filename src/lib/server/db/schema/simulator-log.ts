@@ -8,4 +8,6 @@ export const simulatorLog = sqliteTable("simulator_log", {
 		.notNull()
 		.references(() => user.id),
 	date: integer({ mode: "timestamp_ms" }).notNull(),
+	type: text().notNull(),
+	totalTime: integer().notNull(),
 });
