@@ -41,11 +41,10 @@ export const createFlightLog = createDbAction(
 	) => {
 		try {
 			return db.transaction(async (tx) => {
-				const departureDate = Temporal.ZonedDateTime.from(date).withPlainTime(
-					parseTime(departureTime),
-				);
-				const arrivalDate = Temporal.ZonedDateTime.from(date).withPlainTime(parseTime(arrivalTime));
+				const day = Temporal.ZonedDateTime.from(`${date}[UTC]`);
 
+				const departureDate = day.withPlainTime(parseTime(departureTime));
+				const arrivalDate = day.withPlainTime(parseTime(arrivalTime));
 				const overlappingLogs = await findOverlappingLogs(tx, {
 					userId,
 					departureAt: departureDate,
@@ -55,23 +54,18 @@ export const createFlightLog = createDbAction(
 				if (overlappingLogs.length > 0) throw new Error("Flight log overlaps with existing logs");
 
 				const [departurePlace, arrivalPlace, aircraft, pilotInCommand] = await Promise.all([
-					getOrCreatePlace(tx, userId, departurePlaceName.toLocaleUpperCase()),
-					getOrCreatePlace(tx, userId, arrivalPlaceName.toLocaleUpperCase()),
-					getOrCreateAircraft(
-						tx,
-						userId,
-						aircraftRegistration.toLocaleUpperCase(),
-						aircraftModel.toLocaleUpperCase(),
-					),
-					getOrCreatePilot(tx, userId, pilotInCommandName.toLocaleUpperCase()),
+					getOrCreatePlace(tx, userId, departurePlaceName),
+					getOrCreatePlace(tx, userId, arrivalPlaceName),
+					getOrCreateAircraft(tx, userId, aircraftRegistration, aircraftModel),
+					getOrCreatePilot(tx, userId, pilotInCommandName),
 				]);
 
 				const [newFlightLog] = await tx
 					.insert(flightLog)
 					.values({
 						userId,
-						departureAt: new Date(departureDate.toString()),
-						arrivalAt: new Date(arrivalDate.toString()),
+						departureAt: new Date(departureDate.toInstant().epochMilliseconds),
+						arrivalAt: new Date(arrivalDate.toInstant().epochMilliseconds),
 						departurePlaceId: departurePlace.id,
 						arrivalPlaceId: arrivalPlace.id,
 						aircraftId: aircraft.id,

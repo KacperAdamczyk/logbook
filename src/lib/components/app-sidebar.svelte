@@ -1,136 +1,44 @@
 <script lang="ts" module>
-	import AudioWaveformIcon from "@lucide/svelte/icons/audio-waveform";
+	import type { Pathname } from "$app/types";
 	import BookOpenIcon from "@lucide/svelte/icons/book-open";
-	import BotIcon from "@lucide/svelte/icons/bot";
-	import ChartPieIcon from "@lucide/svelte/icons/chart-pie";
-	import CommandIcon from "@lucide/svelte/icons/command";
-	import FrameIcon from "@lucide/svelte/icons/frame";
+	import ChartBarIcon from "@lucide/svelte/icons/chart-bar";
 	import GalleryVerticalEndIcon from "@lucide/svelte/icons/gallery-vertical-end";
-	import MapIcon from "@lucide/svelte/icons/map";
-	import Settings2Icon from "@lucide/svelte/icons/settings-2";
-	import SquareTerminalIcon from "@lucide/svelte/icons/square-terminal";
+	import LayoutDashboardIcon from "@lucide/svelte/icons/layout-dashboard";
+	import MapPinIcon from "@lucide/svelte/icons/map-pin";
+	import PlaneIcon from "@lucide/svelte/icons/plane";
+	import UsersIcon from "@lucide/svelte/icons/users";
 
-	// This is sample data.
 	const data = {
-		teams: [
-			{
-				name: "Acme Inc",
-				logo: GalleryVerticalEndIcon,
-				plan: "Enterprise",
-			},
-			{
-				name: "Acme Corp.",
-				logo: AudioWaveformIcon,
-				plan: "Startup",
-			},
-			{
-				name: "Evil Corp.",
-				logo: CommandIcon,
-				plan: "Free",
-			},
-		],
 		navMain: [
 			{
-				title: "Playground",
-				url: "#",
-				icon: SquareTerminalIcon,
-				isActive: true,
-				items: [
-					{
-						title: "History",
-						url: "#",
-					},
-					{
-						title: "Starred",
-						url: "#",
-					},
-					{
-						title: "Settings",
-						url: "#",
-					},
-				],
+				title: "Dashboard",
+				url: "/" as const satisfies Pathname,
+				icon: LayoutDashboardIcon,
 			},
 			{
-				title: "Models",
-				url: "#",
-				icon: BotIcon,
-				items: [
-					{
-						title: "Genesis",
-						url: "#",
-					},
-					{
-						title: "Explorer",
-						url: "#",
-					},
-					{
-						title: "Quantum",
-						url: "#",
-					},
-				],
-			},
-			{
-				title: "Documentation",
-				url: "#",
+				title: "Logs",
+				url: "/logs" as const satisfies Pathname,
 				icon: BookOpenIcon,
-				items: [
-					{
-						title: "Introduction",
-						url: "#",
-					},
-					{
-						title: "Get Started",
-						url: "#",
-					},
-					{
-						title: "Tutorials",
-						url: "#",
-					},
-					{
-						title: "Changelog",
-						url: "#",
-					},
-				],
 			},
 			{
-				title: "Settings",
-				url: "#",
-				icon: Settings2Icon,
-				items: [
-					{
-						title: "General",
-						url: "#",
-					},
-					{
-						title: "Team",
-						url: "#",
-					},
-					{
-						title: "Billing",
-						url: "#",
-					},
-					{
-						title: "Limits",
-						url: "#",
-					},
-				],
-			},
-		],
-		projects: [
-			{
-				name: "Design Engineering",
-				url: "#",
-				icon: FrameIcon,
+				title: "Places",
+				url: "/places" as const satisfies Pathname,
+				icon: MapPinIcon,
 			},
 			{
-				name: "Sales & Marketing",
-				url: "#",
-				icon: ChartPieIcon,
+				title: "Pilots",
+				url: "/pilots" as const satisfies Pathname,
+				icon: UsersIcon,
 			},
 			{
-				name: "Travel",
-				url: "#",
-				icon: MapIcon,
+				title: "Aircraft",
+				url: "/aircraft" as const satisfies Pathname,
+				icon: PlaneIcon,
+			},
+			{
+				title: "Statistics",
+				url: "/statistics" as const satisfies Pathname,
+				icon: ChartBarIcon,
 			},
 		],
 	};
@@ -138,7 +46,6 @@
 
 <script lang="ts">
 	import NavMain from "./nav-main.svelte";
-	import NavProjects from "./nav-projects.svelte";
 	import NavUser from "./nav-user.svelte";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import ModeSelector from "$lib/components/mode-selector.svelte";
@@ -167,7 +74,6 @@
 	</Sidebar.Header>
 	<Sidebar.Content>
 		<NavMain items={data.navMain} />
-		<NavProjects projects={data.projects} />
 	</Sidebar.Content>
 	<Sidebar.Footer>
 		<NavUser {user} />

@@ -3,8 +3,11 @@ import { aircraft } from "$lib/server/db/schema";
 
 export const getOrCreateAircraft = createDbAction(
 	async (db, userId: string, registration: string, model: string) => {
+		const uppercaseRegistration = registration.toUpperCase();
+		const uppercaseModel = model.toUpperCase();
+
 		const existingAircraft = await db.query.aircraft.findFirst({
-			where: { userId, model, registration },
+			where: { userId, model: uppercaseModel, registration: uppercaseRegistration },
 		});
 
 		if (existingAircraft) {
@@ -12,7 +15,7 @@ export const getOrCreateAircraft = createDbAction(
 		}
 
 		const aircraftWithSameRegistration = await db.query.aircraft.findFirst({
-			where: { userId, registration },
+			where: { userId, registration: uppercaseRegistration },
 		});
 
 		if (aircraftWithSameRegistration) {
@@ -21,7 +24,7 @@ export const getOrCreateAircraft = createDbAction(
 
 		const [newAircraft] = await db
 			.insert(aircraft)
-			.values({ userId, registration, model })
+			.values({ userId, registration: uppercaseRegistration, model: uppercaseModel })
 			.returning();
 
 		return newAircraft;
