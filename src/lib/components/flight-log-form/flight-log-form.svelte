@@ -15,7 +15,7 @@
 	import { joinDuration } from "$lib/utils/join-duration";
 
 	interface Props {
-		remote: RemoteForm<FlightLogSchemaInput, unknown>;
+		remote: RemoteForm<FlightLogSchemaInput, void>;
 	}
 
 	const { remote }: Props = $props();
