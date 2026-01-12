@@ -12,7 +12,7 @@ userTest("creates a new pilot if one does not exist", async ({ db, testUser, exp
 		where: { userId: testUser.id },
 	});
 
-	expect(pilot.name).toBe(pilotName);
+	expect(pilot.name).toBe(pilotName.toUpperCase());
 	expect(pilotsAfter).toHaveLength(pilotsBefore.length + 1);
 });
 
@@ -23,5 +23,5 @@ userTest("returns existing pilot if one already exists", async ({ db, testUser, 
 	const secondPilot = await getOrCreatePilot(db, testUser.id, pilotName);
 
 	expect(firstPilot.id).toBe(secondPilot.id);
-	expect(firstPilot.name).toBe(pilotName);
+	expect(firstPilot.name).toBe(pilotName.toUpperCase());
 });

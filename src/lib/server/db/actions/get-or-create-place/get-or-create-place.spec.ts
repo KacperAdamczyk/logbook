@@ -12,7 +12,7 @@ userTest("creates a new place if one does not exist", async ({ db, testUser, exp
 		where: { userId: testUser.id },
 	});
 
-	expect(place.name).toBe(placeName);
+	expect(place.name).toBe(placeName.toUpperCase());
 	expect(placesAfter).toHaveLength(placesBefore.length + 1);
 });
 
@@ -23,5 +23,5 @@ userTest("returns existing place if one already exists", async ({ db, testUser, 
 	const secondPlace = await getOrCreatePlace(db, testUser.id, placeName);
 
 	expect(firstPlace.id).toBe(secondPlace.id);
-	expect(firstPlace.name).toBe(placeName);
+	expect(firstPlace.name).toBe(placeName.toUpperCase());
 });

@@ -13,8 +13,8 @@ userTest("creates a new aircraft if one does not exist", async ({ db, testUser, 
 		where: { userId: testUser.id },
 	});
 
-	expect(aircraft.registration).toBe(registration);
-	expect(aircraft.model).toBe(model);
+	expect(aircraft.registration).toBe(registration.toUpperCase());
+	expect(aircraft.model).toBe(model.toUpperCase());
 	expect(aircraftAfter).toHaveLength(aircraftBefore.length + 1);
 });
 
@@ -26,7 +26,7 @@ userTest("returns existing aircraft if one already exists", async ({ db, testUse
 	const secondAircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
 
 	expect(firstAircraft.id).toBe(secondAircraft.id);
-	expect(firstAircraft.registration).toBe(registration);
+	expect(firstAircraft.registration).toBe(registration.toUpperCase());
 });
 
 userTest(
