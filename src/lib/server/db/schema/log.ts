@@ -52,6 +52,9 @@ export const log = sqliteView("log").as((qb) =>
 			landingsNight: sql<number | null>`${flightLog.landingsNight}`.as("landingsNight"),
 			// Flight-specific: remarks
 			remarks: sql<string | null>`${flightLog.remarks}`.as("remarks"),
+			// Simulator-specific (NULL for flights)
+			simulatorType: sql<string | null>`NULL`.as("simulatorType"),
+			simulatorTotalTime: sql<number | null>`NULL`.as("simulatorTotalTime"),
 		})
 		.from(flightLog)
 		.unionAll(
@@ -91,6 +94,9 @@ export const log = sqliteView("log").as((qb) =>
 					landingsNight: sql<number | null>`NULL`.as("landingsNight"),
 					// Flight-specific: remarks (NULL for simulator)
 					remarks: sql<string | null>`NULL`.as("remarks"),
+					// Simulator-specific
+					simulatorType: sql<string | null>`${simulatorLog.type}`.as("simulatorType"),
+					simulatorTotalTime: sql<number | null>`${simulatorLog.totalTime}`.as("simulatorTotalTime"),
 				})
 				.from(simulatorLog),
 		),

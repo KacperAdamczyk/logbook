@@ -5,7 +5,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import { DrizzleError } from "drizzle-orm";
 
 export const createSimulatorLog = createDbAction(
-	async (db, userId: string, { date, type, totalTime }: SimulatorLogSchemaOutput) => {
+	async (db, userId: string, { date, type, totalTime, remarks }: SimulatorLogSchemaOutput) => {
 		try {
 			return db.transaction(async (tx) => {
 				const day = Temporal.ZonedDateTime.from(`${date}[UTC]`);
@@ -17,6 +17,7 @@ export const createSimulatorLog = createDbAction(
 						date: new Date(day.toInstant().epochMilliseconds),
 						type,
 						totalTime: totalTime.total("minutes"),
+						remarks,
 					})
 					.returning();
 
