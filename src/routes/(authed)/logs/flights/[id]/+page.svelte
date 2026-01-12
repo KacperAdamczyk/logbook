@@ -79,19 +79,27 @@
 				<div class="grid grid-cols-2 gap-2 text-sm md:grid-cols-4">
 					<div>
 						<p class="text-muted-foreground">Total</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.totalFlightTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.totalFlightTime > 0}>
+							{formatMinutesToTime(flightLog.totalFlightTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">SP/SE</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.singlePilotSingleEngineTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.singlePilotSingleEngineTime > 0}>
+							{formatMinutesToTime(flightLog.singlePilotSingleEngineTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">SP/ME</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.singlePilotMultiEngineTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.singlePilotMultiEngineTime > 0}>
+							{formatMinutesToTime(flightLog.singlePilotMultiEngineTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">MP</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.multiPilotTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.multiPilotTime > 0}>
+							{formatMinutesToTime(flightLog.multiPilotTime)}
+						</p>
 					</div>
 				</div>
 			</div>
@@ -101,13 +109,18 @@
 				<div class="grid grid-cols-2 gap-2 text-sm">
 					<div>
 						<p class="text-muted-foreground">Night</p>
-						<p class="font-medium">
+						<p
+							class="font-medium"
+							class:text-green-600={flightLog.operationalConditionNightTime > 0}
+						>
 							{formatMinutesToTime(flightLog.operationalConditionNightTime)}
 						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">IFR</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.operationalConditionIfrTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.operationalConditionIfrTime > 0}>
+							{formatMinutesToTime(flightLog.operationalConditionIfrTime)}
+						</p>
 					</div>
 				</div>
 			</div>
@@ -117,19 +130,27 @@
 				<div class="grid grid-cols-2 gap-2 text-sm md:grid-cols-4">
 					<div>
 						<p class="text-muted-foreground">PIC</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.functionPilotInCommandTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.functionPilotInCommandTime > 0}>
+							{formatMinutesToTime(flightLog.functionPilotInCommandTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">Co-Pilot</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.functionCoPilotTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.functionCoPilotTime > 0}>
+							{formatMinutesToTime(flightLog.functionCoPilotTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">Dual</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.functionDualTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.functionDualTime > 0}>
+							{formatMinutesToTime(flightLog.functionDualTime)}
+						</p>
 					</div>
 					<div>
 						<p class="text-muted-foreground">Instructor</p>
-						<p class="font-medium">{formatMinutesToTime(flightLog.functionInstructorTime)}</p>
+						<p class="font-medium" class:text-green-600={flightLog.functionInstructorTime > 0}>
+							{formatMinutesToTime(flightLog.functionInstructorTime)}
+						</p>
 					</div>
 				</div>
 			</div>
