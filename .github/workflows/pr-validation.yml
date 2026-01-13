@@ -32,6 +32,13 @@ jobs:
       - name: Copy environment file
         run: cp ./.env.local.example ./.env.local
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v5
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
 

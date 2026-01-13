@@ -10,9 +10,9 @@ export const createFlightLog = form(flightLogSchema, async (data, issue) => {
 	const { user } = await getUser();
 
 	try {
-		await createFlightLogAction(db, user.id, data);
+		const { id } = await createFlightLogAction(db, user.id, data);
 
-		redirect(303, resolve("/"));
+		redirect(303, resolve(`/logs/flights/${id}`));
 	} catch (error) {
 		if (error instanceof Error) {
 			invalid(issue(error.message));

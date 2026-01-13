@@ -51,7 +51,10 @@ export const log = sqliteView("log").as((qb) =>
 			landingsDay: sql<number | null>`${flightLog.landingsDay}`.as("landingsDay"),
 			landingsNight: sql<number | null>`${flightLog.landingsNight}`.as("landingsNight"),
 			// Flight-specific: remarks
-			remarks: sql<string | null>`${flightLog.remarks}`.as("remarks"),
+			remarks: sql<string>`${flightLog.remarks}`.as("remarks"),
+			// Simulator-specific (NULL for flights)
+			simulatorType: sql<string | null>`NULL`.as("simulatorType"),
+			simulatorTotalTime: sql<number | null>`NULL`.as("simulatorTotalTime"),
 		})
 		.from(flightLog)
 		.unionAll(
@@ -89,8 +92,13 @@ export const log = sqliteView("log").as((qb) =>
 					takeoffsNight: sql<number | null>`NULL`.as("takeoffsNight"),
 					landingsDay: sql<number | null>`NULL`.as("landingsDay"),
 					landingsNight: sql<number | null>`NULL`.as("landingsNight"),
-					// Flight-specific: remarks (NULL for simulator)
-					remarks: sql<string | null>`NULL`.as("remarks"),
+					// Shared: remarks (mapped from simulatorLog for simulator entries)
+					remarks: sql<string>`${simulatorLog.remarks}`.as("remarks"),
+					// Simulator-specific
+					simulatorType: sql<string | null>`${simulatorLog.type}`.as("simulatorType"),
+					simulatorTotalTime: sql<number | null>`${simulatorLog.totalTime}`.as(
+						"simulatorTotalTime",
+					),
 				})
 				.from(simulatorLog),
 		),
