@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppBoundary from "$lib/components/app-boundary.svelte";
 	import AppSidebar from "$lib/components/app-sidebar.svelte";
 	import {
 		Breadcrumb,
@@ -39,6 +40,8 @@
 				</Breadcrumb>
 			</div>
 		</header>
-		{@render children()}
+		<AppBoundary>
+			{@render children?.()}
+		</AppBoundary>
 	</SidebarInset>
 </SidebarProvider>

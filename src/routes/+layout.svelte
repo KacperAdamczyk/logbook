@@ -3,8 +3,10 @@
 	import favicon from "$lib/assets/favicon.svg";
 	import { ModeWatcher } from "mode-watcher";
 	import { Toaster } from "$lib/components/ui/sonner";
+	import AppBoundary from "$lib/components/app-boundary.svelte";
+	import type { LayoutProps } from "./$types";
 
-	let { children } = $props();
+	let { children }: LayoutProps = $props();
 </script>
 
 <svelte:head>
@@ -13,5 +15,7 @@
 <div class="h-svh bg-muted px-2">
 	<ModeWatcher />
 	<Toaster richColors />
-	{@render children?.()}
+	<AppBoundary>
+		{@render children?.()}
+	</AppBoundary>
 </div>
