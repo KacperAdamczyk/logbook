@@ -34,7 +34,7 @@
 		"@vitest/browser-playwright": "4.0.16",
 		"bits-ui": "2.15.4",
 		"clsx": "2.1.1",
-		"drizzle-kit": "1.0.0-beta.10-42c284e",
+		"drizzle-kit": "1.0.0-beta.9-e89174b",
 		"drizzle-orm": "1.0.0-beta.10-42c284e",
 		"drizzle-seed": "1.0.0-beta.10-42c284e",
 		"eslint": "9.39.2",
