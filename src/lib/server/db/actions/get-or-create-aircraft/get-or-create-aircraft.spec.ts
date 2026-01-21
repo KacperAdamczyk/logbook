@@ -8,7 +8,7 @@ userTest("creates a new aircraft if one does not exist", async ({ db, testUser, 
 		where: { userId: testUser.id },
 	});
 
-	const aircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
+	const aircraft = await getOrCreateAircraft(db, testUser.id, model, registration);
 	const aircraftAfter = await db.query.aircraft.findMany({
 		where: { userId: testUser.id },
 	});
@@ -22,8 +22,8 @@ userTest("returns existing aircraft if one already exists", async ({ db, testUse
 	const registration = "N67890";
 	const model = "Piper PA-28";
 
-	const firstAircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
-	const secondAircraft = await getOrCreateAircraft(db, testUser.id, registration, model);
+	const firstAircraft = await getOrCreateAircraft(db, testUser.id, model, registration);
+	const secondAircraft = await getOrCreateAircraft(db, testUser.id, model, registration);
 
 	expect(firstAircraft.id).toBe(secondAircraft.id);
 	expect(firstAircraft.registration).toBe(registration.toUpperCase());
@@ -34,9 +34,9 @@ userTest(
 	async ({ db, testUser, expect }) => {
 		const registration = "N11111";
 
-		await getOrCreateAircraft(db, testUser.id, registration, "Cessna 172");
+		await getOrCreateAircraft(db, testUser.id, "Cessna 172", registration);
 
-		await expect(getOrCreateAircraft(db, testUser.id, registration, "Piper PA-28")).rejects.toThrow(
+		await expect(getOrCreateAircraft(db, testUser.id, "Piper PA-28", registration)).rejects.toThrow(
 			"An aircraft with the same registration already exists.",
 		);
 	},

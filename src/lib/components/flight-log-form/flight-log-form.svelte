@@ -57,26 +57,26 @@
 		value: name,
 		label: name,
 	}));
-	const aircraftRegistrationItems = aircraft.map(({ registration }) => ({
-		value: registration,
-		label: registration,
+	const aircraftModelItems = aircraft.map(({ model }) => ({
+		value: model,
+		label: model,
 	}));
-	const aircraftModelItems = $derived.by(() => {
-		const selectedRegistration = remote.fields.aircraftRegistration.value();
-		console.log("value", selectedRegistration);
+	const aircraftRegistrationItems = $derived.by(() => {
+		const selectedModel = remote.fields.aircraftModel.value();
+		console.log("value", selectedModel);
 
-		if (selectedRegistration) {
+		if (selectedModel) {
 			return aircraft
-				.filter(({ registration }) => registration === selectedRegistration)
-				.map(({ model }) => ({
-					value: model,
-					label: model,
+				.filter(({ model }) => model === selectedModel)
+				.map(({ registration }) => ({
+					value: registration,
+					label: registration,
 				}));
 		}
 		return [];
 	});
 
-	$inspect(remote.fields.aircraftRegistration.value());
+	$inspect(remote.fields.aircraftModel.value());
 </script>
 
 <Field.Set>
@@ -128,6 +128,16 @@
 
 		<!-- Aircraft: Model and Registration in same row -->
 		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
+			<FieldWrapper label="Aircraft Model" errors={remote.fields.aircraftModel.issues()}>
+				{#snippet children(id)}
+					<CreatableCombobox
+						{id}
+						{...remote.fields.aircraftModel.as("text")}
+						placeholder="Model"
+						items={aircraftModelItems}
+					/>
+				{/snippet}
+			</FieldWrapper>
 			<FieldWrapper
 				label="Aircraft Registration"
 				errors={remote.fields.aircraftRegistration.issues()}
@@ -138,16 +148,6 @@
 						{...remote.fields.aircraftRegistration.as("text")}
 						placeholder="Registration"
 						items={aircraftRegistrationItems}
-					/>
-				{/snippet}
-			</FieldWrapper>
-			<FieldWrapper label="Aircraft Model" errors={remote.fields.aircraftModel.issues()}>
-				{#snippet children(id)}
-					<CreatableCombobox
-						{id}
-						{...remote.fields.aircraftModel.as("text")}
-						placeholder="Model"
-						items={aircraftModelItems}
 					/>
 				{/snippet}
 			</FieldWrapper>
