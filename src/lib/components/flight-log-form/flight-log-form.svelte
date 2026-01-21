@@ -13,6 +13,10 @@
 	import { timeDifference } from "$lib/utils/time-difference";
 	import { parseTime } from "$lib/utils/parse-time";
 	import { joinDuration } from "$lib/utils/join-duration";
+	import { getAllPlaces } from "$lib/remotes/places/get-all-places/get-all-places.remote";
+	import { CreatableCombobox } from "$lib/components/creatable-combobox";
+	import { getAllAircraft } from "$lib/remotes/aircraft/get-all-aircraft/get-all-aircraft.remote";
+	import { getAllPilots } from "$lib/remotes/pilots/get-all-pilots/get-all-pilots.remote";
 
 	interface Props {
 		remote: RemoteForm<FlightLogSchemaInput, void>;
@@ -40,6 +44,39 @@
 	});
 
 	let selectedTab = $state("single-pilot-single-engine");
+
+	const places = await getAllPlaces();
+	const aircraft = await getAllAircraft();
+	const pilots = await getAllPilots();
+
+	const placeItems = places.map(({ name }) => ({
+		value: name,
+		label: name,
+	}));
+	const pilotItems = pilots.map(({ name }) => ({
+		value: name,
+		label: name,
+	}));
+	const aircraftRegistrationItems = aircraft.map(({ registration }) => ({
+		value: registration,
+		label: registration,
+	}));
+	const aircraftModelItems = $derived.by(() => {
+		const selectedRegistration = remote.fields.aircraftRegistration.value();
+		console.log("value", selectedRegistration);
+
+		if (selectedRegistration) {
+			return aircraft
+				.filter(({ registration }) => registration === selectedRegistration)
+				.map(({ model }) => ({
+					value: model,
+					label: model,
+				}));
+		}
+		return [];
+	});
+
+	$inspect(remote.fields.aircraftRegistration.value());
 </script>
 
 <Field.Set>
@@ -59,7 +96,12 @@
 		<Field.Group class="grid grid-cols-1 md:grid-cols-2">
 			<FieldWrapper label="Departure Place" errors={remote.fields.departurePlace.issues()}>
 				{#snippet children(id)}
-					<Input {id} {...remote.fields.departurePlace.as("text")} placeholder="ICAO" />
+					<CreatableCombobox
+						{id}
+						{...remote.fields.departurePlace.as("text")}
+						placeholder="ICAO"
+						items={placeItems}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Departure Time" errors={remote.fields.departureTime.issues()}>
@@ -69,7 +111,12 @@
 			</FieldWrapper>
 			<FieldWrapper label="Arrival Place" errors={remote.fields.arrivalPlace.issues()}>
 				{#snippet children(id)}
-					<Input {id} {...remote.fields.arrivalPlace.as("text")} placeholder="ICAO" />
+					<CreatableCombobox
+						{id}
+						{...remote.fields.arrivalPlace.as("text")}
+						placeholder="ICAO"
+						items={placeItems}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Arrival Time" errors={remote.fields.arrivalTime.issues()}>
@@ -86,12 +133,22 @@
 				errors={remote.fields.aircraftRegistration.issues()}
 			>
 				{#snippet children(id)}
-					<Input {id} {...remote.fields.aircraftRegistration.as("text")} />
+					<CreatableCombobox
+						{id}
+						{...remote.fields.aircraftRegistration.as("text")}
+						placeholder="Registration"
+						items={aircraftRegistrationItems}
+					/>
 				{/snippet}
 			</FieldWrapper>
 			<FieldWrapper label="Aircraft Model" errors={remote.fields.aircraftModel.issues()}>
 				{#snippet children(id)}
-					<Input {id} {...remote.fields.aircraftModel.as("text")} />
+					<CreatableCombobox
+						{id}
+						{...remote.fields.aircraftModel.as("text")}
+						placeholder="Model"
+						items={aircraftModelItems}
+					/>
 				{/snippet}
 			</FieldWrapper>
 		</Field.Group>
@@ -100,7 +157,12 @@
 		<Field.Group>
 			<FieldWrapper label="Pilot in Command" errors={remote.fields.pilotInCommandName.issues()}>
 				{#snippet children(id)}
-					<Input {id} {...remote.fields.pilotInCommandName.as("text")} />
+					<CreatableCombobox
+						{id}
+						{...remote.fields.pilotInCommandName.as("text")}
+						placeholder="Select or enter pilot name"
+						items={pilotItems}
+					/>
 				{/snippet}
 			</FieldWrapper>
 		</Field.Group>
