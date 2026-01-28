@@ -57,12 +57,12 @@
 		value: name,
 		label: name,
 	}));
-	const aircraftModelItems = Array.from(
-		new Set(aircraft.map(({ model }) => model))
-	).map((model) => ({
-		value: model,
-		label: model,
-	}));
+	const aircraftModelItems = Array.from(new Set(aircraft.map(({ model }) => model))).map(
+		(model) => ({
+			value: model,
+			label: model,
+		}),
+	);
 	const aircraftRegistrationItems = $derived.by(() => {
 		const selectedModel = remote.fields.aircraftModel.value();
 
