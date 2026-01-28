@@ -56,7 +56,7 @@ export const createFlightLog = createDbAction(
 				const [departurePlace, arrivalPlace, aircraft, pilotInCommand] = await Promise.all([
 					getOrCreatePlace(tx, userId, departurePlaceName),
 					getOrCreatePlace(tx, userId, arrivalPlaceName),
-					getOrCreateAircraft(tx, userId, aircraftRegistration, aircraftModel),
+					getOrCreateAircraft(tx, userId, aircraftModel, aircraftRegistration),
 					getOrCreatePilot(tx, userId, pilotInCommandName),
 				]);
 

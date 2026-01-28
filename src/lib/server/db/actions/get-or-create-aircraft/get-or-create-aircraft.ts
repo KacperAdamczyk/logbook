@@ -2,7 +2,7 @@ import { createDbAction } from "$lib/server/db/actions/createDbAction";
 import { aircraft } from "$lib/server/db/schema";
 
 export const getOrCreateAircraft = createDbAction(
-	async (db, userId: string, registration: string, model: string) => {
+	async (db, userId: string, model: string, registration: string) => {
 		const uppercaseRegistration = registration.toUpperCase();
 		const uppercaseModel = model.toUpperCase();
 
