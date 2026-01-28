@@ -45,13 +45,24 @@
 			>
 				{#if value}
 					<div class="grow text-left">{value}</div>
-					<Button
-						variant="ghost"
+					<span
+						role="button"
+						tabindex="0"
+						aria-label="Clear selection"
 						onclick={(e) => {
 							value = "";
 							e.stopPropagation();
-						}}><ClearIcon class="opacity-50" /></Button
+						}}
+						onkeydown={(e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								value = "";
+								e.stopPropagation();
+								e.preventDefault();
+							}
+						}}
 					>
+						<ClearIcon class="opacity-50" />
+					</span>
 				{:else}
 					<span class="text-muted-foreground">{placeholder}</span>
 				{/if}
