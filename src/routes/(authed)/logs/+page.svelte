@@ -40,7 +40,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each logs as log}
+				{#each logs as log (log.id)}
 					<tr class="border-b transition-colors hover:bg-muted/50">
 						<td class="px-4 py-3 text-sm">{formatDate(log.date)}</td>
 						<td class="px-4 py-3 text-sm">
