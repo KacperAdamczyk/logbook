@@ -3,10 +3,11 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "$lib/server/db";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
+import { env } from "$env/dynamic/private";
 
 export const auth = betterAuth({
-	baseURL: "http://localhost:5173",
-	trustedOrigins: ["http://localhost:5173"],
+	baseURL: env.BETTER_AUTH_URL,
+	trustedOrigins: [env.BETTER_AUTH_URL],
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
 	}),

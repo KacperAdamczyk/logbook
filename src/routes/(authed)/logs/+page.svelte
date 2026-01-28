@@ -26,16 +26,17 @@
 	</div>
 
 	<div class="rounded-md border">
-		<table class="w-full border-collapse">
+		<table class="w-full border-collapse" aria-label="Flight and simulator logs">
+			<caption class="sr-only">List of all flight and simulator log entries</caption>
 			<thead>
 				<tr class="border-b bg-muted/50">
-					<th class="px-4 py-3 text-left text-sm font-medium">Date</th>
-					<th class="px-4 py-3 text-left text-sm font-medium">Type</th>
-					<th class="px-4 py-3 text-left text-sm font-medium">Departure</th>
-					<th class="px-4 py-3 text-left text-sm font-medium">Arrival</th>
-					<th class="px-4 py-3 text-left text-sm font-medium">Total Time</th>
-					<th class="px-4 py-3 text-left text-sm font-medium">PIC Time</th>
-					<th class="px-4 py-3 text-left text-sm font-medium">Remarks</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">Date</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">Type</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">Departure</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">Arrival</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">Total Time</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">PIC Time</th>
+					<th scope="col" class="px-4 py-3 text-left text-sm font-medium">Remarks</th>
 				</tr>
 			</thead>
 			<tbody>
