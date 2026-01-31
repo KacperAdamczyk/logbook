@@ -1,1 +1,1 @@
-export { default as LogsTable } from "./logs-table.svelte";
+export { default as LogsTable, type Log } from "./logs-table.svelte";

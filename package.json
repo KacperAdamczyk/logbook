@@ -63,8 +63,6 @@
 	"dependencies": {
 		"@js-temporal/polyfill": "0.5.1",
 		"@libsql/client": "0.17.0",
-		"@tanstack/svelte-table": "^8.21.3",
-		"@tanstack/table-core": "^8.21.3",
 		"better-auth": "1.4.17",
 		"nanoid": "5.1.6",
 		"zod": "4.3.5"
