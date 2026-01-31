@@ -39,7 +39,7 @@ export default defineConfig(
 		},
 	},
 	{
-		files: ["src/lib/components/ui/**"],
+		files: ["src/lib/components/ui/**", "src/lib/components/logs-table/**"],
 		rules: {
 			"svelte/no-navigation-without-resolve": "off",
 		},
