@@ -12,13 +12,11 @@
 		getAllPilots(),
 	]);
 
-	const places = $derived(new Map(placeList.map((place) => [place.id, place.name])));
-	const aircraft = $derived(
-		new Map(
-			aircraftList.map((item) => [item.id, { model: item.model, registration: item.registration }]),
-		),
+	const places = new Map(placeList.map((place) => [place.id, place.name]));
+	const aircraft = new Map(
+		aircraftList.map((item) => [item.id, { model: item.model, registration: item.registration }]),
 	);
-	const pilots = $derived(new Map(pilotList.map((item) => [item.id, item.name])));
+	const pilots = new Map(pilotList.map((item) => [item.id, item.name]));
 </script>
 
 <div class="p-6">
