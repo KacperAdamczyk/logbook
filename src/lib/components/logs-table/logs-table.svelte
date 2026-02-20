@@ -1,7 +1,6 @@
 <script lang="ts">
 	import * as Table from "$lib/components/ui/table";
 	import { goto } from "$app/navigation";
-	import LogTypeBadge from "./log-type-badge.svelte";
 	import LogTime from "./log-time.svelte";
 
 	export interface Log {
@@ -21,9 +20,10 @@
 	interface Props {
 		logs: Log[];
 		places: Map<string, string>;
+		aircraftById: Map<string, string>;
 	}
 
-	const { logs, places }: Props = $props();
+	const { logs, places, aircraftById }: Props = $props();
 	const dateFormatter = new Intl.DateTimeFormat();
 	const utcTimeFormatter = new Intl.DateTimeFormat(undefined, {
 		hour: "2-digit",
@@ -47,6 +47,14 @@
 		return dateFormatter.format(value);
 	}
 
+	function getAircraftModel(aircraftId: string | null): string {
+		if (!aircraftId) {
+			return "—";
+		}
+
+		return aircraftById.get(aircraftId) ?? "—";
+	}
+
 	function getPlaceName(placeId: string | null): string {
 		if (!placeId) {
 			return "—";
@@ -54,32 +62,59 @@
 
 		return places.get(placeId) ?? "—";
 	}
+
+	function formatRoute(departurePlaceId: string | null, arrivalPlaceId: string | null): string {
+		const from = getPlaceName(departurePlaceId);
+		const to = getPlaceName(arrivalPlaceId);
+
+		if (from === "—" && to === "—") {
+			return "—";
+		}
+
+		return `${from} → ${to}`;
+	}
 </script>
 
 <div class="rounded-md border">
 	<Table.Root>
 		<Table.Header>
 			<Table.Row>
-				<Table.Head>From</Table.Head>
-				<Table.Head>To</Table.Head>
 				<Table.Head>Date</Table.Head>
-				<Table.Head>Departure</Table.Head>
-				<Table.Head>Arrival</Table.Head>
-				<Table.Head>Total Flight Time</Table.Head>
-				<Table.Head>Type</Table.Head>
+				<Table.Head class="md:hidden">Route</Table.Head>
+				<Table.Head class="hidden md:table-cell">From</Table.Head>
+				<Table.Head class="hidden md:table-cell">Dep</Table.Head>
+				<Table.Head class="hidden md:table-cell">To</Table.Head>
+				<Table.Head class="hidden md:table-cell">Arr</Table.Head>
+				<Table.Head>TFT</Table.Head>
+				<Table.Head class="hidden md:table-cell">AC</Table.Head>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
 			{#each logs as log (log.id)}
 				<Table.Row
-					class={log.type === "flight" ? "cursor-pointer hover:bg-muted/50" : undefined}
+					class={log.type === "flight"
+						? "cursor-pointer border-l-4 border-l-blue-500"
+						: "border-l-4 border-l-amber-500"}
 					onclick={() => handleRowClick(log)}
+					title={log.type === "flight" ? "Flight log" : "Simulator log"}
+					aria-label={log.type === "flight" ? "Flight log" : "Simulator log"}
 				>
-					<Table.Cell class="font-mono text-sm">{getPlaceName(log.departurePlaceId)}</Table.Cell>
-					<Table.Cell class="font-mono text-sm">{getPlaceName(log.arrivalPlaceId)}</Table.Cell>
 					<Table.Cell>{formatDate(log.date)}</Table.Cell>
-					<Table.Cell class="font-mono text-sm">{formatUtcTime(log.departureAt)}</Table.Cell>
-					<Table.Cell class="font-mono text-sm">{formatUtcTime(log.arrivalAt)}</Table.Cell>
+					<Table.Cell class="font-mono text-sm md:hidden">
+						{formatRoute(log.departurePlaceId, log.arrivalPlaceId)}
+					</Table.Cell>
+					<Table.Cell class="hidden font-mono text-sm md:table-cell">
+						{getPlaceName(log.departurePlaceId)}
+					</Table.Cell>
+					<Table.Cell class="hidden font-mono text-sm md:table-cell">
+						{formatUtcTime(log.departureAt)}
+					</Table.Cell>
+					<Table.Cell class="hidden font-mono text-sm md:table-cell">
+						{getPlaceName(log.arrivalPlaceId)}
+					</Table.Cell>
+					<Table.Cell class="hidden font-mono text-sm md:table-cell">
+						{formatUtcTime(log.arrivalAt)}
+					</Table.Cell>
 					<Table.Cell>
 						<LogTime
 							type={log.type}
@@ -87,13 +122,13 @@
 							simulatorTotalTime={log.simulatorTotalTime}
 						/>
 					</Table.Cell>
-					<Table.Cell>
-						<LogTypeBadge type={log.type} />
+					<Table.Cell class="hidden md:table-cell">
+						{getAircraftModel(log.aircraftId)}
 					</Table.Cell>
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={7} class="h-24 text-center">No logs found.</Table.Cell>
+					<Table.Cell colspan={8} class="h-24 text-center">No logs found.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>
