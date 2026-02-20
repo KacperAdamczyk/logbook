@@ -8,6 +8,8 @@
 		id: string;
 		type: "flight" | "simulator";
 		date: Date;
+		departureAt: Date | null;
+		arrivalAt: Date | null;
 		departurePlaceId: string | null;
 		arrivalPlaceId: string | null;
 		aircraftId: string | null;
@@ -22,8 +24,13 @@
 	}
 
 	const { logs, places }: Props = $props();
-
-	const sortedData = $derived(logs.toSorted((a, b) => b.date.getTime() - a.date.getTime()));
+	const dateFormatter = new Intl.DateTimeFormat();
+	const utcTimeFormatter = new Intl.DateTimeFormat(undefined, {
+		hour: "2-digit",
+		minute: "2-digit",
+		hourCycle: "h23",
+		timeZone: "UTC",
+	});
 
 	function handleRowClick(log: Log) {
 		if (log.type === "flight") {
@@ -32,11 +39,12 @@
 		// TODO: Add simulator detail page navigation when available
 	}
 
-	function formatDateTime(date: Date): string {
-		return date.toLocaleString(undefined, {
-			dateStyle: "medium",
-			timeStyle: "short",
-		});
+	function formatUtcTime(value: Date | null): string {
+		return value ? utcTimeFormatter.format(value) : "—";
+	}
+
+	function formatDate(value: Date): string {
+		return dateFormatter.format(value);
 	}
 
 	function getPlaceName(placeId: string | null): string {
@@ -54,20 +62,24 @@
 			<Table.Row>
 				<Table.Head>From</Table.Head>
 				<Table.Head>To</Table.Head>
-				<Table.Head>Date & Time</Table.Head>
+				<Table.Head>Date</Table.Head>
+				<Table.Head>Departure</Table.Head>
+				<Table.Head>Arrival</Table.Head>
 				<Table.Head>Total Flight Time</Table.Head>
 				<Table.Head>Type</Table.Head>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{#each sortedData as log (log.id)}
+			{#each logs as log (log.id)}
 				<Table.Row
 					class={log.type === "flight" ? "cursor-pointer hover:bg-muted/50" : undefined}
 					onclick={() => handleRowClick(log)}
 				>
 					<Table.Cell class="font-mono text-sm">{getPlaceName(log.departurePlaceId)}</Table.Cell>
 					<Table.Cell class="font-mono text-sm">{getPlaceName(log.arrivalPlaceId)}</Table.Cell>
-					<Table.Cell>{formatDateTime(log.date)}</Table.Cell>
+					<Table.Cell>{formatDate(log.date)}</Table.Cell>
+					<Table.Cell class="font-mono text-sm">{formatUtcTime(log.departureAt)}</Table.Cell>
+					<Table.Cell class="font-mono text-sm">{formatUtcTime(log.arrivalAt)}</Table.Cell>
 					<Table.Cell>
 						<LogTime
 							type={log.type}
@@ -81,7 +93,7 @@
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={5} class="h-24 text-center">No logs found.</Table.Cell>
+					<Table.Cell colspan={7} class="h-24 text-center">No logs found.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>
