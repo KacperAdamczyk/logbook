@@ -9,8 +9,6 @@
 		CardHeader,
 		CardTitle,
 	} from "$lib/components/ui/card";
-
-	$inspect(page.error);
 </script>
 
 <div class="flex min-h-svh items-center justify-center">

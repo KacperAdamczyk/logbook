@@ -82,12 +82,8 @@ export const log = sqliteView("log").as((qb) =>
 					createdAt: simulatorLog.createdAt,
 					updatedAt: simulatorLog.updatedAt,
 					// Flight-specific: times (NULL for simulator)
-					departureAt: sql<Date | null>`NULL`
-						.mapWith(decodeNullableTimestampMs)
-						.as("departureAt"),
-					arrivalAt: sql<Date | null>`NULL`
-						.mapWith(decodeNullableTimestampMs)
-						.as("arrivalAt"),
+					departureAt: sql<Date | null>`NULL`.mapWith(decodeNullableTimestampMs).as("departureAt"),
+					arrivalAt: sql<Date | null>`NULL`.mapWith(decodeNullableTimestampMs).as("arrivalAt"),
 					// Flight-specific: foreign keys (NULL for simulator)
 					departurePlaceId: sql<string | null>`NULL`.as("departurePlaceId"),
 					arrivalPlaceId: sql<string | null>`NULL`.as("arrivalPlaceId"),

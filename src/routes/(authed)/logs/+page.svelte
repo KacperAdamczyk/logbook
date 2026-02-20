@@ -14,7 +14,9 @@
 
 	const places = $derived(new Map(placeList.map((place) => [place.id, place.name])));
 	const aircraft = $derived(
-		new Map(aircraftList.map((item) => [item.id, { model: item.model, registration: item.registration }])),
+		new Map(
+			aircraftList.map((item) => [item.id, { model: item.model, registration: item.registration }]),
+		),
 	);
 	const pilots = $derived(new Map(pilotList.map((item) => [item.id, item.name])));
 </script>
@@ -23,5 +25,5 @@
 	<h1 class="mb-2 text-2xl font-bold">Logs</h1>
 	<p class="mb-6 text-muted-foreground">View and manage your flight and simulator logs.</p>
 
-	<LogsTable logs={logs} {places} {aircraft} {pilots} />
+	<LogsTable {logs} {places} {aircraft} {pilots} />
 </div>
