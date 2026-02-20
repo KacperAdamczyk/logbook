@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Table from "$lib/components/ui/table";
 	import { goto } from "$app/navigation";
+	import { resolve } from "$app/paths";
 	import LogTime from "./log-time.svelte";
 
 	export interface Log {
@@ -35,10 +36,7 @@
 	});
 
 	function handleRowClick(log: Log) {
-		if (log.type === "flight") {
-			goto(`/logs/flights/${log.id}`);
-		}
-		// TODO: Add simulator detail page navigation when available
+		goto(resolve(`/logs/flights/${log.id}`));
 	}
 
 	function formatUtcTime(value: Date | null): string {
@@ -101,9 +99,15 @@
 				<Table.Head class="hidden lg:table-cell">Dep</Table.Head>
 				<Table.Head class="hidden md:table-cell">To</Table.Head>
 				<Table.Head class="hidden lg:table-cell">Arr</Table.Head>
-				<Table.Head>TFT</Table.Head>
-				<Table.Head class="hidden lg:table-cell">AC</Table.Head>
-				<Table.Head class="hidden md:table-cell">PIC</Table.Head>
+				<Table.Head>
+					<abbr title="Total flight time">TFT</abbr>
+				</Table.Head>
+				<Table.Head class="hidden lg:table-cell">
+					<abbr title="Aircraft">AC</abbr>
+				</Table.Head>
+				<Table.Head class="hidden md:table-cell">
+					<abbr title="Pilot in command">PIC</abbr>
+				</Table.Head>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
@@ -111,8 +115,8 @@
 				<Table.Row
 					class={log.type === "flight"
 						? "cursor-pointer border-l-4 border-l-blue-500"
-						: "border-l-4 border-l-amber-500 [&>td:first-child]:shadow-[inset_4px_0_0_0_#8b5cf6]"}
-					onclick={() => handleRowClick(log)}
+						: "border-l-4 border-l-amber-500 [&>td:first-child]:shadow-[inset_4px_0_0_0_#f59e0b]"}
+					onclick={log.type === "flight" ? () => handleRowClick(log) : undefined}
 					title={log.type === "flight" ? "Flight log" : "Simulator log"}
 					aria-label={log.type === "flight" ? "Flight log" : "Simulator log"}
 				>

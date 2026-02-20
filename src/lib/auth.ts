@@ -3,9 +3,18 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "$lib/server/db";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
+import { env } from "$env/dynamic/private";
+
+if (!env.TRUSTED_ORIGINS) {
+	throw new Error("Missing TRUSTED_ORIGINS environment variable");
+}
+
+const trustedOrigins = env.TRUSTED_ORIGINS.split(",")
+	.map((origin) => origin.trim())
+	.filter(Boolean);
 
 export const auth = betterAuth({
-	trustedOrigins: ["http://localhost:5173"],
+	trustedOrigins,
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
 	}),
