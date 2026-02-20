@@ -12,6 +12,7 @@
 		departurePlaceId: string | null;
 		arrivalPlaceId: string | null;
 		aircraftId: string | null;
+		pilotInCommandId: string | null;
 		totalFlightTime: number | null;
 		simulatorType: string | null;
 		simulatorTotalTime: number | null;
@@ -20,10 +21,11 @@
 	interface Props {
 		logs: Log[];
 		places: Map<string, string>;
-		aircraftById: Map<string, string>;
+		aircraft: Map<string, { model: string; registration: string }>;
+		pilots: Map<string, string>;
 	}
 
-	const { logs, places, aircraftById }: Props = $props();
+	const { logs, places, aircraft, pilots }: Props = $props();
 	const dateFormatter = new Intl.DateTimeFormat();
 	const utcTimeFormatter = new Intl.DateTimeFormat(undefined, {
 		hour: "2-digit",
@@ -47,12 +49,26 @@
 		return dateFormatter.format(value);
 	}
 
-	function getAircraftModel(aircraftId: string | null): string {
+	function getAircraftLabel(aircraftId: string | null): string {
 		if (!aircraftId) {
 			return "—";
 		}
 
-		return aircraftById.get(aircraftId) ?? "—";
+		const aircraftEntry = aircraft.get(aircraftId);
+
+		if (!aircraftEntry) {
+			return "—";
+		}
+
+		return `${aircraftEntry.model} / ${aircraftEntry.registration}`;
+	}
+
+	function getPilotName(pilotId: string | null): string {
+		if (!pilotId) {
+			return "—";
+		}
+
+		return pilots.get(pilotId) ?? "—";
 	}
 
 	function getPlaceName(placeId: string | null): string {
@@ -82,11 +98,12 @@
 				<Table.Head>Date</Table.Head>
 				<Table.Head class="md:hidden">Route</Table.Head>
 				<Table.Head class="hidden md:table-cell">From</Table.Head>
-				<Table.Head class="hidden md:table-cell">Dep</Table.Head>
+				<Table.Head class="hidden lg:table-cell">Dep</Table.Head>
 				<Table.Head class="hidden md:table-cell">To</Table.Head>
-				<Table.Head class="hidden md:table-cell">Arr</Table.Head>
+				<Table.Head class="hidden lg:table-cell">Arr</Table.Head>
 				<Table.Head>TFT</Table.Head>
-				<Table.Head class="hidden md:table-cell">AC</Table.Head>
+				<Table.Head class="hidden lg:table-cell">AC</Table.Head>
+				<Table.Head class="hidden md:table-cell">PIC</Table.Head>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
@@ -94,7 +111,7 @@
 				<Table.Row
 					class={log.type === "flight"
 						? "cursor-pointer border-l-4 border-l-blue-500"
-						: "border-l-4 border-l-amber-500"}
+						: "border-l-4 border-l-amber-500 [&>td:first-child]:shadow-[inset_4px_0_0_0_#8b5cf6]"}
 					onclick={() => handleRowClick(log)}
 					title={log.type === "flight" ? "Flight log" : "Simulator log"}
 					aria-label={log.type === "flight" ? "Flight log" : "Simulator log"}
@@ -106,13 +123,13 @@
 					<Table.Cell class="hidden font-mono text-sm md:table-cell">
 						{getPlaceName(log.departurePlaceId)}
 					</Table.Cell>
-					<Table.Cell class="hidden font-mono text-sm md:table-cell">
+					<Table.Cell class="hidden font-mono text-sm lg:table-cell">
 						{formatUtcTime(log.departureAt)}
 					</Table.Cell>
 					<Table.Cell class="hidden font-mono text-sm md:table-cell">
 						{getPlaceName(log.arrivalPlaceId)}
 					</Table.Cell>
-					<Table.Cell class="hidden font-mono text-sm md:table-cell">
+					<Table.Cell class="hidden font-mono text-sm lg:table-cell">
 						{formatUtcTime(log.arrivalAt)}
 					</Table.Cell>
 					<Table.Cell>
@@ -122,13 +139,16 @@
 							simulatorTotalTime={log.simulatorTotalTime}
 						/>
 					</Table.Cell>
+					<Table.Cell class="hidden lg:table-cell">
+						{getAircraftLabel(log.aircraftId)}
+					</Table.Cell>
 					<Table.Cell class="hidden md:table-cell">
-						{getAircraftModel(log.aircraftId)}
+						{getPilotName(log.pilotInCommandId)}
 					</Table.Cell>
 				</Table.Row>
 			{:else}
 				<Table.Row>
-					<Table.Cell colspan={8} class="h-24 text-center">No logs found.</Table.Cell>
+					<Table.Cell colspan={9} class="h-24 text-center">No logs found.</Table.Cell>
 				</Table.Row>
 			{/each}
 		</Table.Body>
