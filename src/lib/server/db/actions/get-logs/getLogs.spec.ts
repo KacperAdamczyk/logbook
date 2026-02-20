@@ -2,7 +2,7 @@ import { getLogs } from "$lib/server/db/actions/get-logs/get-logs";
 import { userTest, createTestFlightLog } from "$test/fixtures";
 import * as schema from "$lib/server/db/schema";
 
-userTest("returns logs from other users (excludes own logs)", async ({ db, testUser, expect }) => {
+userTest("returns logs for the specified user", async ({ db, testUser, expect }) => {
 	// Get another user
 	const users = await db.query.user.findMany({ limit: 2 });
 	if (users.length < 2) throw new Error("Need at least 2 test users");
@@ -61,14 +61,14 @@ userTest("returns logs from other users (excludes own logs)", async ({ db, testU
 		},
 	);
 
-	// getLogs returns logs from OTHER users (not the specified user)
+	// getLogs returns logs for the specified user only
 	const logs = await getLogs(db, testUser.id);
 
-	// Should not contain any of testUser's logs
+	// Should contain only testUser's logs
 	const ownLogs = logs.filter((log) => log.userId === testUser.id);
-	expect(ownLogs).toHaveLength(0);
+	expect(ownLogs.length).toBeGreaterThanOrEqual(1);
 
-	// Should contain at least the other user's log we created
+	// Should not contain other user's logs
 	const otherUserLogs = logs.filter((log) => log.userId === otherUser.id);
-	expect(otherUserLogs.length).toBeGreaterThanOrEqual(1);
+	expect(otherUserLogs).toHaveLength(0);
 });

@@ -3,18 +3,33 @@ import { sql } from "drizzle-orm";
 import { flightLog } from "./flight-log";
 import { simulatorLog } from "./simulator-log";
 
+const decodeTimestampMs = (value: unknown): Date => new Date(Number(value));
+const decodeNullableTimestampMs = (value: unknown): Date | null => {
+	if (value === null || value === undefined) {
+		return null;
+	}
+
+	return decodeTimestampMs(value);
+};
+
 export const log = sqliteView("log").as((qb) =>
 	qb
 		.select({
 			id: flightLog.id,
 			type: sql<"flight" | "simulator">`'flight'`.as("type"),
 			userId: flightLog.userId,
-			date: flightLog.departureAt.as("date"),
+			// Views/select SQL expressions don't automatically reuse timestamp decoders from table columns.
+			// mapWith keeps these fields as Date values, same as querying base tables directly.
+			date: sql<Date>`${flightLog.departureAt}`.mapWith(decodeTimestampMs).as("date"),
 			createdAt: flightLog.createdAt,
 			updatedAt: flightLog.updatedAt,
 			// Flight-specific: times
-			departureAt: sql<Date | null>`${flightLog.departureAt}`.as("departureAt"),
-			arrivalAt: sql<Date | null>`${flightLog.arrivalAt}`.as("arrivalAt"),
+			departureAt: sql<Date | null>`${flightLog.departureAt}`
+				.mapWith(decodeNullableTimestampMs)
+				.as("departureAt"),
+			arrivalAt: sql<Date | null>`${flightLog.arrivalAt}`
+				.mapWith(decodeNullableTimestampMs)
+				.as("arrivalAt"),
 			// Flight-specific: foreign keys
 			departurePlaceId: sql<string | null>`${flightLog.departurePlaceId}`.as("departurePlaceId"),
 			arrivalPlaceId: sql<string | null>`${flightLog.arrivalPlaceId}`.as("arrivalPlaceId"),
@@ -63,12 +78,12 @@ export const log = sqliteView("log").as((qb) =>
 					id: simulatorLog.id,
 					type: sql<"flight" | "simulator">`'simulator'`.as("type"),
 					userId: simulatorLog.userId,
-					date: simulatorLog.date,
+					date: sql<Date>`${simulatorLog.date}`.mapWith(decodeTimestampMs).as("date"),
 					createdAt: simulatorLog.createdAt,
 					updatedAt: simulatorLog.updatedAt,
 					// Flight-specific: times (NULL for simulator)
-					departureAt: sql<Date | null>`NULL`.as("departureAt"),
-					arrivalAt: sql<Date | null>`NULL`.as("arrivalAt"),
+					departureAt: sql<Date | null>`NULL`.mapWith(decodeNullableTimestampMs).as("departureAt"),
+					arrivalAt: sql<Date | null>`NULL`.mapWith(decodeNullableTimestampMs).as("arrivalAt"),
 					// Flight-specific: foreign keys (NULL for simulator)
 					departurePlaceId: sql<string | null>`NULL`.as("departurePlaceId"),
 					arrivalPlaceId: sql<string | null>`NULL`.as("arrivalPlaceId"),
