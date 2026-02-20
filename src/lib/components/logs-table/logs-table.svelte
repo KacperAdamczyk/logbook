@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Table from "$lib/components/ui/table";
 	import { goto } from "$app/navigation";
+	import { resolve } from "$app/paths";
 	import LogTime from "./log-time.svelte";
 
 	export interface Log {
@@ -35,7 +36,7 @@
 	});
 
 	function handleRowClick(log: Log) {
-		goto(`/logs/flights/${log.id}`);
+		goto(resolve(`/logs/flights/${log.id}`));
 	}
 
 	function formatUtcTime(value: Date | null): string {
