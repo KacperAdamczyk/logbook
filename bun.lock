@@ -21,7 +21,7 @@
         "@sveltejs/vite-plugin-svelte": "6.2.4",
         "@tailwindcss/vite": "4.1.18",
         "@vitest/browser-playwright": "4.0.18",
-        "bits-ui": "2.15.4",
+        "bits-ui": "2.15.6",
         "clsx": "2.1.1",
         "drizzle-kit": "1.0.0-beta.10-42c284e",
         "drizzle-orm": "1.0.0-beta.10-42c284e",
@@ -423,7 +423,7 @@
 
     "better-call": ["better-call@1.1.8", "", { "dependencies": { "@better-auth/utils": "^0.3.0", "@better-fetch/fetch": "^1.1.4", "rou3": "^0.7.10", "set-cookie-parser": "^2.7.1" }, "peerDependencies": { "zod": "^4.0.0" }, "optionalPeers": ["zod"] }, "sha512-XMQ2rs6FNXasGNfMjzbyroSwKwYbZ/T3IxruSS6U2MJRsSYh3wYtG3o6H00ZlKZ/C/UPOAD97tqgQJNsxyeTXw=="],
 
-    "bits-ui": ["bits-ui@2.15.4", "", { "dependencies": { "@floating-ui/core": "^1.7.1", "@floating-ui/dom": "^1.7.1", "esm-env": "^1.1.2", "runed": "^0.35.1", "svelte-toolbelt": "^0.10.6", "tabbable": "^6.2.0" }, "peerDependencies": { "@internationalized/date": "^3.8.1", "svelte": "^5.33.0" } }, "sha512-7H9YUfp03KOk1LVDh8wPYSRPxlZgG/GRWLNSA8QC73/8Z8ytun+DWJhIuibyFyz7A0cP/RANVcB4iDrbY8q+Og=="],
+    "bits-ui": ["bits-ui@2.15.6", "", { "dependencies": { "@floating-ui/core": "^1.7.1", "@floating-ui/dom": "^1.7.1", "esm-env": "^1.1.2", "runed": "^0.35.1", "svelte-toolbelt": "^0.10.6", "tabbable": "^6.2.0" }, "peerDependencies": { "@internationalized/date": "^3.8.1", "svelte": "^5.33.0" } }, "sha512-5WvnYjxNwPxzCkc+KM4hs3iz650pl8iXAp5e3XB4045N30Rw34uQf0DZ1IKc84eM7cS2U/DUIqL8XwU8FNg4hQ=="],
 
     "bl": ["bl@6.1.6", "", { "dependencies": { "@types/readable-stream": "^4.0.0", "buffer": "^6.0.3", "inherits": "^2.0.4", "readable-stream": "^4.2.0" } }, "sha512-jLsPgN/YSvPUg9UX0Kd73CXpm2Psg9FxMeCSXnk3WBO3CMT10JMwijubhGfHCnFu6TPn1ei3b975dxv7K2pWVg=="],
 
