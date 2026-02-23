@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { page } from "$app/state";
+	import { resolve } from "$app/paths";
 	import { LogsTable } from "$lib/components/logs-table";
 	import PaginationBar from "$lib/components/pagination-bar/pagination-bar.svelte";
 	import { getAllAircraft } from "$lib/remotes/aircraft/get-all-aircraft/get-all-aircraft.remote";
@@ -43,6 +44,7 @@
 			return;
 		}
 
+		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		await goto(buildPageHref(page.url, normalizedPage), {
 			keepFocus: true,
 			noScroll: true,
