@@ -60,7 +60,7 @@
 	}: ComponentProps<typeof Sidebar.Root> & { user: User } = $props();
 </script>
 
-<Sidebar.Root {collapsible} {...restProps}>
+<Sidebar.Root {collapsible} bind:ref {...restProps}>
 	<Sidebar.Header>
 		<div class="flex items-center justify-between gap-2 font-medium">
 			<div
