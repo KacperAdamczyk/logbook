@@ -16,7 +16,7 @@
 </script>
 
 {#if totalCount > 0}
-	<div class="mt-4 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
+	<div class="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start">
 		<p class="text-sm text-muted-foreground">Showing {startIndex}–{endIndex} of {totalCount}</p>
 
 		{#if totalCount > pageSize}

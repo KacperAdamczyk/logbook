@@ -9,24 +9,26 @@
 	import { getAllPlaces } from "$lib/remotes/places/get-all-places/get-all-places.remote";
 	import { buildPageHref, getPaginationRange, parsePageSearchParam } from "$lib/utils/pagination";
 
-	const PAGE_SIZE = 50;
+	const PAGE_SIZE = 25;
 
-	const currentPage = parsePageSearchParam(page.url.searchParams.get("page"));
+	const currentPage = $derived(parsePageSearchParam(page.url.searchParams.get("page")));
 
-	const [logsPage, placeList, aircraftList, pilotList] = await Promise.all([
-		getAllLogs({ page: currentPage, pageSize: PAGE_SIZE }),
+	const [placeList, aircraftList, pilotList] = await Promise.all([
 		getAllPlaces(),
 		getAllAircraft(),
 		getAllPilots(),
 	]);
-	const logs = logsPage.items;
-	const totalCount = logsPage.totalCount;
-	const { totalPages, startIndex, endIndex } = getPaginationRange({
-		currentPage,
-		pageSize: PAGE_SIZE,
-		totalCount,
-		itemCount: logs.length,
-	});
+	const logsPage = $derived(await getAllLogs({ page: currentPage, pageSize: PAGE_SIZE }));
+	const logs = $derived(logsPage.items);
+	const totalCount = $derived(logsPage.totalCount);
+	const { totalPages, startIndex, endIndex } = $derived(
+		getPaginationRange({
+			currentPage,
+			pageSize: PAGE_SIZE,
+			totalCount,
+			itemCount: logs.length,
+		}),
+	);
 
 	const places = new Map(placeList.map((place) => [place.id, place.name]));
 	const aircraft = new Map(
