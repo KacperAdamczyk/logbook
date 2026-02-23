@@ -53,7 +53,6 @@
 	import type { User } from "$lib/auth";
 
 	const {
-		ref = $bindable(null),
 		collapsible = "icon",
 		user,
 		...restProps
