@@ -62,7 +62,8 @@ userTest("returns logs for the specified user", async ({ db, testUser, expect })
 	);
 
 	// getLogs returns logs for the specified user only
-	const logs = await getLogs(db, testUser.id);
+	const result = await getLogs(db, testUser.id, { page: 1, pageSize: 50 });
+	const logs = result.items;
 
 	// Should contain only testUser's logs
 	const ownLogs = logs.filter((log) => log.userId === testUser.id);
@@ -71,4 +72,48 @@ userTest("returns logs for the specified user", async ({ db, testUser, expect })
 	// Should not contain other user's logs
 	const otherUserLogs = logs.filter((log) => log.userId === otherUser.id);
 	expect(otherUserLogs).toHaveLength(0);
+	expect(result.totalCount).toBe(ownLogs.length);
 });
+
+userTest(
+	"applies page and pageSize while returning totalCount",
+	async ({ db, testUser, expect }) => {
+		const [aircraft] = await db
+			.insert(schema.aircraft)
+			.values({ userId: testUser.id, registration: "N33333", model: "Cessna 172" })
+			.returning();
+		const [pilot] = await db
+			.insert(schema.pilot)
+			.values({ userId: testUser.id, name: "Pagination Pilot" })
+			.returning();
+		const [place] = await db
+			.insert(schema.place)
+			.values({ userId: testUser.id, name: "KSEA" })
+			.returning();
+
+		for (let day = 1; day <= 3; day++) {
+			await createTestFlightLog(
+				db,
+				testUser.id,
+				new Date(`2024-01-0${day}T10:00:00Z`),
+				new Date(`2024-01-0${day}T11:00:00Z`),
+				{
+					aircraftId: aircraft.id,
+					pilotId: pilot.id,
+					placeId: place.id,
+				},
+			);
+		}
+
+		const pageOne = await getLogs(db, testUser.id, { page: 1, pageSize: 2 });
+		const pageTwo = await getLogs(db, testUser.id, { page: 2, pageSize: 2 });
+
+		expect(pageOne.items).toHaveLength(2);
+		expect(pageTwo.totalCount).toBe(pageOne.totalCount);
+		expect(pageOne.totalCount).toBe(3);
+		expect(pageOne.items[0]?.date.getTime()).toBeGreaterThan(pageOne.items[1]?.date.getTime() ?? 0);
+		expect(pageTwo.items).toHaveLength(1);
+		expect(pageOne.items.map((log) => log.id)).not.toContain(pageTwo.items[0]?.id);
+		expect(pageOne.items[1]?.date.getTime()).toBeGreaterThan(pageTwo.items[0]?.date.getTime() ?? 0);
+	},
+);
