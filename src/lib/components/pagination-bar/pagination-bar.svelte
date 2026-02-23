@@ -11,12 +11,21 @@
 		onPageChange: (page: number) => void | Promise<void>;
 	}
 
-	const { totalCount, pageSize, currentPage, totalPages, startIndex, endIndex, onPageChange }: Props =
-		$props();
+	const {
+		totalCount,
+		pageSize,
+		currentPage,
+		totalPages,
+		startIndex,
+		endIndex,
+		onPageChange,
+	}: Props = $props();
 </script>
 
 {#if totalCount > 0}
-	<div class="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start">
+	<div
+		class="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start"
+	>
 		<p class="text-sm text-muted-foreground">Showing {startIndex}–{endIndex} of {totalCount}</p>
 
 		{#if totalCount > pageSize}

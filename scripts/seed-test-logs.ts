@@ -199,9 +199,7 @@ async function main() {
 				const multiPilotTime = rng.next() < 0.23 ? Math.min(duration - 5, rng.int(15, 90)) : 0;
 				const singleTime = duration - multiPilotTime;
 				const singlePilotMultiEngineTime =
-					/(Baron|DA42)/.test(aircraftRow.model) && singleTime > 0
-						? rng.int(0, singleTime)
-						: 0;
+					/(Baron|DA42)/.test(aircraftRow.model) && singleTime > 0 ? rng.int(0, singleTime) : 0;
 				const singlePilotSingleEngineTime = singleTime - singlePilotMultiEngineTime;
 
 				const functionCoPilotTime =
