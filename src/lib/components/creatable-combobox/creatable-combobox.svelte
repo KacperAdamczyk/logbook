@@ -17,7 +17,14 @@
 		maxVisibleItems?: number;
 	}
 
-	let { id, name, items, value = $bindable(""), placeholder, maxVisibleItems = 50 }: Props = $props();
+	let {
+		id,
+		name,
+		items,
+		value = $bindable(""),
+		placeholder,
+		maxVisibleItems = 50,
+	}: Props = $props();
 
 	let open = $state(false);
 	let triggerRef = $state<HTMLButtonElement>(null!);
