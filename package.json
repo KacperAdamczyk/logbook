@@ -36,7 +36,7 @@
 		"drizzle-orm": "1.0.0-beta.15-859cf75",
 		"mode-watcher": "1.1.0",
 		"svelte-sonner": "1.0.7",
-		"tailwind-merge": "3.4.1",
+		"tailwind-merge": "3.5.0",
 		"tailwind-variants": "3.2.2"
 	},
 	"devDependencies": {
