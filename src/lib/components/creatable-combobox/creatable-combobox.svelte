@@ -14,9 +14,17 @@
 		items: { value: string; label: string }[];
 		value: string | number;
 		placeholder: string;
+		maxVisibleItems?: number;
 	}
 
-	let { id, name, items, value = $bindable(""), placeholder }: Props = $props();
+	let {
+		id,
+		name,
+		items,
+		value = $bindable(""),
+		placeholder,
+		maxVisibleItems = 50,
+	}: Props = $props();
 
 	let open = $state(false);
 	let triggerRef = $state<HTMLButtonElement>(null!);
@@ -30,6 +38,22 @@
 			triggerRef.focus();
 		});
 	}
+
+	const normalizedQuery = $derived(value.toString().trim().toLowerCase());
+	const filteredItems = $derived.by(() => {
+		if (!normalizedQuery) {
+			return items;
+		}
+
+		return items.filter((item) => {
+			const valueMatch = item.value.toLowerCase().includes(normalizedQuery);
+			const labelMatch = item.label.toLowerCase().includes(normalizedQuery);
+
+			return valueMatch || labelMatch;
+		});
+	});
+	const visibleItems = $derived(filteredItems.slice(0, maxVisibleItems));
+	const hasMoreMatches = $derived(filteredItems.length > maxVisibleItems);
 </script>
 
 <input type="hidden" {id} {name} bind:value />
@@ -83,7 +107,7 @@
 			/>
 			<Command.List>
 				<Command.Group value="frameworks">
-					{#each items as item (item.value)}
+					{#each visibleItems as item (item.value)}
 						<Command.Item
 							value={item.value}
 							onSelect={() => {
@@ -96,6 +120,11 @@
 						</Command.Item>
 					{/each}
 				</Command.Group>
+				{#if hasMoreMatches}
+					<div class="px-2 py-1.5 text-xs text-muted-foreground">
+						Showing first {maxVisibleItems} matches. Keep typing to narrow.
+					</div>
+				{/if}
 			</Command.List>
 		</Command.Root>
 	</Popover.Content>
