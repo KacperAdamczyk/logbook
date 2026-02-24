@@ -99,6 +99,7 @@
 						{id}
 						{...remote.fields.departurePlace.as("text")}
 						placeholder="ICAO"
+						maxVisibleItems={50}
 						items={placeItems}
 					/>
 				{/snippet}
@@ -114,6 +115,7 @@
 						{id}
 						{...remote.fields.arrivalPlace.as("text")}
 						placeholder="ICAO"
+						maxVisibleItems={50}
 						items={placeItems}
 					/>
 				{/snippet}
@@ -133,6 +135,7 @@
 						{id}
 						{...remote.fields.aircraftModel.as("text")}
 						placeholder="Model"
+						maxVisibleItems={50}
 						items={aircraftModelItems}
 					/>
 				{/snippet}
@@ -146,6 +149,7 @@
 						{id}
 						{...remote.fields.aircraftRegistration.as("text")}
 						placeholder="Registration"
+						maxVisibleItems={50}
 						items={aircraftRegistrationItems}
 					/>
 				{/snippet}
@@ -160,6 +164,7 @@
 						{id}
 						{...remote.fields.pilotInCommandName.as("text")}
 						placeholder="Select or enter pilot name"
+						maxVisibleItems={50}
 						items={pilotItems}
 					/>
 				{/snippet}
