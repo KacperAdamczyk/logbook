@@ -91,9 +91,6 @@
 </script>
 
 <div class="p-6">
-	<h1 class="mb-2 text-2xl font-bold">Logs</h1>
-	<p class="mb-6 text-muted-foreground">View and manage your flight and simulator logs.</p>
-
 	<LogsFilters
 		{filters}
 		hasFilters={hasFilters}
