@@ -2,6 +2,10 @@ import { getLogs } from "$lib/server/db/actions/get-logs/get-logs";
 import type { DB } from "$lib/server/db";
 import { userTest, createTestFlightLog } from "$test/fixtures";
 import * as schema from "$lib/server/db/schema";
+import { Temporal } from "@js-temporal/polyfill";
+
+const utcDate = (value: string): Date =>
+	new Date(Temporal.Instant.from(value).epochMilliseconds);
 
 async function createFlightLogWithRoute(
 	db: DB,
@@ -200,29 +204,29 @@ userTest("applies inclusive UTC date range filters", async ({ db, testUser, expe
 	const before = await createTestFlightLog(
 		db,
 		testUser.id,
-		new Date("2024-02-28T23:00:00Z"),
-		new Date("2024-02-28T23:50:00Z"),
+		utcDate("2024-02-28T23:00:00Z"),
+		utcDate("2024-02-28T23:50:00Z"),
 		{ aircraftId: aircraft.id, pilotId: pilot.id, placeId: place.id },
 	);
 	const fromBoundary = await createTestFlightLog(
 		db,
 		testUser.id,
-		new Date("2024-03-01T00:00:00Z"),
-		new Date("2024-03-01T01:00:00Z"),
+		utcDate("2024-03-01T00:00:00Z"),
+		utcDate("2024-03-01T01:00:00Z"),
 		{ aircraftId: aircraft.id, pilotId: pilot.id, placeId: place.id },
 	);
 	const toBoundary = await createTestFlightLog(
 		db,
 		testUser.id,
-		new Date("2024-03-03T23:59:59.000Z"),
-		new Date("2024-03-04T00:59:59.000Z"),
+		utcDate("2024-03-03T23:59:59.000Z"),
+		utcDate("2024-03-04T00:59:59.000Z"),
 		{ aircraftId: aircraft.id, pilotId: pilot.id, placeId: place.id },
 	);
 	const after = await createTestFlightLog(
 		db,
 		testUser.id,
-		new Date("2024-03-04T00:00:00Z"),
-		new Date("2024-03-04T01:00:00Z"),
+		utcDate("2024-03-04T00:00:00Z"),
+		utcDate("2024-03-04T01:00:00Z"),
 		{ aircraftId: aircraft.id, pilotId: pilot.id, placeId: place.id },
 	);
 
@@ -261,24 +265,24 @@ userTest("filters by departure and arrival place independently", async ({ db, te
 		.returning();
 
 	const routeAB = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-04-01T09:00:00Z"),
-		arrivalAt: new Date("2024-04-01T10:00:00Z"),
+		departureAt: utcDate("2024-04-01T09:00:00Z"),
+		arrivalAt: utcDate("2024-04-01T10:00:00Z"),
 		departurePlaceId: placeA.id,
 		arrivalPlaceId: placeB.id,
 		aircraftId: aircraft.id,
 		pilotInCommandId: pilot.id,
 	});
 	const routeCB = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-04-02T09:00:00Z"),
-		arrivalAt: new Date("2024-04-02T10:00:00Z"),
+		departureAt: utcDate("2024-04-02T09:00:00Z"),
+		arrivalAt: utcDate("2024-04-02T10:00:00Z"),
 		departurePlaceId: placeC.id,
 		arrivalPlaceId: placeB.id,
 		aircraftId: aircraft.id,
 		pilotInCommandId: pilot.id,
 	});
 	const routeAC = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-04-03T09:00:00Z"),
-		arrivalAt: new Date("2024-04-03T10:00:00Z"),
+		departureAt: utcDate("2024-04-03T09:00:00Z"),
+		arrivalAt: utcDate("2024-04-03T10:00:00Z"),
 		departurePlaceId: placeA.id,
 		arrivalPlaceId: placeC.id,
 		aircraftId: aircraft.id,
@@ -325,24 +329,24 @@ userTest("filters by pilot in command and aircraft", async ({ db, testUser, expe
 		.returning();
 
 	const matchPilot = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-05-01T08:00:00Z"),
-		arrivalAt: new Date("2024-05-01T09:00:00Z"),
+		departureAt: utcDate("2024-05-01T08:00:00Z"),
+		arrivalAt: utcDate("2024-05-01T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftA.id,
 		pilotInCommandId: pilotA.id,
 	});
 	const matchAircraft = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-05-02T08:00:00Z"),
-		arrivalAt: new Date("2024-05-02T09:00:00Z"),
+		departureAt: utcDate("2024-05-02T08:00:00Z"),
+		arrivalAt: utcDate("2024-05-02T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftB.id,
 		pilotInCommandId: pilotB.id,
 	});
 	await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-05-03T08:00:00Z"),
-		arrivalAt: new Date("2024-05-03T09:00:00Z"),
+		departureAt: utcDate("2024-05-03T08:00:00Z"),
+		arrivalAt: utcDate("2024-05-03T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftA.id,
@@ -394,24 +398,24 @@ userTest("applies combined filters with AND semantics and paginates filtered res
 
 	// Three matching rows to verify filtered pagination.
 	const match1 = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-06-01T08:00:00Z"),
-		arrivalAt: new Date("2024-06-01T09:00:00Z"),
+		departureAt: utcDate("2024-06-01T08:00:00Z"),
+		arrivalAt: utcDate("2024-06-01T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftMatch.id,
 		pilotInCommandId: pilotMatch.id,
 	});
 	const match2 = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-06-02T08:00:00Z"),
-		arrivalAt: new Date("2024-06-02T09:00:00Z"),
+		departureAt: utcDate("2024-06-02T08:00:00Z"),
+		arrivalAt: utcDate("2024-06-02T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftMatch.id,
 		pilotInCommandId: pilotMatch.id,
 	});
 	const match3 = await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-06-03T08:00:00Z"),
-		arrivalAt: new Date("2024-06-03T09:00:00Z"),
+		departureAt: utcDate("2024-06-03T08:00:00Z"),
+		arrivalAt: utcDate("2024-06-03T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftMatch.id,
@@ -420,24 +424,24 @@ userTest("applies combined filters with AND semantics and paginates filtered res
 
 	// Non-matching rows.
 	await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-06-02T10:00:00Z"),
-		arrivalAt: new Date("2024-06-02T11:00:00Z"),
+		departureAt: utcDate("2024-06-02T10:00:00Z"),
+		arrivalAt: utcDate("2024-06-02T11:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftOther.id,
 		pilotInCommandId: pilotMatch.id,
 	});
 	await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-06-02T12:00:00Z"),
-		arrivalAt: new Date("2024-06-02T13:00:00Z"),
+		departureAt: utcDate("2024-06-02T12:00:00Z"),
+		arrivalAt: utcDate("2024-06-02T13:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftMatch.id,
 		pilotInCommandId: pilotOther.id,
 	});
 	await createFlightLogWithRoute(db, testUser.id, {
-		departureAt: new Date("2024-05-31T08:00:00Z"),
-		arrivalAt: new Date("2024-05-31T09:00:00Z"),
+		departureAt: utcDate("2024-05-31T08:00:00Z"),
+		arrivalAt: utcDate("2024-05-31T09:00:00Z"),
 		departurePlaceId: place.id,
 		arrivalPlaceId: place.id,
 		aircraftId: aircraftMatch.id,
@@ -480,11 +484,11 @@ userTest("date-only filters include simulator logs, flight-specific filters excl
 	const flight = await createTestFlightLog(
 		db,
 		testUser.id,
-		new Date("2024-07-10T10:00:00Z"),
-		new Date("2024-07-10T11:00:00Z"),
+		utcDate("2024-07-10T10:00:00Z"),
+		utcDate("2024-07-10T11:00:00Z"),
 		{ aircraftId: aircraft.id, pilotId: pilot.id, placeId: place.id },
 	);
-	const simulator = await createTestSimulatorLog(db, testUser.id, new Date("2024-07-11T00:00:00Z"));
+	const simulator = await createTestSimulatorLog(db, testUser.id, utcDate("2024-07-11T00:00:00Z"));
 
 	const dateOnly = await getLogs(db, testUser.id, {
 		page: 1,

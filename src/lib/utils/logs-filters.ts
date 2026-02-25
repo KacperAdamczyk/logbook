@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface LogsListFilters {
 	dateFrom?: string;
 	dateTo?: string;
@@ -7,23 +9,19 @@ export interface LogsListFilters {
 	aircraftId?: string;
 }
 
-const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const isoDateSchema = z.iso.date();
 
 const FILTER_PARAM_MAP = {
-	dateFrom: "dateFrom",
-	dateTo: "dateTo",
-	departurePlaceId: "departurePlaceId",
-	arrivalPlaceId: "arrivalPlaceId",
-	pilotInCommandId: "pilotInCommandId",
-	aircraftId: "aircraftId",
+	dateFrom: "from",
+	dateTo: "to",
+	departurePlaceId: "departure",
+	arrivalPlaceId: "arrival",
+	pilotInCommandId: "pic",
+	aircraftId: "aircraft",
 } as const satisfies Record<keyof LogsListFilters, string>;
 
 function isValidIsoDate(value: string): boolean {
-	if (!ISO_DATE_PATTERN.test(value)) {
-		return false;
-	}
-
-	return !Number.isNaN(Date.parse(`${value}T00:00:00.000Z`));
+	return isoDateSchema.safeParse(value).success;
 }
 
 function normalizeOptionalString(value: string | null): string | undefined {
@@ -66,20 +64,6 @@ export function normalizeLogsListFilters(filters: LogsListFilters): LogsListFilt
 		pilotInCommandId: normalizeOptionalString(filters.pilotInCommandId ?? null),
 		aircraftId: normalizeOptionalString(filters.aircraftId ?? null),
 	};
-}
-
-export function areLogsFiltersEqual(a: LogsListFilters, b: LogsListFilters): boolean {
-	const left = normalizeLogsListFilters(a);
-	const right = normalizeLogsListFilters(b);
-
-	return (
-		left.dateFrom === right.dateFrom &&
-		left.dateTo === right.dateTo &&
-		left.departurePlaceId === right.departurePlaceId &&
-		left.arrivalPlaceId === right.arrivalPlaceId &&
-		left.pilotInCommandId === right.pilotInCommandId &&
-		left.aircraftId === right.aircraftId
-	);
 }
 
 export function hasActiveLogsFilters(filters: LogsListFilters): boolean {

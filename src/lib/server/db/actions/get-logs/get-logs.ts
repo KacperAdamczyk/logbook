@@ -2,6 +2,7 @@ import { and, count, desc, eq, gte, lt } from "drizzle-orm";
 import { createDbAction } from "$lib/server/db/actions/createDbAction";
 import { log } from "$lib/server/db/schema/log";
 import type { LogsListFilters } from "$lib/utils/logs-filters";
+import { Temporal } from "@js-temporal/polyfill";
 
 interface GetLogsParams {
 	page: number;
@@ -10,11 +11,14 @@ interface GetLogsParams {
 }
 
 function parseUtcDateStart(isoDate: string): Date {
-	return new Date(`${isoDate}T00:00:00.000Z`);
+	return new Date(Temporal.ZonedDateTime.from(`${isoDate}T00:00:00+00:00[UTC]`).epochMilliseconds);
 }
 
 function addDaysUtc(date: Date, days: number): Date {
-	return new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+	return new Date(
+		Temporal.Instant.fromEpochMilliseconds(date.getTime()).toZonedDateTimeISO("UTC").add({ days })
+			.epochMilliseconds,
+	);
 }
 
 export const getLogs = createDbAction(
