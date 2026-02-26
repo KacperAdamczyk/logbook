@@ -42,9 +42,7 @@
 			return "Details";
 		}
 
-		return decoded
-			.replace(/[-_]+/g, " ")
-			.replace(/\b\w/g, (letter) => letter.toUpperCase());
+		return decoded.replace(/[-_]+/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 	}
 
 	const breadcrumbItems = $derived.by(() => {

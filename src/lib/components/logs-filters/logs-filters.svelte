@@ -3,6 +3,7 @@
 	import { Input } from "$lib/components/ui/input";
 	import { Label } from "$lib/components/ui/label";
 	import type { LogsListFilters } from "$lib/utils/logs-filters";
+	import { SvelteURLSearchParams } from "svelte/reactivity";
 
 	export interface FilterSelectOption {
 		id: string;
@@ -41,7 +42,7 @@
 		}
 
 		const formData = new FormData(form);
-		const searchParams = new URLSearchParams();
+		const searchParams = new SvelteURLSearchParams();
 
 		for (const [key, rawValue] of formData.entries()) {
 			if (typeof rawValue !== "string") {
@@ -60,7 +61,12 @@
 	}
 </script>
 
-<form method="GET" action={page.url.pathname} class="mb-6 rounded-md border p-4" onsubmit={submitFilters}>
+<form
+	method="GET"
+	action={page.url.pathname}
+	class="mb-6 rounded-md border p-4"
+	onsubmit={submitFilters}
+>
 	<div class="mb-3 flex items-center justify-between gap-2">
 		<h2 class="text-sm font-semibold">Filters</h2>
 		<div class="flex items-center gap-3">
