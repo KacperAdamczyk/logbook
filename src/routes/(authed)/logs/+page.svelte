@@ -97,14 +97,13 @@
 <div class="p-6">
 	<LogsFilters
 		{filters}
-		hasFilters={hasFilters}
+		{hasFilters}
 		{placeOptions}
 		{pilotOptions}
 		{aircraftOptions}
-		onSubmitFilters={onSubmitFilters}
+		{onSubmitFilters}
 		onClearFilters={clearFilters}
 	/>
-
 	<LogsTable {logs} {places} {aircraft} {pilots} />
 	<PaginationBar
 		{totalCount}
