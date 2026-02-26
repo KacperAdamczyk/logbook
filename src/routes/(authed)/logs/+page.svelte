@@ -81,6 +81,10 @@
 		});
 	}
 
+	async function onSubmitFilters(searchParams: URLSearchParams): Promise<void> {
+		await navigateToFilters(parseLogsFiltersSearchParams(searchParams));
+	}
+
 	async function clearFilters(): Promise<void> {
 		if (!hasFilters) {
 			return;
@@ -97,7 +101,7 @@
 		{placeOptions}
 		{pilotOptions}
 		{aircraftOptions}
-		onApplyFilters={navigateToFilters}
+		onSubmitFilters={onSubmitFilters}
 		onClearFilters={clearFilters}
 	/>
 

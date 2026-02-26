@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from "$app/state";
 	import { Input } from "$lib/components/ui/input";
 	import { Label } from "$lib/components/ui/label";
 	import type { LogsListFilters } from "$lib/utils/logs-filters";
@@ -14,7 +15,7 @@
 		placeOptions: FilterSelectOption[];
 		pilotOptions: FilterSelectOption[];
 		aircraftOptions: FilterSelectOption[];
-		onApplyFilters: (filters: LogsListFilters) => void | Promise<void>;
+		onSubmitFilters: (searchParams: URLSearchParams) => void | Promise<void>;
 		onClearFilters: () => void | Promise<void>;
 	}
 
@@ -24,24 +25,12 @@
 		placeOptions,
 		pilotOptions,
 		aircraftOptions,
-		onApplyFilters,
+		onSubmitFilters,
 		onClearFilters,
 	}: Props = $props();
 
 	const selectClass =
 		"flex h-9 w-full min-w-0 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs ring-offset-background transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
-
-	function getFormValue(formData: FormData, key: keyof LogsListFilters): string | undefined {
-		const value = formData.get(key);
-
-		if (typeof value !== "string") {
-			return undefined;
-		}
-
-		const normalized = value.trim();
-
-		return normalized || undefined;
-	}
 
 	async function submitFilters(event: SubmitEvent): Promise<void> {
 		event.preventDefault();
@@ -52,18 +41,26 @@
 		}
 
 		const formData = new FormData(form);
-		await onApplyFilters({
-			dateFrom: getFormValue(formData, "dateFrom"),
-			dateTo: getFormValue(formData, "dateTo"),
-			departurePlaceId: getFormValue(formData, "departurePlaceId"),
-			arrivalPlaceId: getFormValue(formData, "arrivalPlaceId"),
-			pilotInCommandId: getFormValue(formData, "pilotInCommandId"),
-			aircraftId: getFormValue(formData, "aircraftId"),
-		});
+		const searchParams = new URLSearchParams();
+
+		for (const [key, rawValue] of formData.entries()) {
+			if (typeof rawValue !== "string") {
+				continue;
+			}
+
+			const value = rawValue.trim();
+			if (!value) {
+				continue;
+			}
+
+			searchParams.set(key, value);
+		}
+
+		await onSubmitFilters(searchParams);
 	}
 </script>
 
-<form class="mb-6 rounded-md border p-4" onsubmit={submitFilters}>
+<form method="GET" action={page.url.pathname} class="mb-6 rounded-md border p-4" onsubmit={submitFilters}>
 	<div class="mb-3 flex items-center justify-between gap-2">
 		<h2 class="text-sm font-semibold">Filters</h2>
 		<div class="flex items-center gap-3">
@@ -87,19 +84,19 @@
 	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-6">
 		<div class="space-y-1">
 			<Label for="logs-filter-date-from">Date from</Label>
-			<Input id="logs-filter-date-from" name="dateFrom" type="date" value={filters.dateFrom ?? ""} />
+			<Input id="logs-filter-date-from" name="from" type="date" value={filters.dateFrom ?? ""} />
 		</div>
 
 		<div class="space-y-1">
 			<Label for="logs-filter-date-to">Date to</Label>
-			<Input id="logs-filter-date-to" name="dateTo" type="date" value={filters.dateTo ?? ""} />
+			<Input id="logs-filter-date-to" name="to" type="date" value={filters.dateTo ?? ""} />
 		</div>
 
 		<div class="space-y-1">
 			<Label for="logs-filter-departure">Departure</Label>
 			<select
 				id="logs-filter-departure"
-				name="departurePlaceId"
+				name="departure"
 				class={selectClass}
 				value={filters.departurePlaceId ?? ""}
 			>
@@ -114,7 +111,7 @@
 			<Label for="logs-filter-arrival">Arrival</Label>
 			<select
 				id="logs-filter-arrival"
-				name="arrivalPlaceId"
+				name="arrival"
 				class={selectClass}
 				value={filters.arrivalPlaceId ?? ""}
 			>
@@ -129,7 +126,7 @@
 			<Label for="logs-filter-pic">PIC</Label>
 			<select
 				id="logs-filter-pic"
-				name="pilotInCommandId"
+				name="pic"
 				class={selectClass}
 				value={filters.pilotInCommandId ?? ""}
 			>
@@ -144,7 +141,7 @@
 			<Label for="logs-filter-aircraft">Aircraft</Label>
 			<select
 				id="logs-filter-aircraft"
-				name="aircraftId"
+				name="aircraft"
 				class={selectClass}
 				value={filters.aircraftId ?? ""}
 			>
