@@ -9,8 +9,6 @@ export interface LogsListFilters {
 	aircraftId?: string;
 }
 
-const isoDateSchema = z.iso.date();
-
 const FILTER_PARAM_MAP = {
 	dateFrom: "from",
 	dateTo: "to",
@@ -20,50 +18,45 @@ const FILTER_PARAM_MAP = {
 	aircraftId: "aircraft",
 } as const satisfies Record<keyof LogsListFilters, string>;
 
-function isValidIsoDate(value: string): boolean {
-	return isoDateSchema.safeParse(value).success;
-}
-
-function normalizeOptionalString(value: string | null): string | undefined {
-	const normalized = value?.trim();
-
-	if (!normalized) {
+function preprocessOptionalTrimmedString(value: unknown): string | undefined {
+	if (typeof value !== "string") {
 		return undefined;
 	}
 
-	return normalized;
+	const normalized = value.trim();
+
+	return normalized || undefined;
 }
 
-function normalizeOptionalDate(value: string | null): string | undefined {
-	const normalized = normalizeOptionalString(value);
+const optionalFilterStringSchema = z
+	.preprocess(preprocessOptionalTrimmedString, z.string().min(1).optional())
+	.catch(undefined);
+const optionalFilterDateSchema = z
+	.preprocess(preprocessOptionalTrimmedString, z.iso.date().optional())
+	.catch(undefined);
 
-	if (!normalized || !isValidIsoDate(normalized)) {
-		return undefined;
-	}
-
-	return normalized;
-}
+const logsListFiltersSchema = z.object({
+	dateFrom: optionalFilterDateSchema,
+	dateTo: optionalFilterDateSchema,
+	departurePlaceId: optionalFilterStringSchema,
+	arrivalPlaceId: optionalFilterStringSchema,
+	pilotInCommandId: optionalFilterStringSchema,
+	aircraftId: optionalFilterStringSchema,
+});
 
 export function parseLogsFiltersSearchParams(searchParams: URLSearchParams): LogsListFilters {
-	return {
-		dateFrom: normalizeOptionalDate(searchParams.get(FILTER_PARAM_MAP.dateFrom)),
-		dateTo: normalizeOptionalDate(searchParams.get(FILTER_PARAM_MAP.dateTo)),
-		departurePlaceId: normalizeOptionalString(searchParams.get(FILTER_PARAM_MAP.departurePlaceId)),
-		arrivalPlaceId: normalizeOptionalString(searchParams.get(FILTER_PARAM_MAP.arrivalPlaceId)),
-		pilotInCommandId: normalizeOptionalString(searchParams.get(FILTER_PARAM_MAP.pilotInCommandId)),
-		aircraftId: normalizeOptionalString(searchParams.get(FILTER_PARAM_MAP.aircraftId)),
-	};
+	return logsListFiltersSchema.parse({
+		dateFrom: searchParams.get(FILTER_PARAM_MAP.dateFrom),
+		dateTo: searchParams.get(FILTER_PARAM_MAP.dateTo),
+		departurePlaceId: searchParams.get(FILTER_PARAM_MAP.departurePlaceId),
+		arrivalPlaceId: searchParams.get(FILTER_PARAM_MAP.arrivalPlaceId),
+		pilotInCommandId: searchParams.get(FILTER_PARAM_MAP.pilotInCommandId),
+		aircraftId: searchParams.get(FILTER_PARAM_MAP.aircraftId),
+	});
 }
 
 export function normalizeLogsListFilters(filters: LogsListFilters): LogsListFilters {
-	return {
-		dateFrom: filters.dateFrom && isValidIsoDate(filters.dateFrom) ? filters.dateFrom : undefined,
-		dateTo: filters.dateTo && isValidIsoDate(filters.dateTo) ? filters.dateTo : undefined,
-		departurePlaceId: normalizeOptionalString(filters.departurePlaceId ?? null),
-		arrivalPlaceId: normalizeOptionalString(filters.arrivalPlaceId ?? null),
-		pilotInCommandId: normalizeOptionalString(filters.pilotInCommandId ?? null),
-		aircraftId: normalizeOptionalString(filters.aircraftId ?? null),
-	};
+	return logsListFiltersSchema.parse(filters);
 }
 
 export function hasActiveLogsFilters(filters: LogsListFilters): boolean {
