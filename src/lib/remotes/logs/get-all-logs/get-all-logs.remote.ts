@@ -7,6 +7,7 @@ import { z } from "zod";
 const logsListFiltersSchema = z.object({
 	dateFrom: z.iso.date().optional(),
 	dateTo: z.iso.date().optional(),
+	relatedPlaceId: z.string().min(1).optional(),
 	departurePlaceId: z.string().min(1).optional(),
 	arrivalPlaceId: z.string().min(1).optional(),
 	pilotInCommandId: z.string().min(1).optional(),

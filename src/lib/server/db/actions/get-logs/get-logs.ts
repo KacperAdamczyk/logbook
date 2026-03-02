@@ -1,4 +1,4 @@
-import { and, count, desc, eq, gte, lt } from "drizzle-orm";
+import { and, count, desc, eq, gte, lt, or } from "drizzle-orm";
 import { createDbAction } from "$lib/server/db/actions/createDbAction";
 import { log } from "$lib/server/db/schema/log";
 import type { LogsListFilters } from "$lib/utils/logs-filters";
@@ -31,6 +31,15 @@ export const getLogs = createDbAction(
 
 		if (filters?.dateTo) {
 			whereClauses.push(lt(log.date, addDaysUtc(parseUtcDateStart(filters.dateTo), 1)));
+		}
+
+		if (filters?.relatedPlaceId) {
+			whereClauses.push(
+				or(
+					eq(log.departurePlaceId, filters.relatedPlaceId),
+					eq(log.arrivalPlaceId, filters.relatedPlaceId),
+				)!,
+			);
 		}
 
 		if (filters?.departurePlaceId) {
