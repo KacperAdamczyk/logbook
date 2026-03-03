@@ -36,7 +36,7 @@
 <form
 	method="GET"
 	action={page.url.pathname}
-	class="my-6 rounded-md border p-4"
+	class="mb-6 rounded-md border p-4"
 	onsubmit={submitSearch}
 >
 	<div class="mb-3 flex items-center justify-between gap-2">
