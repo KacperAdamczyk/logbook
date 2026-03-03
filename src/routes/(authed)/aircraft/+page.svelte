@@ -4,6 +4,7 @@
 	import { page } from "$app/state";
 	import { PlacesSearch } from "$lib/components/places-search";
 	import PaginationBar from "$lib/components/pagination-bar/pagination-bar.svelte";
+	import { QueryLink } from "$lib/components/ui/query-link";
 	import * as Table from "$lib/components/ui/table";
 	import { getAircraftList } from "$lib/remotes/aircraft/get-aircraft-list/get-aircraft-list.remote";
 	import { buildPageHref, getPaginationRange, parsePageSearchParam } from "$lib/utils/pagination";
@@ -58,11 +59,10 @@
 		return searchParams.toString();
 	}
 
-	async function navigateToLogs(aircraftId: string): Promise<void> {
+	function buildLogsHref(aircraftId: string): string {
 		const query = buildLogsFilterQuery(aircraftId);
 
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
-		await goto(`${resolve("/logs")}?${query}`);
+		return `${resolve("/logs")}?${query}`;
 	}
 
 	async function navigateToPage(nextPage: number, replaceState = false): Promise<void> {
@@ -110,22 +110,14 @@
 				{#each aircraft as item (item.id)}
 					<Table.Row>
 						<Table.Cell>
-							<button
-								type="button"
-								class="underline-offset-4 hover:underline"
-								onclick={() => void navigateToLogs(item.id)}
-							>
+							<QueryLink class="underline-offset-4 hover:underline" href={buildLogsHref(item.id)}>
 								{item.model} / {item.registration}
-							</button>
+							</QueryLink>
 						</Table.Cell>
 						<Table.Cell class="text-right font-mono">
-							<button
-								type="button"
-								class="underline-offset-4 hover:underline"
-								onclick={() => void navigateToLogs(item.id)}
-							>
+							<QueryLink class="underline-offset-4 hover:underline" href={buildLogsHref(item.id)}>
 								{item.logsCount}
-							</button>
+							</QueryLink>
 						</Table.Cell>
 					</Table.Row>
 				{:else}

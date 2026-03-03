@@ -4,6 +4,7 @@
 	import { page } from "$app/state";
 	import { PlacesSearch } from "$lib/components/places-search";
 	import PaginationBar from "$lib/components/pagination-bar/pagination-bar.svelte";
+	import { QueryLink } from "$lib/components/ui/query-link";
 	import * as Table from "$lib/components/ui/table";
 	import { getPlacesList } from "$lib/remotes/places/get-places-list/get-places-list.remote";
 	import { buildPageHref, getPaginationRange, parsePageSearchParam } from "$lib/utils/pagination";
@@ -61,11 +62,10 @@
 		return searchParams.toString();
 	}
 
-	async function navigateToLogs(filterParam: "place" | "arrival" | "departure", placeId: string) {
+	function buildLogsHref(filterParam: "place" | "arrival" | "departure", placeId: string): string {
 		const query = buildLogsFilterQuery(filterParam, placeId);
 
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
-		await goto(`${resolve("/logs")}?${query}`);
+		return `${resolve("/logs")}?${query}`;
 	}
 
 	async function navigateToPage(nextPage: number, replaceState = false): Promise<void> {
@@ -115,40 +115,36 @@
 				{#each places as place (place.id)}
 					<Table.Row>
 						<Table.Cell>
-							<button
-								type="button"
+							<QueryLink
 								class="underline-offset-4 hover:underline"
-								onclick={() => void navigateToLogs("place", place.id)}
+								href={buildLogsHref("place", place.id)}
 							>
 								{place.name}
-							</button>
+							</QueryLink>
 						</Table.Cell>
 						<Table.Cell class="text-right font-mono">
-							<button
-								type="button"
+							<QueryLink
 								class="underline-offset-4 hover:underline"
-								onclick={() => void navigateToLogs("arrival", place.id)}
+								href={buildLogsHref("arrival", place.id)}
 							>
 								{place.arrivalsCount}
-							</button>
+							</QueryLink>
 						</Table.Cell>
 						<Table.Cell class="text-right font-mono">
-							<button
-								type="button"
+							<QueryLink
 								class="underline-offset-4 hover:underline"
-								onclick={() => void navigateToLogs("departure", place.id)}
+								href={buildLogsHref("departure", place.id)}
 							>
 								{place.departuresCount}
-							</button>
+							</QueryLink>
 						</Table.Cell>
 						<Table.Cell class="text-right font-mono">
-							<button
-								type="button"
+							<QueryLink
 								class="underline-offset-4 hover:underline"
-								onclick={() => void navigateToLogs("place", place.id)}
+								href={buildLogsHref("place", place.id)}
 							>
 								{place.totalCount}
-							</button>
+							</QueryLink>
 						</Table.Cell>
 					</Table.Row>
 				{:else}
