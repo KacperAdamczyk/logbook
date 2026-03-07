@@ -28,7 +28,7 @@
 		"@js-temporal/polyfill": "0.5.1",
 		"@lucide/svelte": "0.575.0",
 		"@libsql/client": "0.17.0",
-		"better-auth": "1.4.19",
+		"better-auth": "1.5.3",
 		"bits-ui": "2.16.2",
 		"clsx": "2.1.1",
 		"nanoid": "5.1.6",
