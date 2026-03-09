@@ -29,7 +29,7 @@ export const auth = betterAuth({
 			console.log(`URL: ${origin}${url}`);
 			console.log(`Token: ${token}`);
 		},
-		onEmailVerification: async ({ email }) => {
+		afterEmailVerification: async ({ email }) => {
 			console.log(`Email verification successful for ${email}`);
 		},
 		sendOnSignUp: true,
