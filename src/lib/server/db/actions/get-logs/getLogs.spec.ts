@@ -303,6 +303,132 @@ userTest(
 	},
 );
 
+userTest(
+	"filters by related place across departure or arrival and excludes simulator logs",
+	async ({ db, testUser, expect }) => {
+		const [placeA] = await db
+			.insert(schema.place)
+			.values({ userId: testUser.id, name: "LROP" })
+			.returning();
+		const [placeB] = await db
+			.insert(schema.place)
+			.values({ userId: testUser.id, name: "LBSF" })
+			.returning();
+		const [placeC] = await db
+			.insert(schema.place)
+			.values({ userId: testUser.id, name: "LIRN" })
+			.returning();
+		const [aircraft] = await db
+			.insert(schema.aircraft)
+			.values({ userId: testUser.id, registration: "N40020", model: "C172" })
+			.returning();
+		const [pilot] = await db
+			.insert(schema.pilot)
+			.values({ userId: testUser.id, name: "Related Place Pilot" })
+			.returning();
+
+		const routeAB = await createFlightLogWithRoute(db, testUser.id, {
+			departureAt: utcDate("2024-04-10T09:00:00Z"),
+			arrivalAt: utcDate("2024-04-10T10:00:00Z"),
+			departurePlaceId: placeA.id,
+			arrivalPlaceId: placeB.id,
+			aircraftId: aircraft.id,
+			pilotInCommandId: pilot.id,
+		});
+		const routeCA = await createFlightLogWithRoute(db, testUser.id, {
+			departureAt: utcDate("2024-04-11T09:00:00Z"),
+			arrivalAt: utcDate("2024-04-11T10:00:00Z"),
+			departurePlaceId: placeC.id,
+			arrivalPlaceId: placeA.id,
+			aircraftId: aircraft.id,
+			pilotInCommandId: pilot.id,
+		});
+		const routeBC = await createFlightLogWithRoute(db, testUser.id, {
+			departureAt: utcDate("2024-04-12T09:00:00Z"),
+			arrivalAt: utcDate("2024-04-12T10:00:00Z"),
+			departurePlaceId: placeB.id,
+			arrivalPlaceId: placeC.id,
+			aircraftId: aircraft.id,
+			pilotInCommandId: pilot.id,
+		});
+		const simulator = await createTestSimulatorLog(
+			db,
+			testUser.id,
+			utcDate("2024-04-13T00:00:00Z"),
+		);
+
+		const result = await getLogs(db, testUser.id, {
+			page: 1,
+			pageSize: 50,
+			filters: { relatedPlaceId: placeA.id },
+		});
+
+		expect(result.items.map((log) => log.id)).toEqual([routeCA.id, routeAB.id]);
+		expect(result.items.map((log) => log.id)).not.toContain(routeBC.id);
+		expect(result.items.map((log) => log.id)).not.toContain(simulator.id);
+		expect(result.totalCount).toBe(2);
+	},
+);
+
+userTest(
+	"combines related place with departure filter using AND semantics",
+	async ({ db, testUser, expect }) => {
+		const [placeA] = await db
+			.insert(schema.place)
+			.values({ userId: testUser.id, name: "LEMD" })
+			.returning();
+		const [placeB] = await db
+			.insert(schema.place)
+			.values({ userId: testUser.id, name: "LSZH" })
+			.returning();
+		const [aircraft] = await db
+			.insert(schema.aircraft)
+			.values({ userId: testUser.id, registration: "N40021", model: "PA-28" })
+			.returning();
+		const [pilot] = await db
+			.insert(schema.pilot)
+			.values({ userId: testUser.id, name: "Related Place AND Pilot" })
+			.returning();
+
+		const routeAB = await createFlightLogWithRoute(db, testUser.id, {
+			departureAt: utcDate("2024-04-20T09:00:00Z"),
+			arrivalAt: utcDate("2024-04-20T10:00:00Z"),
+			departurePlaceId: placeA.id,
+			arrivalPlaceId: placeB.id,
+			aircraftId: aircraft.id,
+			pilotInCommandId: pilot.id,
+		});
+		await createFlightLogWithRoute(db, testUser.id, {
+			departureAt: utcDate("2024-04-21T09:00:00Z"),
+			arrivalAt: utcDate("2024-04-21T10:00:00Z"),
+			departurePlaceId: placeB.id,
+			arrivalPlaceId: placeA.id,
+			aircraftId: aircraft.id,
+			pilotInCommandId: pilot.id,
+		});
+		const routeAA = await createFlightLogWithRoute(db, testUser.id, {
+			departureAt: utcDate("2024-04-22T09:00:00Z"),
+			arrivalAt: utcDate("2024-04-22T10:00:00Z"),
+			departurePlaceId: placeA.id,
+			arrivalPlaceId: placeA.id,
+			aircraftId: aircraft.id,
+			pilotInCommandId: pilot.id,
+		});
+
+		const result = await getLogs(db, testUser.id, {
+			page: 1,
+			pageSize: 50,
+			filters: {
+				relatedPlaceId: placeA.id,
+				departurePlaceId: placeA.id,
+			},
+		});
+
+		expect(result.items.map((log) => log.id)).toEqual([routeAA.id, routeAB.id]);
+		expect(result.totalCount).toBe(2);
+	},
+);
+
 userTest("filters by pilot in command and aircraft", async ({ db, testUser, expect }) => {
 	const [place] = await db
 		.insert(schema.place)

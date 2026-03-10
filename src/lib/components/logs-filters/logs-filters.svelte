@@ -87,7 +87,7 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-6">
+	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-7">
 		<div class="space-y-1">
 			<Label for="logs-filter-date-from">Date from</Label>
 			<Input id="logs-filter-date-from" name="from" type="date" value={filters.dateFrom ?? ""} />
@@ -96,6 +96,21 @@
 		<div class="space-y-1">
 			<Label for="logs-filter-date-to">Date to</Label>
 			<Input id="logs-filter-date-to" name="to" type="date" value={filters.dateTo ?? ""} />
+		</div>
+
+		<div class="space-y-1">
+			<Label for="logs-filter-place">Any place</Label>
+			<select
+				id="logs-filter-place"
+				name="place"
+				class={selectClass}
+				value={filters.relatedPlaceId ?? ""}
+			>
+				<option value="">Any place</option>
+				{#each placeOptions as placeOption (placeOption.id)}
+					<option value={placeOption.id}>{placeOption.label}</option>
+				{/each}
+			</select>
 		</div>
 
 		<div class="space-y-1">

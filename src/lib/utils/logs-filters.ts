@@ -3,6 +3,7 @@ import { z } from "zod";
 export interface LogsListFilters {
 	dateFrom?: string;
 	dateTo?: string;
+	relatedPlaceId?: string;
 	departurePlaceId?: string;
 	arrivalPlaceId?: string;
 	pilotInCommandId?: string;
@@ -12,6 +13,7 @@ export interface LogsListFilters {
 const FILTER_PARAM_MAP = {
 	dateFrom: "from",
 	dateTo: "to",
+	relatedPlaceId: "place",
 	departurePlaceId: "departure",
 	arrivalPlaceId: "arrival",
 	pilotInCommandId: "pic",
@@ -38,6 +40,7 @@ const optionalFilterDateSchema = z
 const logsListFiltersSchema = z.object({
 	dateFrom: optionalFilterDateSchema,
 	dateTo: optionalFilterDateSchema,
+	relatedPlaceId: optionalFilterStringSchema,
 	departurePlaceId: optionalFilterStringSchema,
 	arrivalPlaceId: optionalFilterStringSchema,
 	pilotInCommandId: optionalFilterStringSchema,
@@ -48,6 +51,7 @@ export function parseLogsFiltersSearchParams(searchParams: URLSearchParams): Log
 	return logsListFiltersSchema.parse({
 		dateFrom: searchParams.get(FILTER_PARAM_MAP.dateFrom),
 		dateTo: searchParams.get(FILTER_PARAM_MAP.dateTo),
+		relatedPlaceId: searchParams.get(FILTER_PARAM_MAP.relatedPlaceId),
 		departurePlaceId: searchParams.get(FILTER_PARAM_MAP.departurePlaceId),
 		arrivalPlaceId: searchParams.get(FILTER_PARAM_MAP.arrivalPlaceId),
 		pilotInCommandId: searchParams.get(FILTER_PARAM_MAP.pilotInCommandId),
