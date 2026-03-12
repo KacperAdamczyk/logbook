@@ -21,7 +21,8 @@
 		"db:seed:test-logs": "bun run scripts/seed-test-logs.ts",
 		"shadcn": "bunx shadcn-svelte@latest",
 		"auth": "bunx @better-auth/cli",
-		"auth:generate": "bunx @better-auth/cli generate --output src/lib/server/db/schema/auth.ts"
+		"auth:generate": "bunx @better-auth/cli generate --output src/lib/server/db/schema/auth.ts",
+		"skills": "bunx skills@latest"
 	},
 	"dependencies": {
 		"@internationalized/date": "3.11.0",
