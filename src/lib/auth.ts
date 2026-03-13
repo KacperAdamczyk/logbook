@@ -4,6 +4,17 @@ import { db } from "$lib/server/db";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
 
+const getBaseUrl = () => {
+	if (process.env.BETTER_AUTH_URL) {
+		return process.env.BETTER_AUTH_URL;
+	}
+	if (process.env.VERCEL_URL) {
+		return `https://${process.env.VERCEL_URL}`;
+	}
+
+	throw new Error("Base URL is not defined. Please set BETTER_AUTH_URL or deploy to Vercel.");
+};
+
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
@@ -25,6 +36,7 @@ export const auth = betterAuth({
 		sendOnSignUp: true,
 		sendOnSignIn: true,
 	},
+	baseURL: getBaseUrl(),
 	trustedOrigins: ["http://localhost:5173", "https://*-kacper-adamczyk-projects.vercel.app"],
 	plugins: [sveltekitCookies(getRequestEvent)],
 });
