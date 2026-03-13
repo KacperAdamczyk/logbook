@@ -49,7 +49,7 @@
 		"@sveltejs/vite-plugin-svelte": "7.0.0",
 		"@tailwindcss/vite": "4.2.1",
 		"@vitest/browser-playwright": "4.1.0",
-		"drizzle-kit": "1.0.0-beta.15-859cf75",
+		"drizzle-kit": "1.0.0-beta.9-e89174b",
 		"drizzle-seed": "1.0.0-beta.15-859cf75",
 		"eslint": "10.0.3",
 		"eslint-config-prettier": "10.1.8",
