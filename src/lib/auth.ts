@@ -37,7 +37,11 @@ export const auth = betterAuth({
 		sendOnSignIn: true,
 	},
 	baseURL: getBaseUrl(),
-	trustedOrigins: ["http://localhost:5173", "https://*-kacper-adamczyk-projects.vercel.app"],
+	trustedOrigins: [
+		"http://localhost:5173",
+		"https://*-kacper-adamczyk-projects.vercel.app",
+		"https://fly-logbook.vercel.app",
+	],
 	plugins: [sveltekitCookies(getRequestEvent)],
 });
 
