@@ -71,5 +71,9 @@
 	},
 	"trustedDependencies": [
 		"esbuild"
-	]
+	],
+	"packageManager": "bun@1.3.10",
+	"engines": {
+		"node": "22.x"
+	}
 }
