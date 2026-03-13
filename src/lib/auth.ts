@@ -24,11 +24,10 @@ export const auth = betterAuth({
 		requireEmailVerification: true,
 	},
 	emailVerification: {
-		sendVerificationEmail: async ({ url, user, token }, request) => {
-			const origin = request ? `${new URL(request.url).origin}/api/auth` : "";
+		sendVerificationEmail: async ({ url, user, token }) => {
 			console.log(`Email verification for ${user.email}:`);
-			console.log(`URL: ${origin}${url}`);
-			console.log(`Token: ${token}`);
+			console.log(url);
+			console.log(token);
 		},
 		afterEmailVerification: async ({ email }) => {
 			console.log(`Email verification successful for ${email}`);
