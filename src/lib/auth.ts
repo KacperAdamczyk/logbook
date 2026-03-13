@@ -5,16 +5,18 @@ import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
 import { env } from "$env/dynamic/private";
 
-if (!env.TRUSTED_ORIGINS) {
-	throw new Error("Missing TRUSTED_ORIGINS environment variable");
-}
+const getBaseUrl = () => {
+	if (env.BETTER_AUTH_URL) {
+		return env.BETTER_AUTH_URL;
+	}
+	if (env.VERCEL_URL) {
+		return `https://${env.VERCEL_URL}`;
+	}
 
-const trustedOrigins = env.TRUSTED_ORIGINS.split(",")
-	.map((origin) => origin.trim())
-	.filter(Boolean);
+	throw new Error("Base URL is not defined. Please set BETTER_AUTH_URL or deploy to Vercel.");
+};
 
 export const auth = betterAuth({
-	trustedOrigins,
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
 	}),
@@ -23,11 +25,10 @@ export const auth = betterAuth({
 		requireEmailVerification: true,
 	},
 	emailVerification: {
-		sendVerificationEmail: async ({ url, user, token }, request) => {
-			const origin = request ? `${new URL(request.url).origin}/api/auth` : "";
+		sendVerificationEmail: async ({ url, user, token }) => {
 			console.log(`Email verification for ${user.email}:`);
-			console.log(`URL: ${origin}${url}`);
-			console.log(`Token: ${token}`);
+			console.log(url);
+			console.log(token);
 		},
 		afterEmailVerification: async ({ email }) => {
 			console.log(`Email verification successful for ${email}`);
@@ -35,6 +36,8 @@ export const auth = betterAuth({
 		sendOnSignUp: true,
 		sendOnSignIn: true,
 	},
+	baseURL: getBaseUrl(),
+	trustedOrigins: ["http://localhost:5173", "https://*-kacper-adamczyk-projects.vercel.app"],
 	plugins: [sveltekitCookies(getRequestEvent)],
 });
 
