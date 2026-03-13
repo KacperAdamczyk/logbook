@@ -25,7 +25,7 @@ export const auth = betterAuth({
 		sendOnSignUp: true,
 		sendOnSignIn: true,
 	},
-	trustedOrigins: ["http://localhost:5173", "https://*.-kacper-adamczyk-projects.vercel.app"],
+	trustedOrigins: ["http://localhost:5173", "https://*-kacper-adamczyk-projects.vercel.app"],
 	plugins: [sveltekitCookies(getRequestEvent)],
 });
 
