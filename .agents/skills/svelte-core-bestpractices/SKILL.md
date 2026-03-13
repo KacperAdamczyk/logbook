@@ -51,10 +51,10 @@ Treat props as though they will change. For example, values that depend on props
 let { type } = $props();
 
 // do this
-let color = $derived(type === 'danger' ? 'red' : 'green');
+let color = $derived(type === "danger" ? "red" : "green");
 
 // don't do this — `color` will not update if `type` changes
-let color = type === 'danger' ? 'red' : 'green';
+let color = type === "danger" ? "red" : "green";
 ```
 
 ## `$inspect.trace`
@@ -93,7 +93,7 @@ Avoid using `onMount` or `$effect` for this.
 	<p>hello {name}!</p>
 {/snippet}
 
-{@render greeting('world')}
+{@render greeting("world")}
 ```
 
 > [!NOTE] Snippets declared at the top level of a component (i.e. not inside elements or blocks) can be referenced inside `<script>`. A snippet that doesn't reference component state is also available in a `<script module>`, in which case it can be exported for use by other components.

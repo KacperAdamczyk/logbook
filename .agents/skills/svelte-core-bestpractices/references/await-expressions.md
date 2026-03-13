@@ -80,7 +80,7 @@ After the contents of a boundary have resolved for the first time and have repla
 You can also use [`settled()`](svelte#settled) to get a promise that resolves when the current update is complete:
 
 ```js
-import { tick, settled } from 'svelte';
+import { tick, settled } from "svelte";
 
 async function onclick() {
 	updating = true;
@@ -90,7 +90,7 @@ async function onclick() {
 	// won't be reflected in the UI
 	await tick();
 
-	color = 'octarine';
+	color = "octarine";
 	answer = 42;
 
 	await settled();
@@ -129,8 +129,8 @@ The [`fork(...)`](svelte#fork) API, added in 5.42, makes it possible to run `awa
 
 ```svelte
 <script>
-	import { fork } from 'svelte';
-	import Menu from './Menu.svelte';
+	import { fork } from "svelte";
+	import Menu from "./Menu.svelte";
 
 	let open = $state(false);
 

@@ -13,7 +13,7 @@ Optionally, they can return a function that is called before the attachment re-r
 		console.log(element.nodeName); // 'DIV'
 
 		return () => {
-			console.log('cleaning up');
+			console.log("cleaning up");
 		};
 	}
 </script>
@@ -30,9 +30,9 @@ A useful pattern is for a function, such as `tooltip` in this example, to _retur
 ```svelte
 <!--- file: App.svelte --->
 <script>
-	import tippy from 'tippy.js';
+	import tippy from "tippy.js";
 
-	let content = $state('Hello!');
+	let content = $state("Hello!");
 
 	/**
 	 * @param {string} content
@@ -63,7 +63,7 @@ Attachments can also be created inline (demo:
 	width={32}
 	height={32}
 	{@attach (canvas) => {
-		const context = canvas.getContext('2d');
+		const context = canvas.getContext("2d");
 
 		$effect(() => {
 			context.fillStyle = color;
@@ -106,10 +106,10 @@ This allows you to create _wrapper components_ that augment elements (demo:
 ```svelte
 <!--- file: App.svelte --->
 <script>
-	import tippy from 'tippy.js';
-	import Button from './Button.svelte';
+	import tippy from "tippy.js";
+	import Button from "./Button.svelte";
 
-	let content = $state('Hello!');
+	let content = $state("Hello!");
 
 	/**
 	 * @param {string} content

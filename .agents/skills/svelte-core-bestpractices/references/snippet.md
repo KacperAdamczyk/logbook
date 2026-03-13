@@ -64,8 +64,8 @@ Snippets can be declared anywhere inside your component. They can reference valu
 	<p>hello {name}! {message}!</p>
 {/snippet}
 
-{@render hello('alice')}
-{@render hello('bob')}
+{@render hello("alice")}
+{@render hello("bob")}
 ```
 
 ...and they are 'visible' to everything in the same lexical scope (i.e. siblings, and children of those siblings):
@@ -114,12 +114,12 @@ Within the template, snippets are values just like any other. As such, they can 
 
 ```svelte
 <script>
-	import Table from './Table.svelte';
+	import Table from "./Table.svelte";
 
 	const fruits = [
-		{ name: 'apples', qty: 5, price: 2 },
-		{ name: 'bananas', qty: 10, price: 1 },
-		{ name: 'cherries', qty: 20, price: 0.5 },
+		{ name: "apples", qty: 5, price: 2 },
+		{ name: "bananas", qty: 10, price: 1 },
+		{ name: "cherries", qty: 20, price: 0.5 },
 	];
 </script>
 
@@ -218,7 +218,7 @@ Snippets implement the `Snippet` interface imported from `'svelte'`:
 
 ```svelte
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import type { Snippet } from "svelte";
 
 	interface Props {
 		data: any[];
@@ -236,7 +236,7 @@ We can tighten things up further by declaring a generic, so that `data` and `row
 
 ```svelte
 <script lang="ts" generics="T">
-	import type { Snippet } from 'svelte';
+	import type { Snippet } from "svelte";
 
 	let {
 		data,

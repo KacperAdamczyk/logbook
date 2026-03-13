@@ -21,8 +21,8 @@ It's best understood with an example. Here's an implementation of [`MediaQuery`]
 
 ```js
 // @errors: 7031
-import { createSubscriber } from 'svelte/reactivity';
-import { on } from 'svelte/events';
+import { createSubscriber } from "svelte/reactivity";
+import { on } from "svelte/events";
 
 export class MediaQuery {
 	#query;
@@ -33,7 +33,7 @@ export class MediaQuery {
 
 		this.#subscribe = createSubscriber((update) => {
 			// when the `change` event occurs, re-run any effects that read `this.current`
-			const off = on(this.#query, 'change', update);
+			const off = on(this.#query, "change", update);
 
 			// stop listening when all the effects are destroyed
 			return () => off();
