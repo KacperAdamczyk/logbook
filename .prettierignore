@@ -8,5 +8,5 @@ bun.lockb
 # Miscellaneous
 /static/
 /drizzle/
-.agents
-CHANGELOG.md
+/.agents/
+/CHANGELOG.md
