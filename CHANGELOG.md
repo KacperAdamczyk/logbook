@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/KacperAdamczyk/logbook/compare/v1.0.0...v1.0.1) (2026-03-14)
+
+
+### Bug Fixes
+
+* **release:** rename workflow to 'Release' and add environment file copy step ([#146](https://github.com/KacperAdamczyk/logbook/issues/146)) ([81c184e](https://github.com/KacperAdamczyk/logbook/commit/81c184ea8ea0c5c689c9fd55c0d2deda9a1c4218))
+
 ## 1.0.0 (2026-03-14)
 
 
