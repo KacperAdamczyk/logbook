@@ -5,8 +5,8 @@
 	import * as Field from "$lib/components/ui/field/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import type { HTMLAttributes } from "svelte/elements";
-	import { signUp } from "$lib/remotes/auth/auth.remote";
-	import { signUpSchema } from "$lib/remotes/auth/auth.schema";
+	import { signUp } from "$lib/remotes/auth/sign-up/sign-up.remote";
+	import { signUpSchema } from "$lib/remotes/auth/sign-up/sign-up.schema";
 	import { resolve } from "$app/paths";
 	import { FieldWrapper } from "$lib/components/field-wrapper";
 

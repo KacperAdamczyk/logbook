@@ -6,8 +6,8 @@
 	import { cn } from "$lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { resolve } from "$app/paths";
-	import { signIn } from "$lib/remotes/auth/auth.remote";
-	import { signInSchema } from "$lib/remotes/auth/auth.schema";
+	import { signIn } from "$lib/remotes/auth/sign-in/sign-in.remote";
+	import { signInSchema } from "$lib/remotes/auth/sign-in/sign-in.schema";
 	import { FieldWrapper } from "$lib/components/field-wrapper";
 
 	let { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();

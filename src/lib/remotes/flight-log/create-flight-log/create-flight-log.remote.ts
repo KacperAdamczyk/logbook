@@ -1,6 +1,6 @@
 import { resolve } from "$app/paths";
 import { form } from "$app/server";
-import { getUser } from "$lib/remotes/auth/auth.remote";
+import { getUser } from "$lib/remotes/auth/get-user/get-user.remote";
 import { flightLogSchema } from "$lib/remotes/flight-log/flight-log.schema";
 import { db } from "$lib/server/db";
 import { createFlightLog as createFlightLogAction } from "$lib/server/db/actions/create-flight-log";

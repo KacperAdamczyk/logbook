@@ -1,6 +1,6 @@
 import { resolve } from "$app/paths";
 import { form } from "$app/server";
-import { getUser } from "$lib/remotes/auth/auth.remote";
+import { getUser } from "$lib/remotes/auth/get-user/get-user.remote";
 import { simulatorLogSchema } from "$lib/remotes/simulator-log/simulator-log.schema";
 import { db } from "$lib/server/db";
 import { createSimulatorLog as createSimulatorLogAction } from "$lib/server/db/actions/create-simulator-log";

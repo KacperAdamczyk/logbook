@@ -1,6 +1,6 @@
 import { query } from "$app/server";
 import { z } from "zod";
-import { getUser } from "$lib/remotes/auth/auth.remote";
+import { getUser } from "$lib/remotes/auth/get-user/get-user.remote";
 import { db } from "$lib/server/db";
 import { getPlacesList as getPlacesListAction } from "$lib/server/db/actions/get-places-list/get-places-list";
 

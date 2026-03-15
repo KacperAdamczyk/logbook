@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getUser } from "$lib/remotes/auth/auth.remote";
+	import { getUser } from "$lib/remotes/auth/get-user/get-user.remote";
 	import { Button } from "$lib/components/ui/button";
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import { resolve } from "$app/paths";
