@@ -1,0 +1,12 @@
+CREATE TABLE `invitation_code` (
+	`id` text PRIMARY KEY,
+	`code` text NOT NULL UNIQUE,
+	`consumed_at` integer,
+	`consumed_by_user_id` text,
+	`created_at` integer NOT NULL,
+	CONSTRAINT `fk_invitation_code_consumed_by_user_id_user_id_fk` FOREIGN KEY (`consumed_by_user_id`) REFERENCES `user`(`id`)
+);
+--> statement-breakpoint
+ALTER TABLE `user` ADD `invitation_code` text NOT NULL DEFAULT 'PRE-INVITE';--> statement-breakpoint
+DROP VIEW `log`;--> statement-breakpoint
+CREATE VIEW `log` AS select "id", 'flight' as "type", "userId", "departureAt" as "date", "createdAt", "updatedAt", "departureAt" as "departureAt", "arrivalAt" as "arrivalAt", "departurePlaceId" as "departurePlaceId", "arrivalPlaceId" as "arrivalPlaceId", "aircraftId" as "aircraftId", "pilotInCommandId" as "pilotInCommandId", "totalFlightTime" as "totalFlightTime", "singlePilotSingleEngineTime" as "singlePilotSingleEngineTime", "singlePilotMultiEngineTime" as "singlePilotMultiEngineTime", "multiPilotTime" as "multiPilotTime", "operationalConditionNightTime" as "operationalConditionNightTime", "operationalConditionIfrTime" as "operationalConditionIfrTime", "functionPilotInCommandTime" as "functionPilotInCommandTime", "functionCoPilotTime" as "functionCoPilotTime", "functionDualTime" as "functionDualTime", "functionInstructorTime" as "functionInstructorTime", "takeoffsDay" as "takeoffsDay", "takeoffsNight" as "takeoffsNight", "landingsDay" as "landingsDay", "landingsNight" as "landingsNight", "remarks" as "remarks", NULL as "simulatorType", NULL as "simulatorTotalTime" from "flight_log" union all select "id", 'simulator' as "type", "userId", "date" as "date", "createdAt", "updatedAt", NULL as "departureAt", NULL as "arrivalAt", NULL as "departurePlaceId", NULL as "arrivalPlaceId", NULL as "aircraftId", NULL as "pilotInCommandId", NULL as "totalFlightTime", NULL as "singlePilotSingleEngineTime", NULL as "singlePilotMultiEngineTime", NULL as "multiPilotTime", NULL as "operationalConditionNightTime", NULL as "operationalConditionIfrTime", NULL as "functionPilotInCommandTime", NULL as "functionCoPilotTime", NULL as "functionDualTime", NULL as "functionInstructorTime", NULL as "takeoffsDay", NULL as "takeoffsNight", NULL as "landingsDay", NULL as "landingsNight", "remarks" as "remarks", "type" as "simulatorType", "totalTime" as "simulatorTotalTime" from "simulator_log";
