@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/KacperAdamczyk/logbook/compare/v1.0.1...v1.1.0) (2026-03-15)
+
+
+### Features
+
+* Skills and adjustments ([#148](https://github.com/KacperAdamczyk/logbook/issues/148)) ([ce4e371](https://github.com/KacperAdamczyk/logbook/commit/ce4e371550c8e2cebce1584444477eafea7ea20e))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @internationalized/date to v3.12.0 ([#131](https://github.com/KacperAdamczyk/logbook/issues/131)) ([603cea6](https://github.com/KacperAdamczyk/logbook/commit/603cea62cffb9f690c556f3cf03bad8b5d91305f))
+* **deps:** update dependency better-auth to v1.5.5 ([#149](https://github.com/KacperAdamczyk/logbook/issues/149)) ([f9e3920](https://github.com/KacperAdamczyk/logbook/commit/f9e39200297f5399385e381c8ccc71fddc134602))
+
 ## [1.0.1](https://github.com/KacperAdamczyk/logbook/compare/v1.0.0...v1.0.1) (2026-03-14)
 
 
