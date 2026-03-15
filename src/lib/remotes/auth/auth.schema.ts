@@ -6,6 +6,7 @@ export const signUpSchema = z
 	.object({
 		name: z.string().nonempty("Name is required"),
 		email: z.email(),
+		invitationCode: z.string().trim().min(1, "Invitation code is required"),
 		_password: passwordSchema,
 		_confirmPassword: passwordSchema,
 	})

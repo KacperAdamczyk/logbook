@@ -18,25 +18,28 @@ export const getUser = query(async () => {
 	return session;
 });
 
-export const signUp = form(signUpSchema, async ({ name, email, _password: password }, issue) => {
-	try {
-		const { request } = getRequestEvent();
+export const signUp = form(
+	signUpSchema,
+	async ({ name, email, invitationCode, _password: password }, issue) => {
+		try {
+			const { request } = getRequestEvent();
 
-		await auth.api.signUpEmail({
-			body: { name, email, password },
-			request,
-			headers: request.headers,
-		});
+			await auth.api.signUpEmail({
+				body: { name, email, password, invitationCode },
+				request,
+				headers: request.headers,
+			});
 
-		redirect(303, resolve("/sign-in"));
-	} catch (error) {
-		if (error instanceof APIError) {
-			invalid(issue(error.message));
+			redirect(303, resolve("/sign-in"));
+		} catch (error) {
+			if (error instanceof APIError) {
+				invalid(issue(error.message));
+			}
+
+			throw error;
 		}
-
-		throw error;
-	}
-});
+	},
+);
 
 export const signIn = form(signInSchema, async ({ email, _password: password }, issue) => {
 	try {

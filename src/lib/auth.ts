@@ -1,9 +1,10 @@
-import { betterAuth } from "better-auth";
+import { APIError, betterAuth, getCurrentAdapter } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "$lib/server/db";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
 import { env } from "$env/dynamic/private";
+import { consumeInvitationCode } from "$lib/server/auth/invitation-code";
 
 const getBaseUrl = () => {
 	if (env.BETTER_AUTH_URL) {
@@ -19,10 +20,20 @@ const getBaseUrl = () => {
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
+		transaction: true,
 	}),
 	emailAndPassword: {
 		enabled: true,
 		requireEmailVerification: true,
+	},
+	user: {
+		additionalFields: {
+			invitationCode: {
+				type: "string",
+				required: true,
+				input: true,
+			},
+		},
 	},
 	emailVerification: {
 		sendVerificationEmail: async ({ url, user, token }) => {
@@ -42,6 +53,36 @@ export const auth = betterAuth({
 		"https://*-kacper-adamczyk-projects.vercel.app",
 		"https://fly-logbook.vercel.app",
 	],
+	databaseHooks: {
+		user: {
+			create: {
+				before: async (user, context) => {
+					if (!context) {
+						return;
+					}
+
+					const invitationCode =
+						Object.hasOwn(user, "invitationCode") && typeof user.invitationCode === "string"
+							? user.invitationCode
+							: undefined;
+
+					if (!invitationCode) {
+						throw APIError.from("BAD_REQUEST", {
+							message: "Invitation code is required",
+							code: "INVITATION_CODE_REQUIRED",
+						});
+					}
+
+					const adapter = await getCurrentAdapter(context.context.adapter);
+					await consumeInvitationCode(adapter, invitationCode, user.id);
+
+					return {
+						data: user,
+					};
+				},
+			},
+		},
+	},
 	plugins: [sveltekitCookies(getRequestEvent)],
 });
 

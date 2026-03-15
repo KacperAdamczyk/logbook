@@ -12,7 +12,7 @@
 
 	const { class: className, ...restProps }: HTMLAttributes<HTMLDivElement> = $props();
 	const {
-		fields: { name, email, _password, _confirmPassword, issues },
+		fields: { name, email, invitationCode, _password, _confirmPassword, issues },
 	} = signUp;
 </script>
 
@@ -20,7 +20,7 @@
 	<Card.Root>
 		<Card.Header class="text-center">
 			<Card.Title class="text-xl">Create your account</Card.Title>
-			<Card.Description>Enter your email below to create your account</Card.Description>
+			<Card.Description>Enter your invitation code and account details below</Card.Description>
 		</Card.Header>
 		<Card.Content>
 			<form {...signUp.preflight(signUpSchema)}>
@@ -33,6 +33,11 @@
 					<FieldWrapper label="Email" errors={email.issues()}>
 						{#snippet children(id)}
 							<Input {id} placeholder="m@example.com" {...email.as("email")} />
+						{/snippet}
+					</FieldWrapper>
+					<FieldWrapper label="Invitation Code" errors={invitationCode.issues()}>
+						{#snippet children(id)}
+							<Input {id} placeholder="LOGBOOK-INVITE" {...invitationCode.as("text")} />
 						{/snippet}
 					</FieldWrapper>
 					<Field.Field>
