@@ -1,5 +1,5 @@
 import { query } from "$app/server";
-import { getUser } from "$lib/remotes/auth/auth.remote";
+import { getUser } from "$lib/remotes/auth/get-user/get-user.remote";
 import { db } from "$lib/server/db";
 import { getFlightLog as getFlightLogAction } from "$lib/server/db/actions/get-flight-log/get-flight-log";
 import { error } from "@sveltejs/kit";

@@ -12,7 +12,7 @@
 	} from "$lib/components/ui/breadcrumb";
 	import { Separator } from "$lib/components/ui/separator";
 	import { SidebarProvider, SidebarInset, SidebarTrigger } from "$lib/components/ui/sidebar";
-	import { getUser } from "$lib/remotes/auth/auth.remote";
+	import { getUser } from "$lib/remotes/auth/get-user/get-user.remote";
 	import type { LayoutProps } from "./$types";
 
 	const { children }: LayoutProps = $props();

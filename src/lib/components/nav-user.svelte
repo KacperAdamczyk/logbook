@@ -6,7 +6,7 @@
 	import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
 	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
 	import LogOutIcon from "@lucide/svelte/icons/log-out";
-	import { signOut } from "$lib/remotes/auth/auth.remote";
+	import { signOut } from "$lib/remotes/auth/sign-out/sign-out.remote";
 
 	const { user }: { user: { name: string; email: string } } = $props();
 	const sidebar = useSidebar();
